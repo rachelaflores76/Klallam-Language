@@ -38,7 +38,7 @@ water, so nothing about it reads as a jump.
 
 ## Steps
 
-### 1. The orca clears the water
+### 1. The orca clears the water  ✅
 
 Raise the top of the jump so the whole orca is above the waterline, instead of
 stopping at it.

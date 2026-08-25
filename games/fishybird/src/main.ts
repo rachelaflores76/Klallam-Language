@@ -9,7 +9,8 @@ const WIDTH = 960;
 const HEIGHT = 540;
 const SEA_Y = 360;
 const ORCA_HIDDEN_Y = HEIGHT + 120;
-const ORCA_SURFACED_Y = SEA_Y + 60;
+// High enough that the body clears the waterline rather than resting on it.
+const ORCA_PEAK_Y = SEA_Y - 70;
 const EAGLE_PERCH_Y = 110;
 const EAGLE_DIVE_Y = SEA_Y + 50;
 const SALMON_LANE_Y = EAGLE_DIVE_Y;
@@ -114,7 +115,7 @@ class RoundScene extends Phaser.Scene {
 
     this.tweens.add({
       targets: this.orca,
-      y: ORCA_SURFACED_Y,
+      y: ORCA_PEAK_Y,
       duration: TUNING.orcaIntroMs,
       ease: "Sine.easeOut",
       onComplete: () => this.revealWord(),
@@ -124,7 +125,7 @@ class RoundScene extends Phaser.Scene {
   private skipIntro(): void {
     if (!TUNING.orcaIntroSkippable) return;
     this.tweens.killTweensOf(this.orca);
-    this.orca.y = ORCA_SURFACED_Y;
+    this.orca.y = ORCA_PEAK_Y;
     this.revealWord();
   }
 
