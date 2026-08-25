@@ -45,11 +45,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      # Turns Pages on by itself, so nobody has to find the setting. It runs here
-      # rather than in the build job so a failure cannot hide a broken build.
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
       - id: deployment
         uses: actions/deploy-pages@v4

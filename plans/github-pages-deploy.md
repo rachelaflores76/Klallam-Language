@@ -96,11 +96,12 @@ and `https://upta.github.io/khallam/review/` lists the words.
 
 ## Changed while building
 
-- **Step 5, the workflow, now turns Pages on by itself** using `actions/configure-pages`
-  rather than expecting somebody to find the Source setting in the repo settings. This
-  cut the manual work at the end from two settings to one. It sits in the deploy half of
-  the workflow, not the build half, so that if enabling Pages fails it does not disguise
-  itself as a broken build.
+- **I tried to have the workflow turn Pages on by itself and it did not work.** The idea
+  was to save you finding a setting. The automatic token a workflow runs with is not
+  allowed to create a Pages site on this repo, so the deploy failed with "Resource not
+  accessible by integration". Pages was switched on once from the command line instead,
+  and the workflow went back to what this plan originally said: build, check, publish.
+  Nothing about it needs repeating; Pages stays on.
 
 ## Risks
 
