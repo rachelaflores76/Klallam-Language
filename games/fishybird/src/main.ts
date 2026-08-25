@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { playWord } from "./audio";
 import { TUNING } from "./config";
+import { createSalmon, type Salmon } from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
 
@@ -11,6 +12,8 @@ const ORCA_HIDDEN_Y = HEIGHT + 120;
 const ORCA_SURFACED_Y = SEA_Y + 60;
 const EAGLE_PERCH_Y = 110;
 const EAGLE_DIVE_Y = SEA_Y + 50;
+const SALMON_LANE_Y = EAGLE_DIVE_Y;
+const SALMON_START_X = WIDTH + 160;
 
 function drawSea(scene: Phaser.Scene): void {
   scene.add.rectangle(WIDTH / 2, (HEIGHT + SEA_Y) / 2, WIDTH, HEIGHT - SEA_Y, 0x0a5470);
@@ -42,6 +45,9 @@ class RoundScene extends Phaser.Scene {
   private orca!: Phaser.GameObjects.Container;
   private eagle!: Phaser.GameObjects.Container;
   private diving = false;
+  private salmon: Salmon[] = [];
+  private waiting: Salmon[] = [];
+  private spawner?: Phaser.Time.TimerEvent;
 
   constructor() {
     super("round");
@@ -52,6 +58,7 @@ class RoundScene extends Phaser.Scene {
     drawSea(this);
     this.orca = createOrca(this);
     this.eagle = createEagle(this);
+    this.eagle.setDepth(10);
 
     this.ui = createUi();
     this.round = buildRound();
@@ -118,6 +125,44 @@ class RoundScene extends Phaser.Scene {
     this.ui.showSkip(false);
     this.ui.showWord(word.klallam);
     if (TUNING.autoPlayAudioOnReveal) playWord(word.audioUrl);
+    this.startSalmonRun(word);
+  }
+
+  private startSalmonRun(word: RoundWord): void {
+    this.clearSalmon();
+    this.waiting = word.choices.map((choice) =>
+      createSalmon(this, choice, SALMON_START_X, SALMON_LANE_Y)
+    );
+    this.spawner = this.time.addEvent({
+      delay: TUNING.spawnIntervalMs,
+      startAt: TUNING.spawnIntervalMs,
+      repeat: this.waiting.length - 1,
+      callback: () => this.releaseNextSalmon(),
+    });
+  }
+
+  private releaseNextSalmon(): void {
+    const next = this.waiting.shift();
+    if (next === undefined) return;
+    this.salmon.push(next);
+  }
+
+  private clearSalmon(): void {
+    this.spawner?.remove();
+    this.spawner = undefined;
+    for (const salmon of [...this.salmon, ...this.waiting]) salmon.container.destroy();
+    this.salmon = [];
+    this.waiting = [];
+  }
+
+  override update(_time: number, delta: number): void {
+    const step = (TUNING.salmonSpeed * delta) / 1000;
+    this.salmon = this.salmon.filter((salmon) => {
+      salmon.container.x -= step;
+      if (salmon.container.x + salmon.halfWidth >= 0) return true;
+      salmon.container.destroy();
+      return false;
+    });
   }
 
   private replayWord(): void {
@@ -128,6 +173,7 @@ class RoundScene extends Phaser.Scene {
 
   /** Temporary until step 8, when catching the right salmon is what moves the round on. */
   private advance(): void {
+    this.clearSalmon();
     this.index = (this.index + 1) % this.round.length;
     this.presentWord();
   }

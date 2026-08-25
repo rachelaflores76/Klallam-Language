@@ -85,7 +85,7 @@ An eagle that responds to a mouse click, a touch, and the space bar with the sam
 
 **Done when:** all three ways of diving behave identically.
 
-### 7. Salmon swim past carrying English
+### 7. Salmon swim past carrying English  ✅
 
 Three salmon per word, spaced and moving at the speeds set in the config file, each
 labelled with one of the candidate translations.
