@@ -27,7 +27,8 @@ loop works and that every Klallam letter renders correctly.
 - **`diveMs` was added to the tuning file during step 6.** Section 3a of `PLAN.md` shows
   no dive speed, but its own rule is that no pacing number may live outside that file.
   The config file is therefore a superset of the block quoted in step 2. Flagged to the
-  maintainer rather than decided quietly.
+  maintainer rather than decided quietly. Step 8 added `celebrateMs` and `escapeMs` on
+  the same reasoning.
 
 ---
 
@@ -93,7 +94,7 @@ labelled with one of the candidate translations.
 **Done when:** three labelled salmon cross the screen for each word, and exactly one of
 them carries the right translation.
 
-### 8. Catching a salmon means something
+### 8. Catching a salmon means something  ✅
 
 Catching the right one: a sound, a shape change, a point, and on to the next word.
 Catching a wrong one: the recording plays again, the salmon escapes, and the round

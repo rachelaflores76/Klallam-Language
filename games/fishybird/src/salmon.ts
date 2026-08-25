@@ -50,3 +50,12 @@ export function createSalmon(
     halfHeight: BODY_HEIGHT / 2,
   };
 }
+
+/** A burst, not a colour: right and wrong must be tellable apart without seeing hue. */
+export function createCatchBurst(
+  scene: Phaser.Scene,
+  x: number,
+  y: number
+): Phaser.GameObjects.Star {
+  return scene.add.star(x, y, 8, 14, 40, 0xffe08a).setDepth(11);
+}

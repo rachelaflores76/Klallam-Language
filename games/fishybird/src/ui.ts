@@ -10,10 +10,10 @@ export interface GameUi {
   onStart(handler: () => void): void;
   onSkip(handler: () => void): void;
   onReplay(handler: () => void): void;
-  onNext(handler: () => void): void;
   showWord(klallam: string): void;
   clearWord(): void;
   showSkip(visible: boolean): void;
+  showScore(caught: number, outOf: number): void;
 }
 
 export function createUi(): GameUi {
@@ -22,7 +22,7 @@ export function createUi(): GameUi {
   const banner = element<HTMLParagraphElement>("banner");
   const skipButton = element<HTMLButtonElement>("skip");
   const replayButton = element<HTMLButtonElement>("replay");
-  const nextButton = element<HTMLButtonElement>("next");
+  const score = element<HTMLParagraphElement>("score");
 
   replayButton.hidden = !TUNING.allowAudioReplay;
   skipButton.hidden = true;
@@ -47,12 +47,6 @@ export function createUi(): GameUi {
         handler();
       });
     },
-    onNext(handler) {
-      nextButton.addEventListener("click", () => {
-        nextButton.blur();
-        handler();
-      });
-    },
     showWord(klallam) {
       // Klallam reaches the page only as text content, never as markup.
       banner.textContent = klallam;
@@ -62,6 +56,9 @@ export function createUi(): GameUi {
     },
     showSkip(visible) {
       skipButton.hidden = !visible || !TUNING.orcaIntroSkippable;
+    },
+    showScore(caught, outOf) {
+      score.textContent = `Caught ${caught} of ${outOf}`;
     },
   };
 }

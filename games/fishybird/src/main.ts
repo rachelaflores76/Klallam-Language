@@ -1,7 +1,7 @@
 import Phaser from "phaser";
-import { playWord } from "./audio";
+import { playCatchChime, playWord } from "./audio";
 import { TUNING } from "./config";
-import { createSalmon, type Salmon } from "./salmon";
+import { createCatchBurst, createSalmon, type Salmon } from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
 
@@ -14,6 +14,8 @@ const EAGLE_PERCH_Y = 110;
 const EAGLE_DIVE_Y = SEA_Y + 50;
 const SALMON_LANE_Y = EAGLE_DIVE_Y;
 const SALMON_START_X = WIDTH + 160;
+const EAGLE_HALF_WIDTH = 58;
+const EAGLE_HALF_HEIGHT = 26;
 
 function drawSea(scene: Phaser.Scene): void {
   scene.add.rectangle(WIDTH / 2, (HEIGHT + SEA_Y) / 2, WIDTH, HEIGHT - SEA_Y, 0x0a5470);
@@ -48,6 +50,9 @@ class RoundScene extends Phaser.Scene {
   private salmon: Salmon[] = [];
   private waiting: Salmon[] = [];
   private spawner?: Phaser.Time.TimerEvent;
+  private caught = 0;
+  private caughtThisDive = false;
+  private roundOver = false;
 
   constructor() {
     super("round");
@@ -66,7 +71,7 @@ class RoundScene extends Phaser.Scene {
     this.ui.onStart(() => this.presentWord());
     this.ui.onSkip(() => this.skipIntro());
     this.ui.onReplay(() => this.replayWord());
-    this.ui.onNext(() => this.advance());
+    this.ui.showScore(0, this.round.length);
 
     // Mouse and touch both arrive as pointerdown; the space bar joins them on the
     // same call, so there is only ever one dive to get right.
@@ -76,8 +81,9 @@ class RoundScene extends Phaser.Scene {
   }
 
   private dive(): void {
-    if (this.diving) return;
+    if (this.diving || this.roundOver) return;
     this.diving = true;
+    this.caughtThisDive = false;
     this.tweens.add({
       targets: this.eagle,
       y: EAGLE_DIVE_Y,
@@ -163,19 +169,93 @@ class RoundScene extends Phaser.Scene {
       salmon.container.destroy();
       return false;
     });
+    this.checkForCatch();
+  }
+
+  private checkForCatch(): void {
+    if (!this.diving || this.caughtThisDive) return;
+    const hit = this.salmon.find((salmon) => {
+      const dx = Math.abs(this.eagle.x - salmon.container.x);
+      const dy = Math.abs(this.eagle.y - salmon.container.y);
+      return (
+        dx <= EAGLE_HALF_WIDTH + salmon.halfWidth + TUNING.hitboxPadding &&
+        dy <= EAGLE_HALF_HEIGHT + salmon.halfHeight + TUNING.hitboxPadding
+      );
+    });
+    if (hit === undefined) return;
+
+    this.caughtThisDive = true;
+    this.salmon = this.salmon.filter((salmon) => salmon !== hit);
+    if (hit.choice.correct) this.catchCorrect(hit);
+    else this.catchWrong(hit);
+  }
+
+  private catchCorrect(salmon: Salmon): void {
+    playCatchChime();
+    const burst = createCatchBurst(this, salmon.container.x, salmon.container.y);
+    salmon.container.destroy();
+    this.tweens.add({
+      targets: burst,
+      scale: 1.8,
+      alpha: 0,
+      angle: 90,
+      duration: TUNING.celebrateMs,
+      onComplete: () => burst.destroy(),
+    });
+
+    this.caught += 1;
+    this.ui.showScore(this.caught, this.round.length);
+    this.clearSalmon();
+    this.time.delayedCall(TUNING.celebrateMs, () => this.advance());
+  }
+
+  private catchWrong(salmon: Salmon): void {
+    const word = this.currentWord;
+    // Gated by its own setting: hearing the word again after a miss is teaching,
+    // not the same thing as the player asking for a replay.
+    if (TUNING.replayAudioOnWrong && word !== undefined) playWord(word.audioUrl);
+
+    // It wriggles free and bolts, so a wrong answer reads as a miss without relying on colour.
+    this.tweens.add({
+      targets: salmon.container,
+      angle: { from: -18, to: 18 },
+      duration: TUNING.escapeMs / 6,
+      yoyo: true,
+      repeat: 2,
+    });
+    this.tweens.add({
+      targets: salmon.container,
+      x: -salmon.halfWidth,
+      alpha: 0,
+      duration: TUNING.escapeMs,
+      ease: "Quad.easeIn",
+      onComplete: () => salmon.container.destroy(),
+    });
+
+    if (TUNING.wrongAnswerEndsRun) this.endRound();
+  }
+
+  private advance(): void {
+    this.index += 1;
+    if (this.index >= this.round.length) {
+      this.endRound();
+      return;
+    }
+    this.presentWord();
+  }
+
+  /** Step 9 replaces this with the round summary. */
+  private endRound(): void {
+    this.roundOver = true;
+    this.clearSalmon();
+    this.ui.clearWord();
+    this.ui.showSkip(false);
   }
 
   private replayWord(): void {
     const word = this.currentWord;
     if (word === undefined || !TUNING.allowAudioReplay) return;
     playWord(word.audioUrl);
-  }
-
-  /** Temporary until step 8, when catching the right salmon is what moves the round on. */
-  private advance(): void {
-    this.clearSalmon();
-    this.index = (this.index + 1) % this.round.length;
-    this.presentWord();
   }
 }
 
