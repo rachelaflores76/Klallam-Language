@@ -72,7 +72,7 @@ does not reach the middle until about 5.3s. Flagged to the maintainer, who was n
 available; the alternative was holding the salmon back and spending 1.2s of empty
 water on every word, which this plan had already ruled out under "not doing".
 
-### 4. Skipping the intro puts the orca away too
+### 4. Skipping the intro puts the orca away too  ✅
 
 The skip button currently leaves the orca parked at the waterline. It should leave
 the screen the same way it does when the jump plays out.

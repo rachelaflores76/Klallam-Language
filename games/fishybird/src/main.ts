@@ -105,13 +105,17 @@ class RoundScene extends Phaser.Scene {
     return this.round[this.index];
   }
 
+  private hideOrca(): void {
+    this.tweens.killTweensOf(this.orca);
+    this.orca.y = ORCA_HIDDEN_Y;
+  }
+
   private presentWord(): void {
     if (this.currentWord === undefined) return;
 
     this.ui.clearWord();
     this.ui.showSkip(true);
-    this.tweens.killTweensOf(this.orca);
-    this.orca.y = ORCA_HIDDEN_Y;
+    this.hideOrca();
 
     this.tweens.add({
       targets: this.orca,
@@ -132,8 +136,7 @@ class RoundScene extends Phaser.Scene {
 
   private skipIntro(): void {
     if (!TUNING.orcaIntroSkippable) return;
-    this.tweens.killTweensOf(this.orca);
-    this.orca.y = ORCA_PEAK_Y;
+    this.hideOrca();
     this.revealWord();
   }
 
@@ -277,8 +280,7 @@ class RoundScene extends Phaser.Scene {
     this.clearSalmon();
     this.ui.clearWord();
     this.ui.showSkip(false);
-    this.tweens.killTweensOf(this.orca);
-    this.orca.y = ORCA_HIDDEN_Y;
+    this.hideOrca();
     this.ui.showSummary(
       this.caught,
       this.round.length,
