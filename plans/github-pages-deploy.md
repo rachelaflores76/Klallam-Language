@@ -68,7 +68,7 @@ open it.
 **Done when:** the game plays a full round with audio at the sub-path, and the review page
 at `/khallam/review/` lists words and plays a recording.
 
-### 5. Write the workflow that publishes on push to main
+### 5. Write the workflow that publishes on push to main  ✅
 
 A new file, `.github/workflows/deploy.yml`. On a push to `main` it installs
 dependencies, runs `npm run ci` (the same checks you run locally &mdash; the ASCII guard,
