@@ -16,9 +16,11 @@
     "lexicon:lock": "node tools/lexicon-cli/lock.mjs",
     "lexicon:review": "node tools/lexicon-cli/review-server.mjs",
     "guard:ascii": "node tools/lexicon-cli/ascii-guard.mjs",
+    "game:dev": "npm run dev -w @klallam/fishybird",
+    "game:build": "npm run build -w @klallam/fishybird",
     "test": "node --test \"tests/**/*.test.mjs\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "ci": "npm run guard:ascii && npm run typecheck && npm run lexicon:verify && npm test"
+    "ci": "npm run guard:ascii && npm run typecheck && npm run lexicon:verify && npm test && npm run game:build"
   },
   "devDependencies": {
     "typescript": "^5.6.3"

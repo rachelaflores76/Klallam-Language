@@ -29,7 +29,7 @@ loop works and that every Klallam letter renders correctly.
 
 ## Steps
 
-### 1. Scaffold the game
+### 1. Scaffold the game  ✅
 
 Create `games/fishybird` with its own `package.json`, an `index.html`, a `vite.config.ts`
 and an empty starting scene in `src/main.ts`. Add `game:dev` and `game:build` commands to

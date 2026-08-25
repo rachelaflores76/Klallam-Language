@@ -1,0 +1,19 @@
+{
+  "name": "@klallam/fishybird",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "FishyBird: an eagle catches the salmon carrying the correct translation.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@klallam/lexicon": "*",
+    "phaser": "^3.90.0"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}
