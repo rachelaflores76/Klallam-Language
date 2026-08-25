@@ -138,6 +138,12 @@ not nested inside the game, so it can be relocated without touching game code.
   /skills
     /update-lexicon
       SKILL.md                # word-authoring workflow
+    /plan
+    /build
+    /validate                 # the loop for every non-lexicon change
+
+/plans
+  <slug>.md                   # one approved plan per change, kept as a record
 
 package.json                  # npm workspaces root
 ```

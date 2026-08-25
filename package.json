@@ -18,7 +18,7 @@
     "guard:ascii": "node tools/lexicon-cli/ascii-guard.mjs",
     "test": "node --test \"tests/**/*.test.mjs\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "ci": "npm run guard:ascii && npm run lexicon:verify && npm test"
+    "ci": "npm run guard:ascii && npm run typecheck && npm run lexicon:verify && npm test"
   },
   "devDependencies": {
     "typescript": "^5.6.3"

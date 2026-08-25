@@ -37,6 +37,7 @@ These are not v1 limitations. They apply for the life of the project.
 - Keep educational examples and vocabulary entries stable unless the user requests a specific correction.
 
 ## Adding or Changing Lexicon Entries
+
 - `lexicon/lexicon.xlsx` is the only place a human edits Klallam text. There is no second option.
 - `lexicon.json` and `lexicon.lock` are generated from it. Never hand-edit either.
 - Use the `update-lexicon` skill, which drives the spreadsheet workflow and handles re-locking.
@@ -46,6 +47,16 @@ These are not v1 limitations. They apply for the life of the project.
   git diff. Never ask a speaker to verify Unicode codepoints; they verify a word by reading
   it rendered in the sheet or on the review page.
 - Changing the Klallam of an existing word needs a speaker's confirmation, not agent judgement.
+
+## Making Any Other Change
+- Every change that is not a lexicon entry goes through the same loop: `plan` &rarr; `build` &rarr; `validate`.
+- The skills live in `.claude/skills/`. Use them; do not improvise a substitute.
+- `plan` writes `plans/<slug>.md` and stops for approval. No code is written before that yes.
+- `build` does one step at a time and runs `npm run ci` after each. A red check stops the work.
+- `validate` reports what the checks proved and what a human still has to confirm by eye.
+- `validate` has to pass before anything is called done. A Stop hook in `.claude/settings.json` runs `npm run ci` and refuses to end a turn that left the checks red.
+- Reading Klallam from the lexicon is fine and expected; producing a Klallam character is not. Work needing a new or respelled word waits on the user editing `lexicon/lexicon.xlsx` and running `update-lexicon`. Say so and build the rest.
+- The maintainer is not a programmer. Report in plain language and never let a caveat go unsaid.
 
 ## If Conflicts Arise
 When there is a conflict between style/formatting preferences and Klallam text fidelity, preserve the original Klallam text exactly.

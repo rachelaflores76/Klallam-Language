@@ -91,6 +91,56 @@ Unicode by eye, and the two marks look identical on screen.
 
 ---
 
+## Changing anything else
+
+Words go through the spreadsheet. Everything else &mdash; a new feature, a fix, a
+change to how a game plays &mdash; goes through the same three steps, every time.
+
+**Plan &rarr; build &rarr; validate.**
+
+Ask in plain language, the same way you would for words:
+
+> *"I'd like to plan a change to how the game scores a wrong answer."*
+>
+> *"Let's build that plan."*
+>
+> *"Is that finished?"*
+
+### What happens
+
+1. **Plan.** Claude asks whatever it needs to, then writes the plan into `plans/`
+   as a numbered list of small steps. Each step says what "done" looks like.
+   **Nothing is built until you read it and say yes.** If a step looks wrong, say
+   so &mdash; it is far cheaper to fix a sentence than working code.
+2. **Build.** One step at a time. After every step Claude runs the automatic checks
+   and tells you what changed. If a check fails it stops there rather than piling
+   the next step on top.
+3. **Validate.** Claude runs the checks again and tells you two things: what the
+   computer confirmed, and **what you need to look at yourself**. The checks cannot
+   tell whether a game is fun or a word is right. That part is still yours.
+
+Step 3 is not a courtesy. The checks run automatically before Claude is allowed to
+finish, and a failure is handed back to Claude rather than to you.
+
+The plan file stays in the repo afterwards, so there is always a plain-language
+record of what changed and why.
+
+### Things Claude will refuse
+
+Some of these are permanent decisions, not obstacles to work around:
+
+- **Anything needing a server, a login, or an internet connection.** Every game here
+  runs entirely in the browser, forever. Claude will offer an offline version
+  instead.
+- **Writing a Klallam word itself, anywhere.** It can read every word in the lexicon
+  and use them in a game freely. What it cannot do is create one or correct a
+  spelling. If a change needs a word that is not in the lexicon yet, Claude will say
+  so and build the rest &mdash; the word is your job: edit the spreadsheet, then ask
+  Claude to update the lexicon.
+- **Carrying on after a check fails.**
+
+---
+
 ## For developers
 
 Requires Node 20 or newer.
@@ -141,6 +191,8 @@ is either an import you meant to make, or something to look into.
 - `PLAN.md` &mdash; architecture, tech decisions, and why the safeguards exist
 - `CLAUDE.md` &mdash; rules for AI agents working in this repo
 - `.claude/skills/update-lexicon/` &mdash; the lexicon workflow, for agents
+- `.claude/skills/{plan,build,validate}/` &mdash; the loop for every other change
+- `.claude/hooks/require-green.mjs` &mdash; Stop hook; blocks an agent from finishing a turn that left `npm run ci` red
 
 The short version of the rule agents follow: **an agent never types Klallam
 characters.** Text goes from a speaker's keyboard into Excel, and from Excel into
