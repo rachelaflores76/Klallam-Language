@@ -66,7 +66,7 @@ correctly.
 **Done when:** a real word from the lexicon appears in the banner, drawn with the
 downloaded font rather than whatever the computer happened to have.
 
-### 5. The orca brings a word, and it speaks
+### 5. The orca brings a word, and it speaks  ✅
 
 The game opens with a start button, which is what lets browsers play sound at all. Then
 the orca surfaces, the word appears, and its recording plays by itself. The intro can be
