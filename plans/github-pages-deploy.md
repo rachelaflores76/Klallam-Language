@@ -60,7 +60,7 @@ gets committed.
 **Done when:** `npm run site:build` finishes and `dist/` contains `index.html`, an
 `audio/` folder with the recordings, and `review/index.html`.
 
-### 4. Check the assembled site by hand before trusting a robot with it
+### 4. Check the assembled site by hand before trusting a robot with it  ✅
 
 Serve `dist/` locally under a `/khallam/` sub-path, the same shape Pages will use, and
 open it.
