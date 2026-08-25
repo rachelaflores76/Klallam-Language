@@ -24,6 +24,10 @@ loop works and that every Klallam letter renders correctly.
 - **Only confirmed words appear.** The game asks for playable words, which excludes
   the eleven entries still flagged for a speaker's review. Nothing disputed reaches a
   learner.
+- **`diveMs` was added to the tuning file during step 6.** Section 3a of `PLAN.md` shows
+  no dive speed, but its own rule is that no pacing number may live outside that file.
+  The config file is therefore a superset of the block quoted in step 2. Flagged to the
+  maintainer rather than decided quietly.
 
 ---
 
@@ -75,7 +79,7 @@ skipped and the recording can be replayed.
 **Done when:** every new word plays its recording on its own, the replay button works,
 and the browser console shows no sound error.
 
-### 6. The eagle dives
+### 6. The eagle dives  ✅
 
 An eagle that responds to a mouse click, a touch, and the space bar with the same dive.
 

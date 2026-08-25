@@ -35,13 +35,23 @@ export function createUi(): GameUi {
       });
     },
     onSkip(handler) {
-      skipButton.addEventListener("click", handler);
+      skipButton.addEventListener("click", () => {
+        // A button keeping focus would swallow the space bar, which the game uses to dive.
+        skipButton.blur();
+        handler();
+      });
     },
     onReplay(handler) {
-      replayButton.addEventListener("click", handler);
+      replayButton.addEventListener("click", () => {
+        replayButton.blur();
+        handler();
+      });
     },
     onNext(handler) {
-      nextButton.addEventListener("click", handler);
+      nextButton.addEventListener("click", () => {
+        nextButton.blur();
+        handler();
+      });
     },
     showWord(klallam) {
       // Klallam reaches the page only as text content, never as markup.

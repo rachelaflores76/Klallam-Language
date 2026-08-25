@@ -8,6 +8,7 @@ export const TUNING = {
   salmonSpeed: 120,
   spawnIntervalMs: 2500,
   hitboxPadding: 12,
+  diveMs: 420,
 
   // forgiveness
   wrongAnswerEndsRun: false,

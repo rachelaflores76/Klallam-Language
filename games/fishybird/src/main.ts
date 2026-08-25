@@ -9,6 +9,8 @@ const HEIGHT = 540;
 const SEA_Y = 360;
 const ORCA_HIDDEN_Y = HEIGHT + 120;
 const ORCA_SURFACED_Y = SEA_Y + 60;
+const EAGLE_PERCH_Y = 110;
+const EAGLE_DIVE_Y = SEA_Y + 50;
 
 function drawSea(scene: Phaser.Scene): void {
   scene.add.rectangle(WIDTH / 2, (HEIGHT + SEA_Y) / 2, WIDTH, HEIGHT - SEA_Y, 0x0a5470);
@@ -24,11 +26,22 @@ function createOrca(scene: Phaser.Scene): Phaser.GameObjects.Container {
   return scene.add.container(WIDTH / 2, ORCA_HIDDEN_Y, [body, belly, eyePatch, fin]);
 }
 
+function createEagle(scene: Phaser.Scene): Phaser.GameObjects.Container {
+  const tail = scene.add.triangle(-56, 2, 0, -18, 0, 18, 36, 0, 0xf6fbfd);
+  const body = scene.add.ellipse(0, 0, 108, 46, 0x4a2c12);
+  const wing = scene.add.triangle(-4, -18, 0, 22, 42, -28, 82, 18, 0x33200c);
+  const head = scene.add.circle(50, -8, 21, 0xf6fbfd);
+  const beak = scene.add.triangle(68, -4, 0, -9, 0, 9, 24, 0, 0xf0b429);
+  return scene.add.container(WIDTH / 2, EAGLE_PERCH_Y, [tail, body, wing, head, beak]);
+}
+
 class RoundScene extends Phaser.Scene {
   private ui!: GameUi;
   private round: RoundWord[] = [];
   private index = 0;
   private orca!: Phaser.GameObjects.Container;
+  private eagle!: Phaser.GameObjects.Container;
+  private diving = false;
 
   constructor() {
     super("round");
@@ -38,6 +51,7 @@ class RoundScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#123c50");
     drawSea(this);
     this.orca = createOrca(this);
+    this.eagle = createEagle(this);
 
     this.ui = createUi();
     this.round = buildRound();
@@ -46,6 +60,28 @@ class RoundScene extends Phaser.Scene {
     this.ui.onSkip(() => this.skipIntro());
     this.ui.onReplay(() => this.replayWord());
     this.ui.onNext(() => this.advance());
+
+    // Mouse and touch both arrive as pointerdown; the space bar joins them on the
+    // same call, so there is only ever one dive to get right.
+    this.input.on("pointerdown", () => this.dive());
+    this.input.keyboard?.addCapture("SPACE");
+    this.input.keyboard?.on("keydown-SPACE", () => this.dive());
+  }
+
+  private dive(): void {
+    if (this.diving) return;
+    this.diving = true;
+    this.tweens.add({
+      targets: this.eagle,
+      y: EAGLE_DIVE_Y,
+      duration: TUNING.diveMs,
+      ease: "Quad.easeIn",
+      yoyo: true,
+      onComplete: () => {
+        this.eagle.y = EAGLE_PERCH_Y;
+        this.diving = false;
+      },
+    });
   }
 
   private get currentWord(): RoundWord | undefined {
