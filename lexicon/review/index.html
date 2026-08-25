@@ -90,7 +90,9 @@
     </table>
 
     <script type="module">
-      const res = await fetch("/lexicon.json");
+      // Relative so the page works both from the local review server and from a
+      // published sub-folder. The recordings stay in one place, one level up.
+      const res = await fetch("./lexicon.json");
       const lexicon = await res.json();
       const entries = lexicon.entries;
 
@@ -106,7 +108,7 @@
 
       function play(entry, button) {
         if (current) current.pause();
-        current = new Audio(`/audio/${encodeURIComponent(entry.audio)}`);
+        current = new Audio(`../audio/${encodeURIComponent(entry.audio)}`);
         current.play().catch(() => {
           button.textContent = "failed";
         });

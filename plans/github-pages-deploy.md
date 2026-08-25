@@ -37,7 +37,7 @@ keeps working at the same address, playing the same recordings.
 **Done when:** `npm run game:build` succeeds and no file in `games/fishybird/dist/` asks
 for an asset starting with a leading `/`.
 
-### 2. Stop the review page assuming it lives at the top of a domain
+### 2. Stop the review page assuming it lives at the top of a domain  ✅
 
 In `lexicon/review/index.html`, change the two absolute requests &mdash; the lexicon file
 and the recordings &mdash; to relative ones, pointing at where step 3 will put those files.
