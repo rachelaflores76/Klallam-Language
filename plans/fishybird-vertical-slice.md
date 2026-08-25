@@ -103,7 +103,7 @@ carries on. Right and wrong are never told apart by colour alone.
 **Done when:** a correct catch scores and advances; a wrong catch replays the word and
 does not end the run.
 
-### 9. A round of ten, and a summary
+### 9. A round of ten, and a summary  ✅
 
 Ten words, then a summary showing the score and the words that were missed, each with
 its recording and a replay button, and a button to play again. Nothing is saved between

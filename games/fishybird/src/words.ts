@@ -12,6 +12,7 @@ export interface Choice {
 export interface RoundWord {
   id: string;
   klallam: string;
+  english: string;
   audioUrl: string;
   choices: Choice[];
 }
@@ -71,6 +72,6 @@ export function buildRound(random: () => number = Math.random): RoundWord[] {
         ],
         random
       );
-      return { id: entry.id, klallam: entry.klallam, audioUrl: url, choices };
+      return { id: entry.id, klallam: entry.klallam, english: entry.english, audioUrl: url, choices };
     });
 }

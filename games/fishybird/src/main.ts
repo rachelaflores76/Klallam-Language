@@ -53,6 +53,8 @@ class RoundScene extends Phaser.Scene {
   private caught = 0;
   private caughtThisDive = false;
   private roundOver = false;
+  private wordInPlay = false;
+  private missed: RoundWord[] = [];
 
   constructor() {
     super("round");
@@ -71,6 +73,7 @@ class RoundScene extends Phaser.Scene {
     this.ui.onStart(() => this.presentWord());
     this.ui.onSkip(() => this.skipIntro());
     this.ui.onReplay(() => this.replayWord());
+    this.ui.onPlayAgain(() => this.startFreshRound());
     this.ui.showScore(0, this.round.length);
 
     // Mouse and touch both arrive as pointerdown; the space bar joins them on the
@@ -139,6 +142,7 @@ class RoundScene extends Phaser.Scene {
     this.waiting = word.choices.map((choice) =>
       createSalmon(this, choice, SALMON_START_X, SALMON_LANE_Y)
     );
+    this.wordInPlay = true;
     this.spawner = this.time.addEvent({
       delay: TUNING.spawnIntervalMs,
       startAt: TUNING.spawnIntervalMs,
@@ -170,6 +174,11 @@ class RoundScene extends Phaser.Scene {
       return false;
     });
     this.checkForCatch();
+
+    // Every salmon for this word has gone by. That was the chance to catch it.
+    if (this.wordInPlay && this.waiting.length === 0 && this.salmon.length === 0) {
+      this.missWord();
+    }
   }
 
   private checkForCatch(): void {
@@ -205,8 +214,17 @@ class RoundScene extends Phaser.Scene {
 
     this.caught += 1;
     this.ui.showScore(this.caught, this.round.length);
+    this.wordInPlay = false;
     this.clearSalmon();
     this.time.delayedCall(TUNING.celebrateMs, () => this.advance());
+  }
+
+  private missWord(): void {
+    this.wordInPlay = false;
+    const word = this.currentWord;
+    if (word !== undefined) this.missed.push(word);
+    this.clearSalmon();
+    this.advance();
   }
 
   private catchWrong(salmon: Salmon): void {
@@ -244,12 +262,35 @@ class RoundScene extends Phaser.Scene {
     this.presentWord();
   }
 
-  /** Step 9 replaces this with the round summary. */
   private endRound(): void {
     this.roundOver = true;
+    this.wordInPlay = false;
     this.clearSalmon();
     this.ui.clearWord();
     this.ui.showSkip(false);
+    this.tweens.killTweensOf(this.orca);
+    this.orca.y = ORCA_HIDDEN_Y;
+    this.ui.showSummary(
+      this.caught,
+      this.round.length,
+      this.missed.map((word) => ({
+        klallam: word.klallam,
+        english: word.english,
+        audioUrl: word.audioUrl,
+      }))
+    );
+  }
+
+  /** Nothing is carried between rounds: no progress is stored yet. */
+  private startFreshRound(): void {
+    this.ui.hideSummary();
+    this.round = buildRound();
+    this.index = 0;
+    this.caught = 0;
+    this.missed = [];
+    this.roundOver = false;
+    this.ui.showScore(0, this.round.length);
+    this.presentWord();
   }
 
   private replayWord(): void {

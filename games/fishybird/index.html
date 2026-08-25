@@ -10,13 +10,19 @@
     <div id="app">
       <p id="banner" class="banner" aria-live="polite"></p>
       <div id="game"></div>
-      <div class="controls">
+      <div class="controls" id="controls">
         <button id="skip" class="control" type="button">Skip the intro</button>
         <button id="replay" class="control" type="button">Hear it again</button>
         <p id="score" class="score" aria-live="polite"></p>
       </div>
       <div id="start" class="start-overlay">
         <button id="start-button" class="start-button" type="button">Start</button>
+      </div>
+      <div id="summary" class="summary" hidden>
+        <h2 id="summary-score" class="summary-score"></h2>
+        <p id="summary-lead" class="summary-lead"></p>
+        <ul id="summary-missed" class="missed"></ul>
+        <button id="play-again" class="start-button" type="button">Play again</button>
       </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
