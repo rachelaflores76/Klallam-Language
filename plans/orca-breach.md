@@ -45,12 +45,16 @@ stopping at it.
 
 **Done when:** at the highest point of the jump, no part of the orca is under water.
 
-### 2. The word is placed at the top of the jump
+### 2. The word is placed at the top of the jump  ✅
 
 Move the moment the word appears so it lands at the peak rather than at the end of
 the movement.
 
 **Done when:** the word appears in the banner at the moment the orca is highest.
+
+Needed no change. Once step 1 raised the peak, the rise already ended there, and the
+word was already being placed when the rise finished. Measured rather than assumed:
+the rise lasts 1200ms and the word appears at 1223ms, one animation frame later.
 
 ### 3. The orca dives back under
 
