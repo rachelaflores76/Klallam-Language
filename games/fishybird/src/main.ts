@@ -15,6 +15,10 @@ class GameScene extends Phaser.Scene {
     const first = this.round[0];
     if (first === undefined) return;
 
+    // Klallam only ever reaches the page as DOM text. Canvas cannot stack the marks.
+    const banner = document.getElementById("banner");
+    if (banner !== null) banner.textContent = first.klallam;
+
     this.add
       .text(480, 270, "Click to hear the first word", { fontSize: "24px", color: "#e8f4f8" })
       .setOrigin(0.5);

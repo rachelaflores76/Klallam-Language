@@ -56,7 +56,7 @@ while developing and in the finished build, without copying them into the game f
 **Done when:** one word's recording plays from the game's address in the browser, and
 the same recording appears in the built output.
 
-### 4. The word banner, in a font that can draw Klallam
+### 4. The word banner, in a font that can draw Klallam  ✅
 
 Download the Charis SIL web font and its licence into the game, check it really is a
 font, and use it for a text banner sitting above the game canvas. The banner is ordinary
