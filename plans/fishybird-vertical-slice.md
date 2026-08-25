@@ -111,13 +111,22 @@ sessions yet.
 
 **Done when:** finishing ten words shows the summary.
 
-### 10. Check the letters on real devices
+### 10. Check the letters on real devices  &mdash; waiting on the maintainer
 
 Serve the game on the local network and look at it on Windows, macOS, iOS and Android,
 paying attention to the words carrying stacked marks (codepoints U+0313, U+0315 and
 U+0323).
 
 **Done when:** the maintainer confirms every letter is drawn correctly on all four.
+
+Ready for that check: `npm run game:lan` serves the game on the local network. Two
+things found while preparing it:
+
+- **U+0315 cannot be checked in the game.** Every word using it is flagged for a
+  speaker's review, so the game deliberately never shows it. Check that mark on the
+  lexicon review page instead: `npm run lexicon:review`.
+- **U+0313 and U+0323 appear in 44 of the 91 playable words**, so roughly half of any
+  ten-word round carries one. A round or two per device is enough to see them.
 
 ---
 

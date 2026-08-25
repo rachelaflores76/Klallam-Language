@@ -61,7 +61,12 @@ export default defineConfig({
   // transform pipeline rather than the dependency pre-bundler.
   optimizeDeps: { exclude: ["@klallam/lexicon"] },
   server: {
-    fs: { allow: [repoRoot] },
+    // The game root sits two levels below the lexicon it imports, so the dev server
+    // has to be told about it. Named explicitly rather than opening the whole repo,
+    // because game:lan puts this server on the local network.
+    fs: {
+      allow: [gameRoot, path.resolve(repoRoot, "lexicon"), path.resolve(repoRoot, "node_modules")],
+    },
   },
   build: {
     outDir: "dist",

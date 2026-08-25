@@ -17,6 +17,7 @@
     "lexicon:review": "node tools/lexicon-cli/review-server.mjs",
     "guard:ascii": "node tools/lexicon-cli/ascii-guard.mjs",
     "game:dev": "npm run dev -w @klallam/fishybird",
+    "game:lan": "npm run dev -w @klallam/fishybird -- --host",
     "game:build": "npm run build -w @klallam/fishybird",
     "test": "node --test \"tests/**/*.test.mjs\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
