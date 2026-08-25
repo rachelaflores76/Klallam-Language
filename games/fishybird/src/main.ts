@@ -11,6 +11,9 @@ const SEA_Y = 360;
 const ORCA_HIDDEN_Y = HEIGHT + 120;
 // High enough that the body clears the waterline rather than resting on it.
 const ORCA_PEAK_Y = SEA_Y - 70;
+// The orca's head is its left end, and a positive angle turns clockwise, which lifts
+// that end. Level at the top of the arc.
+const ORCA_TILT = 28;
 const EAGLE_PERCH_Y = 110;
 const EAGLE_DIVE_Y = SEA_Y + 50;
 const SALMON_LANE_Y = EAGLE_DIVE_Y;
@@ -108,6 +111,7 @@ class RoundScene extends Phaser.Scene {
   private hideOrca(): void {
     this.tweens.killTweensOf(this.orca);
     this.orca.y = ORCA_HIDDEN_Y;
+    this.orca.angle = ORCA_TILT;
   }
 
   private presentWord(): void {
@@ -130,7 +134,23 @@ class RoundScene extends Phaser.Scene {
           duration: TUNING.orcaIntroMs,
           ease: "Sine.easeIn",
         });
+        this.tweens.add({
+          targets: this.orca,
+          angle: -ORCA_TILT,
+          duration: TUNING.orcaIntroMs,
+          ease: "Cubic.easeOut",
+        });
       },
+    });
+
+    // The angle is tweened apart from the height, and lags it, because most of the
+    // climb happens below the waterline. Levelling it in step with the height would
+    // leave the orca flat by the time anyone can see it.
+    this.tweens.add({
+      targets: this.orca,
+      angle: 0,
+      duration: TUNING.orcaIntroMs,
+      ease: "Cubic.easeIn",
     });
   }
 

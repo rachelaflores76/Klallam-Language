@@ -79,12 +79,17 @@ the screen the same way it does when the jump plays out.
 
 **Done when:** pressing skip shows the word and leaves no orca on screen.
 
-### 5. The orca tilts through the arc
+### 5. The orca tilts through the arc  ✅
 
 Nose up as it leaves the water, level at the top, nose down as it goes back in.
 
 **Done when:** the orca is angled nose-up on the way out and nose-down on the way
 back in, rather than staying flat the whole way.
+
+Took two corrections. First the tilt was tied to the height and levelled out while the
+orca was still below the waterline, so it looked flat by the time anyone could see it;
+the angle now runs on its own curve and lags the climb. Then the tilt was inverted,
+lifting the tail instead of the head, which the maintainer caught.
 
 ---
 
