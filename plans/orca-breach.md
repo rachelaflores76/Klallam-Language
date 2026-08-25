@@ -91,6 +91,20 @@ orca was still below the waterline, so it looked flat by the time anyone could s
 the angle now runs on its own curve and lags the climb. Then the tilt was inverted,
 lifting the tail instead of the head, which the maintainer caught.
 
+### 6. The jump carries the orca forward  ✅
+
+Added after the first five were done and seen, at the maintainer's request: an animal
+cannot jump straight up out of the water, so the arc needs some travel in the
+direction it is facing. The orca faces left, so it enters from the right of centre,
+is level and centred at the top, and goes back in to the left of centre.
+
+The horizontal travel is even across the whole jump, because a real jump only changes
+speed vertically. It is a layout value living beside the other positions in the scene,
+not a new tuning knob, on the same reasoning as the tilt.
+
+**Done when:** the orca enters the water further left than it left it, having moved
+steadily leftward through the jump rather than going straight up and down.
+
 ---
 
 ## Risks

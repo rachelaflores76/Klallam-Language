@@ -14,6 +14,10 @@ const ORCA_PEAK_Y = SEA_Y - 70;
 // The orca's head is its left end, and a positive angle turns clockwise, which lifts
 // that end. Level at the top of the arc.
 const ORCA_TILT = 28;
+// It leaves the water right of centre and re-enters left of it, about a body length
+// apart, because nothing jumps straight up out of the water.
+const ORCA_ENTRY_X = WIDTH / 2 + 140;
+const ORCA_EXIT_X = WIDTH / 2 - 140;
 const EAGLE_PERCH_Y = 110;
 const EAGLE_DIVE_Y = SEA_Y + 50;
 const SALMON_LANE_Y = EAGLE_DIVE_Y;
@@ -111,6 +115,7 @@ class RoundScene extends Phaser.Scene {
   private hideOrca(): void {
     this.tweens.killTweensOf(this.orca);
     this.orca.y = ORCA_HIDDEN_Y;
+    this.orca.x = ORCA_ENTRY_X;
     this.orca.angle = ORCA_TILT;
   }
 
@@ -136,11 +141,26 @@ class RoundScene extends Phaser.Scene {
         });
         this.tweens.add({
           targets: this.orca,
+          x: ORCA_EXIT_X,
+          duration: TUNING.orcaIntroMs,
+          ease: "Linear",
+        });
+        this.tweens.add({
+          targets: this.orca,
           angle: -ORCA_TILT,
           duration: TUNING.orcaIntroMs,
           ease: "Cubic.easeOut",
         });
       },
+    });
+
+    // Horizontal travel is even across the whole jump. Only the vertical speed
+    // changes, which is what makes the path read as an arc rather than a swerve.
+    this.tweens.add({
+      targets: this.orca,
+      x: WIDTH / 2,
+      duration: TUNING.orcaIntroMs,
+      ease: "Linear",
     });
 
     // The angle is tweened apart from the height, and lags it, because most of the
