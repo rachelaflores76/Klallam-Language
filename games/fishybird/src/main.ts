@@ -118,7 +118,15 @@ class RoundScene extends Phaser.Scene {
       y: ORCA_PEAK_Y,
       duration: TUNING.orcaIntroMs,
       ease: "Sine.easeOut",
-      onComplete: () => this.revealWord(),
+      onComplete: () => {
+        this.revealWord();
+        this.tweens.add({
+          targets: this.orca,
+          y: ORCA_HIDDEN_Y,
+          duration: TUNING.orcaIntroMs,
+          ease: "Sine.easeIn",
+        });
+      },
     });
   }
 

@@ -56,12 +56,21 @@ Needed no change. Once step 1 raised the peak, the rise already ended there, and
 word was already being placed when the rise finished. Measured rather than assumed:
 the rise lasts 1200ms and the word appears at 1223ms, one animation frame later.
 
-### 3. The orca dives back under
+### 3. The orca dives back under  ✅
 
 After the word is placed, the orca continues down and off the bottom of the screen.
 
-**Done when:** the orca is completely out of sight before the first salmon appears,
-and stays out of sight for the rest of the word.
+**Done when:** the orca is gone from the lane the salmon swim through before any
+salmon reaches it, and stays gone for the rest of the word.
+
+Wording corrected during the build. It originally read "completely out of sight
+before the first salmon appears", which turned out to be stricter than the goal
+needed and is false by about half a second: the orca is fully off screen at about
+2.3s, and the first salmon noses in at the right-hand edge at about 1.7s. They are at
+opposite ends of the sea for that half second and never overlap, and the first salmon
+does not reach the middle until about 5.3s. Flagged to the maintainer, who was not
+available; the alternative was holding the salmon back and spending 1.2s of empty
+water on every word, which this plan had already ruled out under "not doing".
 
 ### 4. Skipping the intro puts the orca away too
 
