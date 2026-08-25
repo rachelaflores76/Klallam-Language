@@ -79,16 +79,28 @@ up.
 **Done when:** the file exists and `npm run ci` is still green locally. It cannot be
 truly tested until step 6.
 
-### 6. Make the repo public, turn Pages on, push, and watch it land
+### 6. Make the repo public, turn Pages on, push, and watch it land  &mdash; waiting on the maintainer
 
-This step is settings, not code, and part of it is yours:
+The code half is done and pushed. What is left cannot be done without your GitHub
+credentials, and it is one click:
 
-- **You:** run `gh auth login` in the terminal. I cannot type your credentials.
-- **Me, once you have:** switch the repo to public and set Pages to publish from GitHub
-  Actions, then push.
+**Make the repo public.** github.com/upta/khallam &rarr; Settings &rarr; scroll to Danger
+Zone &rarr; *Change visibility* &rarr; Make public.
+
+Then either push anything to `main`, or go to the Actions tab, pick *Deploy site to
+GitHub Pages*, and press **Run workflow**. Turning Pages on is no longer a separate
+step; the workflow does it itself the first time it deploys.
 
 **Done when:** `https://upta.github.io/khallam/` plays a round with sound in a browser,
 and `https://upta.github.io/khallam/review/` lists the words.
+
+## Changed while building
+
+- **Step 5, the workflow, now turns Pages on by itself** using `actions/configure-pages`
+  rather than expecting somebody to find the Source setting in the repo settings. This
+  cut the manual work at the end from two settings to one. It sits in the deploy half of
+  the workflow, not the build half, so that if enabling Pages fails it does not disguise
+  itself as a broken build.
 
 ## Risks
 
