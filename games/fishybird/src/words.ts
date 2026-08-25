@@ -2,7 +2,7 @@ import { audioUrl, getPlayableWords, type LexiconEntry } from "@klallam/lexicon"
 import { TUNING } from "./config";
 
 /** Where the game serves the lexicon recordings from. See the audio plugin in vite.config.ts. */
-const AUDIO_BASE = "/audio";
+const AUDIO_BASE = `${import.meta.env.BASE_URL}audio`;
 
 export interface Choice {
   english: string;

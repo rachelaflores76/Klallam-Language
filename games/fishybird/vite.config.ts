@@ -56,6 +56,9 @@ function lexiconAudio(): Plugin[] {
 }
 
 export default defineConfig({
+  // Paths relative to the page, so the build works from a sub-folder such as
+  // the GitHub Pages address rather than only at the top of a domain.
+  base: "./",
   plugins: [lexiconAudio()],
   // The lexicon package ships TypeScript source, so it must go through the
   // transform pipeline rather than the dependency pre-bundler.
