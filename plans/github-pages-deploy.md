@@ -79,20 +79,17 @@ up.
 **Done when:** the file exists and `npm run ci` is still green locally. It cannot be
 truly tested until step 6.
 
-### 6. Make the repo public, turn Pages on, push, and watch it land  &mdash; waiting on the maintainer
+### 6. Make the repo public, turn Pages on, push, and watch it land  ✅
 
-The code half is done and pushed. What is left cannot be done without your GitHub
-credentials, and it is one click:
-
-**Make the repo public.** github.com/upta/khallam &rarr; Settings &rarr; scroll to Danger
-Zone &rarr; *Change visibility* &rarr; Make public.
-
-Then either push anything to `main`, or go to the Actions tab, pick *Deploy site to
-GitHub Pages*, and press **Run workflow**. Turning Pages on is no longer a separate
-step; the workflow does it itself the first time it deploys.
+The repo is public, Pages is on and set to publish from the workflow, and `main` is
+pushed. The deploy ran green: build 13 seconds, publish 10 seconds.
 
 **Done when:** `https://upta.github.io/khallam/` plays a round with sound in a browser,
 and `https://upta.github.io/khallam/review/` lists the words.
+
+Confirmed live: the game loads, the word banner draws its marks correctly, a recording
+plays, and the review page lists all 102 entries and plays one. A full ten-word round
+is still worth playing by eye.
 
 ## Changed while building
 
