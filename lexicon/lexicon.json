@@ -1,0 +1,1872 @@
+{
+  "version": 1,
+  "source": "Klallam Grammar alphabet examples, klallamlanguage.org",
+  "entries": [
+    {
+      "id": "white",
+      "klallam": "pə́q̓",
+      "codepoints": [
+        "U+0070",
+        "U+0259",
+        "U+0301",
+        "U+0071",
+        "U+0313"
+      ],
+      "english": "white",
+      "audio": "white.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "whistle",
+      "klallam": "šúpt",
+      "codepoints": [
+        "U+0161",
+        "U+00FA",
+        "U+0070",
+        "U+0074"
+      ],
+      "english": "whistle",
+      "audio": "whistle.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "cedar-wood",
+      "klallam": "x̣páy̓",
+      "codepoints": [
+        "U+0078",
+        "U+0323",
+        "U+0070",
+        "U+00E1",
+        "U+0079",
+        "U+0313"
+      ],
+      "english": "cedar wood",
+      "audio": "cedar.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "flounder",
+      "klallam": "p̓ə́wiʔ",
+      "codepoints": [
+        "U+0070",
+        "U+0313",
+        "U+0259",
+        "U+0301",
+        "U+0077",
+        "U+0069",
+        "U+0294"
+      ],
+      "english": "flounder",
+      "audio": "flounder.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "trying-it",
+      "klallam": "p̕ap̕áʔt",
+      "codepoints": [
+        "U+0070",
+        "U+0315",
+        "U+0061",
+        "U+0070",
+        "U+0315",
+        "U+00E1",
+        "U+0294",
+        "U+0074"
+      ],
+      "english": "trying it",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no matching recording in the archive",
+        "uses U+0315 where most of the document uses U+0313"
+      ]
+    },
+    {
+      "id": "flip",
+      "klallam": "ɬíp̓ct",
+      "codepoints": [
+        "U+026C",
+        "U+00ED",
+        "U+0070",
+        "U+0313",
+        "U+0063",
+        "U+0074"
+      ],
+      "english": "flip",
+      "audio": "flip.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "cow",
+      "klallam": "músmus",
+      "codepoints": [
+        "U+006D",
+        "U+00FA",
+        "U+0073",
+        "U+006D",
+        "U+0075",
+        "U+0073"
+      ],
+      "english": "cow",
+      "audio": "cow.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "hungry",
+      "klallam": "xʷáʔəm",
+      "codepoints": [
+        "U+0078",
+        "U+02B7",
+        "U+00E1",
+        "U+0294",
+        "U+0259",
+        "U+006D"
+      ],
+      "english": "hungry",
+      "audio": "hungry.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "sit-down",
+      "klallam": "ʔə́mət",
+      "codepoints": [
+        "U+0294",
+        "U+0259",
+        "U+0301",
+        "U+006D",
+        "U+0259",
+        "U+0074"
+      ],
+      "english": "sit down",
+      "audio": "sit.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "important-person",
+      "klallam": "siʔám̓",
+      "codepoints": [
+        "U+0073",
+        "U+0069",
+        "U+0294",
+        "U+00E1",
+        "U+006D",
+        "U+0313"
+      ],
+      "english": "important person",
+      "audio": "boss.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "audio mapping is a best guess and needs a speaker to confirm"
+      ]
+    },
+    {
+      "id": "yes",
+      "klallam": "m̓",
+      "codepoints": [
+        "U+006D",
+        "U+0313"
+      ],
+      "english": "yes",
+      "audio": "yes.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "strong",
+      "klallam": "ʔiyə́m̓",
+      "codepoints": [
+        "U+0294",
+        "U+0069",
+        "U+0079",
+        "U+0259",
+        "U+0301",
+        "U+006D",
+        "U+0313"
+      ],
+      "english": "strong",
+      "audio": "strong.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "evening",
+      "klallam": "táŋən",
+      "codepoints": [
+        "U+0074",
+        "U+00E1",
+        "U+014B",
+        "U+0259",
+        "U+006E"
+      ],
+      "english": "evening",
+      "audio": "evening.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "what",
+      "klallam": "stáŋ",
+      "codepoints": [
+        "U+0073",
+        "U+0074",
+        "U+00E1",
+        "U+014B"
+      ],
+      "english": "what?",
+      "audio": "what,something.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "sleep",
+      "klallam": "ʔítt",
+      "codepoints": [
+        "U+0294",
+        "U+00ED",
+        "U+0074",
+        "U+0074"
+      ],
+      "english": "sleep",
+      "audio": "sleep.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "go-home",
+      "klallam": "t̓úk̓ʷ",
+      "codepoints": [
+        "U+0074",
+        "U+0313",
+        "U+00FA",
+        "U+006B",
+        "U+0313",
+        "U+02B7"
+      ],
+      "english": "go home",
+      "audio": "gohome.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "tide",
+      "klallam": "st̓áčəŋ",
+      "codepoints": [
+        "U+0073",
+        "U+0074",
+        "U+0313",
+        "U+00E1",
+        "U+010D",
+        "U+0259",
+        "U+014B"
+      ],
+      "english": "tide",
+      "audio": "tide.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "six",
+      "klallam": "t̓x̣ə́ŋ",
+      "codepoints": [
+        "U+0074",
+        "U+0313",
+        "U+0078",
+        "U+0323",
+        "U+0259",
+        "U+0301",
+        "U+014B"
+      ],
+      "english": "six",
+      "audio": "six.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "one",
+      "klallam": "nə́c̓uʔ",
+      "codepoints": [
+        "U+006E",
+        "U+0259",
+        "U+0301",
+        "U+0063",
+        "U+0313",
+        "U+0075",
+        "U+0294"
+      ],
+      "english": "one",
+      "audio": "one.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "differs from \"one-2\" only by an invisible mark"
+      ]
+    },
+    {
+      "id": "canoe",
+      "klallam": "snə́xʷɬ",
+      "codepoints": [
+        "U+0073",
+        "U+006E",
+        "U+0259",
+        "U+0301",
+        "U+0078",
+        "U+02B7",
+        "U+026C"
+      ],
+      "english": "canoe",
+      "audio": "canoe.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "mother",
+      "klallam": "tán",
+      "codepoints": [
+        "U+0074",
+        "U+00E1",
+        "U+006E"
+      ],
+      "english": "mother",
+      "audio": "mother.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "much",
+      "klallam": "ŋə́n̓",
+      "codepoints": [
+        "U+014B",
+        "U+0259",
+        "U+0301",
+        "U+006E",
+        "U+0313"
+      ],
+      "english": "much",
+      "audio": "many.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "all",
+      "klallam": "x̣ə́n̓ə",
+      "codepoints": [
+        "U+0078",
+        "U+0323",
+        "U+0259",
+        "U+0301",
+        "U+006E",
+        "U+0313",
+        "U+0259"
+      ],
+      "english": "all",
+      "audio": "all.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "your-mother",
+      "klallam": "ʔən̓tán",
+      "codepoints": [
+        "U+0294",
+        "U+0259",
+        "U+006E",
+        "U+0313",
+        "U+0074",
+        "U+00E1",
+        "U+006E"
+      ],
+      "english": "your mother",
+      "audio": "yourmother.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "uncle-aunt",
+      "klallam": "cáčc",
+      "codepoints": [
+        "U+0063",
+        "U+00E1",
+        "U+010D",
+        "U+0063"
+      ],
+      "english": "uncle, aunt",
+      "audio": "uncle,aunt.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "mouth",
+      "klallam": "cúcən",
+      "codepoints": [
+        "U+0063",
+        "U+00FA",
+        "U+0063",
+        "U+0259",
+        "U+006E"
+      ],
+      "english": "mouth",
+      "audio": "mouth.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "who",
+      "klallam": "cán",
+      "codepoints": [
+        "U+0063",
+        "U+00E1",
+        "U+006E"
+      ],
+      "english": "who?",
+      "audio": "who,someone.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "bird",
+      "klallam": "c̕éʔc̕əm̕",
+      "codepoints": [
+        "U+0063",
+        "U+0315",
+        "U+00E9",
+        "U+0294",
+        "U+0063",
+        "U+0315",
+        "U+0259",
+        "U+006D",
+        "U+0315"
+      ],
+      "english": "bird",
+      "audio": "bird(small).mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "uses U+0315 where most of the document uses U+0313"
+      ]
+    },
+    {
+      "id": "one-2",
+      "klallam": "nə́c̕uʔ",
+      "codepoints": [
+        "U+006E",
+        "U+0259",
+        "U+0301",
+        "U+0063",
+        "U+0315",
+        "U+0075",
+        "U+0294"
+      ],
+      "english": "one",
+      "audio": "one.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "uses U+0315 where most of the document uses U+0313",
+        "differs from \"one\" only by an invisible mark"
+      ]
+    },
+    {
+      "id": "cut-it",
+      "klallam": "ɬíc̕t",
+      "codepoints": [
+        "U+026C",
+        "U+00ED",
+        "U+0063",
+        "U+0315",
+        "U+0074"
+      ],
+      "english": "cut it",
+      "audio": "cut.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "uses U+0315 where most of the document uses U+0313"
+      ]
+    },
+    {
+      "id": "outside",
+      "klallam": "sáqɬ",
+      "codepoints": [
+        "U+0073",
+        "U+00E1",
+        "U+0071",
+        "U+026C"
+      ],
+      "english": "outside",
+      "audio": "outside.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "afraid",
+      "klallam": "sáy̕siʔ",
+      "codepoints": [
+        "U+0073",
+        "U+00E1",
+        "U+0079",
+        "U+0315",
+        "U+0073",
+        "U+0069",
+        "U+0294"
+      ],
+      "english": "afraid",
+      "audio": "afraid.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "uses U+0315 where most of the document uses U+0313"
+      ]
+    },
+    {
+      "id": "tooth",
+      "klallam": "čə́nəs",
+      "codepoints": [
+        "U+010D",
+        "U+0259",
+        "U+0301",
+        "U+006E",
+        "U+0259",
+        "U+0073"
+      ],
+      "english": "tooth",
+      "audio": "tooth.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "big",
+      "klallam": "čə́q",
+      "codepoints": [
+        "U+010D",
+        "U+0259",
+        "U+0301",
+        "U+0071"
+      ],
+      "english": "big",
+      "audio": "big.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "know-it",
+      "klallam": "x̣čít",
+      "codepoints": [
+        "U+0078",
+        "U+0323",
+        "U+010D",
+        "U+00ED",
+        "U+0074"
+      ],
+      "english": "know it",
+      "audio": "knowit.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "five",
+      "klallam": "ɬq̓áčš",
+      "codepoints": [
+        "U+026C",
+        "U+0071",
+        "U+0313",
+        "U+00E1",
+        "U+010D",
+        "U+0161"
+      ],
+      "english": "five",
+      "audio": "five.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "enter",
+      "klallam": "č̓ə́yəxʷ",
+      "codepoints": [
+        "U+010D",
+        "U+0313",
+        "U+0259",
+        "U+0301",
+        "U+0079",
+        "U+0259",
+        "U+0078",
+        "U+02B7"
+      ],
+      "english": "enter",
+      "audio": "enter.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "stick",
+      "klallam": "sč̓ə́y̓iʔ",
+      "codepoints": [
+        "U+0073",
+        "U+010D",
+        "U+0313",
+        "U+0259",
+        "U+0301",
+        "U+0079",
+        "U+0313",
+        "U+0069",
+        "U+0294"
+      ],
+      "english": "stick",
+      "audio": "stick(ofwood).mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "scratch",
+      "klallam": "x̣č̓ít",
+      "codepoints": [
+        "U+0078",
+        "U+0323",
+        "U+010D",
+        "U+0313",
+        "U+00ED",
+        "U+0074"
+      ],
+      "english": "scratch",
+      "audio": "scratchit.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "cat",
+      "klallam": "píšpš",
+      "codepoints": [
+        "U+0070",
+        "U+00ED",
+        "U+0161",
+        "U+0070",
+        "U+0161"
+      ],
+      "english": "cat",
+      "audio": "cat.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "comb",
+      "klallam": "tšéʔqʷəŋ",
+      "codepoints": [
+        "U+0074",
+        "U+0161",
+        "U+00E9",
+        "U+0294",
+        "U+0071",
+        "U+02B7",
+        "U+0259",
+        "U+014B"
+      ],
+      "english": "comb",
+      "audio": "combhair.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "walk",
+      "klallam": "štə́ŋ",
+      "codepoints": [
+        "U+0161",
+        "U+0074",
+        "U+0259",
+        "U+0301",
+        "U+014B"
+      ],
+      "english": "walk",
+      "audio": "walk.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "heart",
+      "klallam": "yə́nəwəs",
+      "codepoints": [
+        "U+0079",
+        "U+0259",
+        "U+0301",
+        "U+006E",
+        "U+0259",
+        "U+0077",
+        "U+0259",
+        "U+0073"
+      ],
+      "english": "heart",
+      "audio": "heart.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "hand",
+      "klallam": "cáys",
+      "codepoints": [
+        "U+0063",
+        "U+00E1",
+        "U+0079",
+        "U+0073"
+      ],
+      "english": "hand",
+      "audio": "hand.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "finish",
+      "klallam": "húy",
+      "codepoints": [
+        "U+0068",
+        "U+00FA",
+        "U+0079"
+      ],
+      "english": "finish",
+      "audio": "quitfornow.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "audio mapping is a best guess and needs a speaker to confirm"
+      ]
+    },
+    {
+      "id": "good",
+      "klallam": "ʔə́y̓",
+      "codepoints": [
+        "U+0294",
+        "U+0259",
+        "U+0301",
+        "U+0079",
+        "U+0313"
+      ],
+      "english": "good",
+      "audio": "good.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "goodbye",
+      "klallam": "húy̓",
+      "codepoints": [
+        "U+0068",
+        "U+00FA",
+        "U+0079",
+        "U+0313"
+      ],
+      "english": "goodbye",
+      "audio": "goodbye.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "basket",
+      "klallam": "məhúy̓",
+      "codepoints": [
+        "U+006D",
+        "U+0259",
+        "U+0068",
+        "U+00FA",
+        "U+0079",
+        "U+0313"
+      ],
+      "english": "basket",
+      "audio": "basket.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "long",
+      "klallam": "ƛ̓áqt",
+      "codepoints": [
+        "U+019B",
+        "U+0313",
+        "U+00E1",
+        "U+0071",
+        "U+0074"
+      ],
+      "english": "long",
+      "audio": "long.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "like",
+      "klallam": "sƛ̓éʔ",
+      "codepoints": [
+        "U+0073",
+        "U+019B",
+        "U+0313",
+        "U+00E9",
+        "U+0294"
+      ],
+      "english": "like",
+      "audio": "like,love,want.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "small",
+      "klallam": "ƛ̓úƛ̓aʔ",
+      "codepoints": [
+        "U+019B",
+        "U+0313",
+        "U+00FA",
+        "U+019B",
+        "U+0313",
+        "U+0061",
+        "U+0294"
+      ],
+      "english": "small",
+      "audio": "small.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "three",
+      "klallam": "ɬíxʷ",
+      "codepoints": [
+        "U+026C",
+        "U+00ED",
+        "U+0078",
+        "U+02B7"
+      ],
+      "english": "three",
+      "audio": "three.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "road-door",
+      "klallam": "súɬ",
+      "codepoints": [
+        "U+0073",
+        "U+00FA",
+        "U+026C"
+      ],
+      "english": "road, door",
+      "audio": "roaddoor.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "eat",
+      "klallam": "ʔíɬən",
+      "codepoints": [
+        "U+0294",
+        "U+00ED",
+        "U+026C",
+        "U+0259",
+        "U+006E"
+      ],
+      "english": "eat",
+      "audio": "eat.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "sheep",
+      "klallam": "ləmətú",
+      "codepoints": [
+        "U+006C",
+        "U+0259",
+        "U+006D",
+        "U+0259",
+        "U+0074",
+        "U+00FA"
+      ],
+      "english": "sheep",
+      "audio": "sheep.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "bread",
+      "klallam": "saplín",
+      "codepoints": [
+        "U+0073",
+        "U+0061",
+        "U+0070",
+        "U+006C",
+        "U+00ED",
+        "U+006E"
+      ],
+      "english": "bread",
+      "audio": "bread.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "bone-game",
+      "klallam": "sləhál",
+      "codepoints": [
+        "U+0073",
+        "U+006C",
+        "U+0259",
+        "U+0068",
+        "U+00E1",
+        "U+006C"
+      ],
+      "english": "bone game",
+      "audio": "bonegame.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "coat",
+      "klallam": "kapú",
+      "codepoints": [
+        "U+006B",
+        "U+0061",
+        "U+0070",
+        "U+00FA"
+      ],
+      "english": "coat",
+      "audio": "coat.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "key",
+      "klallam": "ləklí",
+      "codepoints": [
+        "U+006C",
+        "U+0259",
+        "U+006B",
+        "U+006C",
+        "U+00ED"
+      ],
+      "english": "key",
+      "audio": "key.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "sack",
+      "klallam": "lisák",
+      "codepoints": [
+        "U+006C",
+        "U+0069",
+        "U+0073",
+        "U+00E1",
+        "U+006B"
+      ],
+      "english": "sack",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no matching recording in the archive"
+      ]
+    },
+    {
+      "id": "chinook-salmon",
+      "klallam": "kʷítšən",
+      "codepoints": [
+        "U+006B",
+        "U+02B7",
+        "U+00ED",
+        "U+0074",
+        "U+0161",
+        "U+0259",
+        "U+006E"
+      ],
+      "english": "chinook salmon",
+      "audio": "chinooksalmon.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "day",
+      "klallam": "skʷáči",
+      "codepoints": [
+        "U+0073",
+        "U+006B",
+        "U+02B7",
+        "U+00E1",
+        "U+010D",
+        "U+0069"
+      ],
+      "english": "day",
+      "audio": "day.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "you",
+      "klallam": "nə́kʷ",
+      "codepoints": [
+        "U+006E",
+        "U+0259",
+        "U+0301",
+        "U+006B",
+        "U+02B7"
+      ],
+      "english": "you",
+      "audio": "you.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "rat",
+      "klallam": "k̓ʷát̓ən̓",
+      "codepoints": [
+        "U+006B",
+        "U+0313",
+        "U+02B7",
+        "U+00E1",
+        "U+0074",
+        "U+0313",
+        "U+0259",
+        "U+006E",
+        "U+0313"
+      ],
+      "english": "rat",
+      "audio": "rat.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "how-many",
+      "klallam": "k̓ʷín",
+      "codepoints": [
+        "U+006B",
+        "U+0313",
+        "U+02B7",
+        "U+00ED",
+        "U+006E"
+      ],
+      "english": "how many?",
+      "audio": "howmany.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "raccoon",
+      "klallam": "x̣áyk̓ʷs",
+      "codepoints": [
+        "U+0078",
+        "U+0323",
+        "U+00E1",
+        "U+0079",
+        "U+006B",
+        "U+0313",
+        "U+02B7",
+        "U+0073"
+      ],
+      "english": "raccoon",
+      "audio": "raccoon.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "white-person",
+      "klallam": "xʷanítəm",
+      "codepoints": [
+        "U+0078",
+        "U+02B7",
+        "U+0061",
+        "U+006E",
+        "U+00ED",
+        "U+0074",
+        "U+0259",
+        "U+006D"
+      ],
+      "english": "white person",
+      "audio": "whiteperson.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "tongue",
+      "klallam": "tíxʷɬc",
+      "codepoints": [
+        "U+0074",
+        "U+00ED",
+        "U+0078",
+        "U+02B7",
+        "U+026C",
+        "U+0063"
+      ],
+      "english": "tongue",
+      "audio": "tongue.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "go-with",
+      "klallam": "wáʔ",
+      "codepoints": [
+        "U+0077",
+        "U+00E1",
+        "U+0294"
+      ],
+      "english": "go with",
+      "audio": "gowith.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "man",
+      "klallam": "swə́y̓qaʔ",
+      "codepoints": [
+        "U+0073",
+        "U+0077",
+        "U+0259",
+        "U+0301",
+        "U+0079",
+        "U+0313",
+        "U+0071",
+        "U+0061",
+        "U+0294"
+      ],
+      "english": "man",
+      "audio": "man.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "potato",
+      "klallam": "sqáwc",
+      "codepoints": [
+        "U+0073",
+        "U+0071",
+        "U+00E1",
+        "U+0077",
+        "U+0063"
+      ],
+      "english": "potato",
+      "audio": "potato.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "new",
+      "klallam": "x̣ə́w̓əs",
+      "codepoints": [
+        "U+0078",
+        "U+0323",
+        "U+0259",
+        "U+0301",
+        "U+0077",
+        "U+0313",
+        "U+0259",
+        "U+0073"
+      ],
+      "english": "new",
+      "audio": "new.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "disappear",
+      "klallam": "c̓ə́w̓",
+      "codepoints": [
+        "U+0063",
+        "U+0313",
+        "U+0259",
+        "U+0301",
+        "U+0077",
+        "U+0313"
+      ],
+      "english": "disappear",
+      "audio": "disappear.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "skin-hide",
+      "klallam": "k̓ʷə́w̓i",
+      "codepoints": [
+        "U+006B",
+        "U+0313",
+        "U+02B7",
+        "U+0259",
+        "U+0301",
+        "U+0077",
+        "U+0313",
+        "U+0069"
+      ],
+      "english": "skin, hide",
+      "audio": "skin,hide,leather.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "play",
+      "klallam": "qəx̣qíŋ",
+      "codepoints": [
+        "U+0071",
+        "U+0259",
+        "U+0078",
+        "U+0323",
+        "U+0071",
+        "U+00ED",
+        "U+014B"
+      ],
+      "english": "play",
+      "audio": "play.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "dog",
+      "klallam": "sqáx̣aʔ",
+      "codepoints": [
+        "U+0073",
+        "U+0071",
+        "U+00E1",
+        "U+0078",
+        "U+0323",
+        "U+0061",
+        "U+0294"
+      ],
+      "english": "dog",
+      "audio": "dog.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "young-woman",
+      "klallam": "q̓áʔŋiʔ",
+      "codepoints": [
+        "U+0071",
+        "U+0313",
+        "U+00E1",
+        "U+0294",
+        "U+014B",
+        "U+0069",
+        "U+0294"
+      ],
+      "english": "young woman",
+      "audio": "girl.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "audio mapping is a best guess and needs a speaker to confirm"
+      ]
+    },
+    {
+      "id": "black",
+      "klallam": "ʔənəq̓íx̣",
+      "codepoints": [
+        "U+0294",
+        "U+0259",
+        "U+006E",
+        "U+0259",
+        "U+0071",
+        "U+0313",
+        "U+00ED",
+        "U+0078",
+        "U+0323"
+      ],
+      "english": "black",
+      "audio": "black.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "foot",
+      "klallam": "sx̣ə́naʔ",
+      "codepoints": [
+        "U+0073",
+        "U+0078",
+        "U+0323",
+        "U+0259",
+        "U+0301",
+        "U+006E",
+        "U+0061",
+        "U+0294"
+      ],
+      "english": "foot",
+      "audio": "foot.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "crab",
+      "klallam": "ʔáʔčx̣",
+      "codepoints": [
+        "U+0294",
+        "U+00E1",
+        "U+0294",
+        "U+010D",
+        "U+0078",
+        "U+0323"
+      ],
+      "english": "crab",
+      "audio": "crab.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "four",
+      "klallam": "ŋús",
+      "codepoints": [
+        "U+014B",
+        "U+00FA",
+        "U+0073"
+      ],
+      "english": "four",
+      "audio": "four.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "my-child",
+      "klallam": "nəŋə́naʔ",
+      "codepoints": [
+        "U+006E",
+        "U+0259",
+        "U+014B",
+        "U+0259",
+        "U+0301",
+        "U+006E",
+        "U+0061",
+        "U+0294"
+      ],
+      "english": "my child",
+      "audio": "myson,mydaughter.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "laugh",
+      "klallam": "nə́čəŋ",
+      "codepoints": [
+        "U+006E",
+        "U+0259",
+        "U+0301",
+        "U+010D",
+        "U+0259",
+        "U+014B"
+      ],
+      "english": "laugh",
+      "audio": "laugh.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "sneezing",
+      "klallam": "háʔsəŋ̓",
+      "codepoints": [
+        "U+0068",
+        "U+00E1",
+        "U+0294",
+        "U+0073",
+        "U+0259",
+        "U+014B",
+        "U+0313"
+      ],
+      "english": "sneezing",
+      "audio": "sneezing.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "wishing",
+      "klallam": "šéʔtəŋ̓",
+      "codepoints": [
+        "U+0161",
+        "U+00E9",
+        "U+0294",
+        "U+0074",
+        "U+0259",
+        "U+014B",
+        "U+0313"
+      ],
+      "english": "wishing",
+      "audio": "wishing.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "continue",
+      "klallam": "sə́ɬəŋ̓",
+      "codepoints": [
+        "U+0073",
+        "U+0259",
+        "U+0301",
+        "U+026C",
+        "U+0259",
+        "U+014B",
+        "U+0313"
+      ],
+      "english": "continue",
+      "audio": "continue.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "talking",
+      "klallam": "qʷáqʷiʔ",
+      "codepoints": [
+        "U+0071",
+        "U+02B7",
+        "U+00E1",
+        "U+0071",
+        "U+02B7",
+        "U+0069",
+        "U+0294"
+      ],
+      "english": "talking",
+      "audio": "talking.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "water",
+      "klallam": "qʷúʔ",
+      "codepoints": [
+        "U+0071",
+        "U+02B7",
+        "U+00FA",
+        "U+0294"
+      ],
+      "english": "water",
+      "audio": "water.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "hat",
+      "klallam": "sčə́saʔqʷ",
+      "codepoints": [
+        "U+0073",
+        "U+010D",
+        "U+0259",
+        "U+0301",
+        "U+0073",
+        "U+0061",
+        "U+0294",
+        "U+0071",
+        "U+02B7"
+      ],
+      "english": "hat",
+      "audio": "hat.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ear",
+      "klallam": "q̓ʷə́yən̓",
+      "codepoints": [
+        "U+0071",
+        "U+0313",
+        "U+02B7",
+        "U+0259",
+        "U+0301",
+        "U+0079",
+        "U+0259",
+        "U+006E",
+        "U+0313"
+      ],
+      "english": "ear",
+      "audio": "ear.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "blackberry",
+      "klallam": "sq̓ʷəyáyŋxʷ",
+      "codepoints": [
+        "U+0073",
+        "U+0071",
+        "U+0313",
+        "U+02B7",
+        "U+0259",
+        "U+0079",
+        "U+00E1",
+        "U+0079",
+        "U+014B",
+        "U+0078",
+        "U+02B7"
+      ],
+      "english": "blackberry",
+      "audio": "blackberry.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "dirt",
+      "klallam": "c̓ə́q̓ʷ",
+      "codepoints": [
+        "U+0063",
+        "U+0313",
+        "U+0259",
+        "U+0301",
+        "U+0071",
+        "U+0313",
+        "U+02B7"
+      ],
+      "english": "dirt",
+      "audio": "dirt.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "cry",
+      "klallam": "x̣ʷúŋ",
+      "codepoints": [
+        "U+0078",
+        "U+0323",
+        "U+02B7",
+        "U+00FA",
+        "U+014B"
+      ],
+      "english": "cry",
+      "audio": "cry.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jellyfish",
+      "klallam": "sxʷɬáx̣ʷ",
+      "codepoints": [
+        "U+0073",
+        "U+0078",
+        "U+02B7",
+        "U+026C",
+        "U+00E1",
+        "U+0078",
+        "U+0323",
+        "U+02B7"
+      ],
+      "english": "jellyfish",
+      "audio": "jellyfish.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "elwha",
+      "klallam": "ʔéʔɬx̣ʷaʔ",
+      "codepoints": [
+        "U+0294",
+        "U+00E9",
+        "U+0294",
+        "U+026C",
+        "U+0078",
+        "U+0323",
+        "U+02B7",
+        "U+0061",
+        "U+0294"
+      ],
+      "english": "Elwha",
+      "audio": "Elwha.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "young-woman-2",
+      "klallam": "q̓áʔŋi",
+      "codepoints": [
+        "U+0071",
+        "U+0313",
+        "U+00E1",
+        "U+0294",
+        "U+014B",
+        "U+0069"
+      ],
+      "english": "young woman",
+      "audio": "girl.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "audio mapping is a best guess and needs a speaker to confirm"
+      ]
+    },
+    {
+      "id": "duck",
+      "klallam": "múʔuqʷ",
+      "codepoints": [
+        "U+006D",
+        "U+00FA",
+        "U+0294",
+        "U+0075",
+        "U+0071",
+        "U+02B7"
+      ],
+      "english": "duck",
+      "audio": "duck.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "go",
+      "klallam": "hiyáʔ",
+      "codepoints": [
+        "U+0068",
+        "U+0069",
+        "U+0079",
+        "U+00E1",
+        "U+0294"
+      ],
+      "english": "go",
+      "audio": "go.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "deer",
+      "klallam": "húʔpt",
+      "codepoints": [
+        "U+0068",
+        "U+00FA",
+        "U+0294",
+        "U+0070",
+        "U+0074"
+      ],
+      "english": "deer",
+      "audio": "deer.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ten",
+      "klallam": "ʔúpən",
+      "codepoints": [
+        "U+0294",
+        "U+00FA",
+        "U+0070",
+        "U+0259",
+        "U+006E"
+      ],
+      "english": "ten",
+      "audio": "ten.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "house",
+      "klallam": "ʔáʔyəŋ",
+      "codepoints": [
+        "U+0294",
+        "U+00E1",
+        "U+0294",
+        "U+0079",
+        "U+0259",
+        "U+014B"
+      ],
+      "english": "house",
+      "audio": "house.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    },
+    {
+      "id": "two",
+      "klallam": "čə́saʔ",
+      "codepoints": [
+        "U+010D",
+        "U+0259",
+        "U+0301",
+        "U+0073",
+        "U+0061",
+        "U+0294"
+      ],
+      "english": "two",
+      "audio": "two.mp3",
+      "image": null,
+      "tags": [],
+      "needs_review": false,
+      "review_reasons": []
+    }
+  ]
+}

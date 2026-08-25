@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Klallam Lexicon Review</title>
+    <style>
+      :root {
+        --line: #d8dee9;
+        --muted: #5b6673;
+        --flag: #b45309;
+        --flag-bg: #fff7ed;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 2rem;
+        color: #1c2530;
+        background: #fbfcfd;
+      }
+      h1 { margin: 0 0 0.25rem; font-size: 1.5rem; }
+      .sub { color: var(--muted); margin-bottom: 1.5rem; }
+      .controls { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+      input[type="search"], select {
+        padding: 0.5rem 0.75rem; border: 1px solid var(--line);
+        border-radius: 6px; font-size: 0.95rem; background: #fff;
+      }
+      input[type="search"] { min-width: 16rem; }
+      .stats { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
+      table { border-collapse: collapse; width: 100%; background: #fff; }
+      th, td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+      th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+      tr.flagged { background: var(--flag-bg); }
+      .klallam {
+        /* Fonts built for Americanist orthographies. They place stacked marks correctly. */
+        font-family: "Charis SIL", "Gentium Plus", "Doulos SIL", "Segoe UI", "Arial Unicode MS", serif;
+        font-size: 1.6rem;
+        line-height: 1.6;
+        white-space: nowrap;
+      }
+      .cp { font-family: ui-monospace, Consolas, monospace; font-size: 0.7rem; color: var(--muted); }
+      .reason { color: var(--flag); font-size: 0.8rem; }
+      button.play {
+        border: 1px solid var(--line); background: #fff; border-radius: 6px;
+        padding: 0.35rem 0.7rem; cursor: pointer; font-size: 0.9rem;
+      }
+      button.play:hover { background: #f1f5f9; }
+      button.play[disabled] { opacity: 0.4; cursor: not-allowed; }
+      .banner {
+        padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem;
+        background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; font-size: 0.9rem;
+      }
+      .hidden { display: none; }
+    </style>
+  </head>
+  <body>
+    <h1>Klallam Lexicon Review</h1>
+    <div class="sub">
+      Check every word and recording before any game is built. Nothing here can be
+      edited in the browser &mdash; corrections go through <code>lexicon/lexicon.xlsx</code>.
+    </div>
+
+    <div id="fontWarning" class="banner hidden">
+      A font designed for this orthography was not found on this computer. Stacked marks
+      may render incorrectly. Install <strong>Charis SIL</strong> or <strong>Gentium Plus</strong>
+      (both free from SIL) before reviewing.
+    </div>
+
+    <div class="controls">
+      <input type="search" id="search" placeholder="Search English or id..." />
+      <select id="filter">
+        <option value="all">All entries</option>
+        <option value="review">Needs review</option>
+        <option value="noaudio">Missing audio</option>
+      </select>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Klallam</th>
+          <th>English</th>
+          <th>Audio</th>
+          <th>Codepoints</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+
+    <script type="module">
+      const res = await fetch("/lexicon.json");
+      const lexicon = await res.json();
+      const entries = lexicon.entries;
+
+      if (document.fonts && !["Charis SIL", "Gentium Plus", "Doulos SIL"].some((f) => document.fonts.check(`16px "${f}"`))) {
+        document.getElementById("fontWarning").classList.remove("hidden");
+      }
+
+      const rows = document.getElementById("rows");
+      const search = document.getElementById("search");
+      const filter = document.getElementById("filter");
+      const stats = document.getElementById("stats");
+      let current = null;
+
+      function play(entry, button) {
+        if (current) current.pause();
+        current = new Audio(`/audio/${encodeURIComponent(entry.audio)}`);
+        current.play().catch(() => {
+          button.textContent = "failed";
+        });
+      }
+
+      function render() {
+        const term = search.value.trim().toLowerCase();
+        const mode = filter.value;
+
+        const visible = entries.filter((e) => {
+          if (mode === "review" && !e.needs_review) return false;
+          if (mode === "noaudio" && e.audio) return false;
+          if (!term) return true;
+          return e.english.toLowerCase().includes(term) || e.id.includes(term);
+        });
+
+        rows.replaceChildren();
+
+        for (const entry of visible) {
+          const tr = document.createElement("tr");
+          if (entry.needs_review) tr.className = "flagged";
+
+          const kl = document.createElement("td");
+          kl.className = "klallam";
+          kl.textContent = entry.klallam;
+          tr.appendChild(kl);
+
+          const en = document.createElement("td");
+          en.textContent = entry.english;
+          if (entry.review_reasons?.length) {
+            for (const reason of entry.review_reasons) {
+              const note = document.createElement("div");
+              note.className = "reason";
+              note.textContent = reason;
+              en.appendChild(note);
+            }
+          }
+          tr.appendChild(en);
+
+          const au = document.createElement("td");
+          const button = document.createElement("button");
+          button.className = "play";
+          button.textContent = entry.audio ? "Play" : "none";
+          button.disabled = !entry.audio;
+          if (entry.audio) button.addEventListener("click", () => play(entry, button));
+          au.appendChild(button);
+          tr.appendChild(au);
+
+          const cp = document.createElement("td");
+          cp.className = "cp";
+          cp.textContent = entry.codepoints.join(" ");
+          tr.appendChild(cp);
+
+          rows.appendChild(tr);
+        }
+
+        const flagged = entries.filter((e) => e.needs_review).length;
+        const withAudio = entries.filter((e) => e.audio).length;
+        stats.textContent =
+          `showing ${visible.length} of ${entries.length} entries | ` +
+          `${withAudio} with audio | ${flagged} need review`;
+      }
+
+      search.addEventListener("input", render);
+      filter.addEventListener("change", render);
+      render();
+    </script>
+  </body>
+</html>

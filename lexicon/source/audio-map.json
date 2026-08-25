@@ -1,0 +1,42 @@
+{
+  "_comment": "Maps English glosses from the source document to MP3 filenames when they do not match automatically. Keys are the gloss exactly as it appears in grammar-alphabet.tsv.",
+
+  "aliases": {
+    "bird": "bird(small).mp3",
+    "cedar wood": "cedar.mp3",
+    "comb": "combhair.mp3",
+    "cut it": "cut.mp3",
+    "finish": "quitfornow.mp3",
+    "important person": "boss.mp3",
+    "like": "like,love,want.mp3",
+    "much": "many.mp3",
+    "my child": "myson,mydaughter.mp3",
+    "scratch": "scratchit.mp3",
+    "sit down": "sit.mp3",
+    "skin, hide": "skin,hide,leather.mp3",
+    "stick": "stick(ofwood).mp3",
+    "what?": "what,something.mp3",
+    "who?": "who,someone.mp3",
+    "young woman": "girl.mp3"
+  },
+
+  "_uncertain_comment": "Alias is a best guess and needs a speaker to confirm. These entries are flagged needs_review.",
+  "uncertain": [
+    "finish",
+    "important person",
+    "young woman"
+  ],
+
+  "_noAudio_comment": "Present in the document but no matching recording exists in the archive.",
+  "noAudio": [
+    "sack",
+    "trying it"
+  ],
+
+  "_unusedAudio_comment": "Recordings with no matching word in the source document. Need the Klallam text from a speaker before they can be used.",
+  "unusedAudio": [
+    "maple.mp3",
+    "swim.mp3",
+    "hand2.mp3"
+  ]
+}
