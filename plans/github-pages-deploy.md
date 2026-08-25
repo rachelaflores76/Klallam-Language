@@ -45,7 +45,7 @@ and the recordings &mdash; to relative ones, pointing at where step 3 will put t
 **Done when:** `npm run lexicon:review` still opens the review page locally, still lists
 the words, and still plays a recording when you click one.
 
-### 3. Add one command that assembles the whole site
+### 3. Add one command that assembles the whole site  ✅
 
 A new script, `npm run site:build`, that:
 

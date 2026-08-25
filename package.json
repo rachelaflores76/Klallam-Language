@@ -19,6 +19,7 @@
     "game:dev": "npm run dev -w @klallam/fishybird",
     "game:lan": "npm run dev -w @klallam/fishybird -- --host",
     "game:build": "npm run build -w @klallam/fishybird",
+    "site:build": "npm run game:build && node tools/site/build-site.mjs",
     "test": "node --test \"tests/**/*.test.mjs\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "ci": "npm run guard:ascii && npm run typecheck && npm run lexicon:verify && npm test && npm run game:build"
