@@ -39,7 +39,7 @@ game can see the lexicon package.
 **Done when:** `npm run game:dev` opens a blank game window in the browser, and
 `npm run ci` passes with the new build step included.
 
-### 2. Put every tunable number in one file
+### 2. Put every tunable number in one file  ✅
 
 Create `games/fishybird/src/config.ts` holding the `TUNING` block exactly as written in
 `PLAN.md` section 3a: how many words per round, how many salmon, how fast, how forgiving.
