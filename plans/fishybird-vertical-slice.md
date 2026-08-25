@@ -47,7 +47,7 @@ Nothing built after this step invents its own number.
 
 **Done when:** the file matches `PLAN.md` section 3a and `npm run ci` passes.
 
-### 3. Feed the game words and recordings
+### 3. Feed the game words and recordings  ✅
 
 A `src/words.ts` builds a round: for each word, the correct English plus two wrong ones
 drawn from the same pool. The recordings in `lexicon/audio` are served to the game both
