@@ -71,13 +71,16 @@ the round scene in `main.ts` a level of its own to read from.
 **Done when:** `npm run ci` passes and the game plays exactly as it does now, with no
 value changed.
 
-### 2. Add the other two levels
+### 2. Add the other two levels  ✅
 
 Fill in the table above, and add the `forceLevel` switch so a level can be play-tested
 without earning it.
 
 **Done when:** setting `forceLevel` to each of the three levels in turn visibly changes
 how fast the fish swim, how far apart they are and how many there are.
+
+*Checked in code and by the automated checks at this step; the looking-at-it half was
+done in one browser pass after step 5, together with steps 4 and 5.*
 
 ### 3. Remember which level has been unlocked
 

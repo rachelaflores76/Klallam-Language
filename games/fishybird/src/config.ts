@@ -18,6 +18,10 @@ export const TUNING = {
   escapeMs: 500,
   autoPlayAudioOnReveal: true,
   allowAudioReplay: true,
+
+  // play-testing: pins every round to one level so a hard one can be checked without
+  // earning it. Null means play the level actually unlocked. Ships null.
+  forceLevel: null as number | null,
 } as const;
 
 export interface Level {
@@ -36,13 +40,39 @@ export interface Level {
 // Difficulty order: a level's position in this list is its level number.
 export const LEVELS = [
   {
+    id: "gentle",
+    name: "Gentle",
+    salmonSpeed: 100,
+    spawnIntervalMs: 2800,
+    salmonPerWord: 3,
+    hitboxPadding: 18,
+    distractorStrategy: "random",
+    advanceAtCaught: 8,
+  },
+  {
     id: "steady",
     name: "Steady",
-    salmonSpeed: 120,
-    spawnIntervalMs: 2500,
+    salmonSpeed: 140,
+    spawnIntervalMs: 2200,
     salmonPerWord: 3,
     hitboxPadding: 12,
     distractorStrategy: "random",
     advanceAtCaught: 8,
   },
+  {
+    id: "quick",
+    name: "Quick",
+    salmonSpeed: 190,
+    spawnIntervalMs: 1700,
+    salmonPerWord: 4,
+    hitboxPadding: 8,
+    distractorStrategy: "random",
+    advanceAtCaught: 8,
+  },
 ] as const satisfies readonly Level[];
+
+/** Clamped, so a stale stored number or a bad forceLevel cannot leave the game levelless. */
+export function levelAt(index: number): Level {
+  const clamped = Math.min(Math.max(Math.trunc(index), 0), LEVELS.length - 1);
+  return LEVELS[clamped] ?? LEVELS[0];
+}

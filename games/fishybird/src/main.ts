@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
-import { LEVELS, TUNING, type Level } from "./config";
+import { TUNING, levelAt, type Level } from "./config";
 import { createCatchBurst, createSalmon, type Salmon } from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
@@ -50,7 +50,7 @@ function createEagle(scene: Phaser.Scene): Phaser.GameObjects.Container {
 
 class RoundScene extends Phaser.Scene {
   private ui!: GameUi;
-  private level: Level = LEVELS[0];
+  private level: Level = levelAt(TUNING.forceLevel ?? 0);
   private round: RoundWord[] = [];
   private index = 0;
   private orca!: Phaser.GameObjects.Container;
