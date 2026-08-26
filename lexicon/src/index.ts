@@ -1,5 +1,7 @@
 import lexiconData from "../lexicon.json";
 
+export { pickDistractors, phoneticDistance } from "./phonetics.mjs";
+
 export interface LexiconEntry {
   id: string;
   /** Authoritative Klallam text. Never transform, normalize, or reformat this. */

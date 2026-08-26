@@ -86,7 +86,7 @@ chance still at 0. The memory settings join `TUNING`.
 
 **Done when:** the checks pass and the game plays exactly as it does now.
 
-### 4. Use the dial when building a round
+### 4. Use the dial when building a round  ✅
 
 The game asks for wrong answers through the new function, passing the level's chance, and
 the three levels get the values in the table above.

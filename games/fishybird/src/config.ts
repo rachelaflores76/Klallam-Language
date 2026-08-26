@@ -60,7 +60,7 @@ export const LEVELS = [
     spawnIntervalMs: 2400,
     salmonPerWord: 4,
     hitboxPadding: 18,
-    phoneticDistractorChance: 0,
+    phoneticDistractorChance: 0.5,
     newWordsPerRound: 3,
   },
   {
@@ -70,7 +70,7 @@ export const LEVELS = [
     spawnIntervalMs: 1000,
     salmonPerWord: 4,
     hitboxPadding: 18,
-    phoneticDistractorChance: 0,
+    phoneticDistractorChance: 1,
     newWordsPerRound: 4,
   },
 ] as const satisfies readonly Level[];

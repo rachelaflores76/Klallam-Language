@@ -1,4 +1,4 @@
-import { audioUrl, getPlayableWords, type LexiconEntry } from "@klallam/lexicon";
+import { audioUrl, getPlayableWords, pickDistractors, type LexiconEntry } from "@klallam/lexicon";
 import { TUNING, type Level } from "./config";
 
 /** Where the game serves the lexicon recordings from. See the audio plugin in vite.config.ts. */
@@ -33,20 +33,20 @@ function distractorsFor(
   random: () => number
 ): string[] {
   const wanted = level.salmonPerWord - 1;
-  const taken = new Set([entry.english]);
-  const picked: string[] = [];
-  for (const candidate of shuffle(pool, random)) {
-    if (picked.length === wanted) break;
-    if (taken.has(candidate.english)) continue;
-    taken.add(candidate.english);
-    picked.push(candidate.english);
-  }
+  const picked = pickDistractors({
+    target: entry,
+    pool,
+    count: wanted,
+    chance: level.phoneticDistractorChance,
+    poolSize: TUNING.phoneticNeighborPool,
+    random,
+  });
   if (picked.length < wanted) {
     throw new Error(
       `Not enough distinct translations to fill ${level.salmonPerWord} salmon for "${entry.id}".`
     );
   }
-  return picked;
+  return picked.map((candidate) => candidate.english);
 }
 
 export function buildRound(level: Level, random: () => number = Math.random): RoundWord[] {
