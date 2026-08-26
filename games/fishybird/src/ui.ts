@@ -18,8 +18,7 @@ export interface GameUi {
   showChooser(): void;
   hideChooser(): void;
   onChangeLevel(handler: () => void): void;
-  onSkip(handler: () => void): void;
-  onReplay(handler: () => void): void;
+  onSkip(handler: () => void): void;  onReplay(handler: () => void): void;
   onPlayAgain(handler: () => void): void;
   showWord(klallam: string): void;
   clearWord(): void;
@@ -49,6 +48,7 @@ export function createUi(): GameUi {
   const summaryLead = element<HTMLParagraphElement>("summary-lead");
   const missedList = element<HTMLUListElement>("summary-missed");
   const playAgainButton = element<HTMLButtonElement>("play-again");
+  const summaryChangeLevelButton = element<HTMLButtonElement>("summary-change-level");
 
   replayButton.hidden = !TUNING.allowAudioReplay;
   skipButton.hidden = true;
@@ -80,10 +80,12 @@ export function createUi(): GameUi {
       changeLevelButton.hidden = false;
     },
     onChangeLevel(handler) {
-      changeLevelButton.addEventListener("click", () => {
-        changeLevelButton.blur();
-        handler();
-      });
+      for (const button of [changeLevelButton, summaryChangeLevelButton]) {
+        button.addEventListener("click", () => {
+          button.blur();
+          handler();
+        });
+      }
     },
     onSkip(handler) {
       skipButton.addEventListener("click", () => {

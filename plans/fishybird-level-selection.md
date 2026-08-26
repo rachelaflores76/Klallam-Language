@@ -55,7 +55,7 @@ abandons what was in progress and starts a fresh round at the chosen one.
 **Done when:** pressing it mid-round shows the chooser, and picking a level starts again
 from the first word with the score back to zero.
 
-### 3. Add "Change level" to the end-of-round screen
+### 3. Add "Change level" to the end-of-round screen  ✅
 
 **Done when:** after a round, the summary offers both "Play again" and "Change level",
 and the missed words are still listed.
