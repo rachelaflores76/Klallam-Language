@@ -12,10 +12,13 @@ export const AUDIO_DIR = path.join(LEXICON_DIR, "audio");
 export const SOURCE_DIR = path.join(LEXICON_DIR, "source");
 export const LEXICON_SHEET = path.join(LEXICON_DIR, "lexicon.xlsx");
 
-// Glottalization is written two ways in the source material. They look identical
-// but are distinct codepoints, so they are folded only for duplicate detection.
-export const COMBINING_COMMA_ABOVE = "\u0313";
-export const COMBINING_COMMA_ABOVE_RIGHT = "\u0315";
+// Folding the two glottalization marks is defined once, in the lexicon package, so the
+// tools and the games cannot drift apart on which marks count as the same.
+export {
+  COMBINING_COMMA_ABOVE,
+  COMBINING_COMMA_ABOVE_RIGHT,
+  foldGlottal,
+} from "../../lexicon/src/phonetics.mjs";
 
 /** Split into real codepoints, not UTF-16 units, and format as U+XXXX. */
 export function toCodepoints(text) {
@@ -28,10 +31,6 @@ export function fromCodepoints(codepoints) {
   return codepoints
     .map((cp) => String.fromCodePoint(parseInt(cp.replace(/^U\+/i, ""), 16)))
     .join("");
-}
-
-export function foldGlottal(text) {
-  return text.split(COMBINING_COMMA_ABOVE_RIGHT).join(COMBINING_COMMA_ABOVE);
 }
 
 export function slugify(gloss) {
