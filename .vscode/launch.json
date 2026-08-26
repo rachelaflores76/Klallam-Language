@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Play FishyBird",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/games/fishybird",
+      "preLaunchTask": "fishybird: dev server"
+    },
+    {
+      "name": "Play FishyBird (Edge)",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/games/fishybird",
+      "preLaunchTask": "fishybird: dev server"
+    }
+  ]
+}
