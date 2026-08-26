@@ -116,6 +116,22 @@ to the new shape and tick the difficulty ramp off the Phase 3 list.
 
 ---
 
+## Checked in the browser after step 6
+
+- The level name shows on the start screen and in the score line, and follows what is
+  stored: level 1 stored gives Steady, level 2 gives Quick.
+- A stored level that is out of range settles on the hardest level rather than breaking.
+  Nonsense in storage, or a value left by an older version, falls back to Gentle.
+- With browser storage switched off entirely, the game still starts, still plays a word,
+  and reports no errors. It simply always begins at Gentle.
+- Gentle and Quick were photographed at the same moment of a round: Quick had more fish
+  on screen and they had travelled further. The two levels are visibly different.
+
+**Left for a person:** whether catching 8 of 10 actually opens the next level, and
+whether the three speeds feel right.
+
+---
+
 ## Risks
 
 - **The numbers are guesses.** Nothing but playing the game will tell us whether Gentle
