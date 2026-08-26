@@ -73,18 +73,16 @@ are unknown until people play it. Every such value lives in one file as a named
 constant — `games/fishybird/src/config.ts` — so tuning never means hunting through
 scene code.
 
-Internal only. Not surfaced to players.
+Internal only. Not surfaced to players, apart from a level's name.
+
+The file has two buckets. `TUNING` holds what is the same no matter how hard the game
+is. `LEVELS` holds the handful of settings that are the difference between an easy
+level and a hard one, one entry per level, in difficulty order.
 
 ```ts
 export const TUNING = {
   // round shape
   wordsPerRound: 10,
-  salmonPerWord: 3,
-
-  // difficulty
-  salmonSpeed: 120,
-  spawnIntervalMs: 2500,
-  hitboxPadding: 12,
 
   // forgiveness
   wrongAnswerEndsRun: false,
@@ -92,20 +90,44 @@ export const TUNING = {
   livesPerRound: Infinity,
 
   // pacing
+  diveMs: 420,
   orcaIntroMs: 1200,
   orcaIntroSkippable: true,
+  celebrateMs: 700,
+  escapeMs: 500,
   autoPlayAudioOnReveal: true,
   allowAudioReplay: true,
 
-  // selection
-  distractorStrategy: "random" as "random" | "phonetic",
+  // play-testing: pins every round to one level. Null means play what is unlocked.
+  forceLevel: null as number | null,
 } as const;
+
+export interface Level {
+  id: string;
+  name: string;
+  salmonSpeed: number;
+  spawnIntervalMs: number;
+  salmonPerWord: number;
+  hitboxPadding: number;
+  distractorStrategy: "random" | "phonetic";
+  advanceAtCaught: number;
+}
+
+export const LEVELS = [ /* Gentle, Steady, Quick */ ] as const satisfies readonly Level[];
 ```
+
+| | speed | gap between fish | choices | catch forgiveness |
+|---|---|---|---|---|
+| Gentle | 100 | 2800ms | 3 | 18 |
+| Steady | 140 | 2200ms | 3 | 12 |
+| Quick | 190 | 1700ms | 4 | 8 |
 
 Rules:
 - No numeric literal that affects difficulty or pacing appears outside this file.
 - Changing a value must never require touching a scene.
-- `distractorStrategy` starts `random`; `phonetic` lands in Phase 3 behind the same switch.
+- A setting that varies by level belongs on `Level`, never in `TUNING`.
+- `distractorStrategy` starts `random` on every level; `phonetic` lands in Phase 3 part 2
+  behind the same switch.
 
 ---
 
@@ -331,7 +353,8 @@ First game, one level, ~10 words, complete loop.
 - Phonetic-neighbor distractor sets
 - Leitner spaced repetition in `localStorage`
 - Per-word accuracy tracking; missed words resurface
-- Difficulty ramp
+- [x] Difficulty ramp — three levels, each with its own speed, spacing, choice count and
+  catch forgiveness; the next unlocks on a good round (`plans/fishybird-difficulty-levels.md`)
 
 **Done when:** missing a word measurably increases how soon it reappears.
 

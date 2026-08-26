@@ -82,7 +82,7 @@ how fast the fish swim, how far apart they are and how many there are.
 *Checked in code and by the automated checks at this step; the looking-at-it half was
 done in one browser pass after step 5, together with steps 4 and 5.*
 
-### 3. Remember which level has been unlocked
+### 3. Remember which level has been unlocked  ✅
 
 A new `src/progress.ts` stores the highest unlocked level in `localStorage`. It reads
 defensively: storage can be switched off, full, or hold nonsense left over from an older
@@ -91,7 +91,7 @@ version, and none of those may stop the game starting.
 **Done when:** unlocking a level survives a page reload, and the game still starts with
 browser storage blocked.
 
-### 4. Start at the unlocked level, and open the next one
+### 4. Start at the unlocked level, and open the next one  ✅
 
 The round scene picks its level when a round begins. When a round ends with enough
 salmon caught, the next level is unlocked.
@@ -99,7 +99,7 @@ salmon caught, the next level is unlocked.
 **Done when:** catching 8 of 10 on Gentle means the following round runs at Steady's
 speed, and catching 5 of 10 means it does not.
 
-### 5. Tell the player which level they are on
+### 5. Tell the player which level they are on  ✅
 
 The level name appears before the round starts, and the summary says plainly whether the
 next level opened or what the target was. English text only.
@@ -107,7 +107,7 @@ next level opened or what the target was. English text only.
 **Done when:** the level name is readable on screen before a round, and the summary
 states whether the next level is now open.
 
-### 6. Bring `PLAN.md` in line
+### 6. Bring `PLAN.md` in line  ✅
 
 Section 3a still shows the old flat block with `salmonSpeed` inside `TUNING`. Update it
 to the new shape and tick the difficulty ramp off the Phase 3 list.
