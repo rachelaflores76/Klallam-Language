@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
-import { TUNING } from "./config";
+import { LEVELS, TUNING, type Level } from "./config";
 import { createCatchBurst, createSalmon, type Salmon } from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
@@ -50,6 +50,7 @@ function createEagle(scene: Phaser.Scene): Phaser.GameObjects.Container {
 
 class RoundScene extends Phaser.Scene {
   private ui!: GameUi;
+  private level: Level = LEVELS[0];
   private round: RoundWord[] = [];
   private index = 0;
   private orca!: Phaser.GameObjects.Container;
@@ -76,7 +77,7 @@ class RoundScene extends Phaser.Scene {
     this.eagle.setDepth(10);
 
     this.ui = createUi();
-    this.round = buildRound();
+    this.round = buildRound(this.level);
 
     this.ui.onStart(() => this.presentWord());
     this.ui.onSkip(() => this.skipIntro());
@@ -196,8 +197,8 @@ class RoundScene extends Phaser.Scene {
     );
     this.wordInPlay = true;
     this.spawner = this.time.addEvent({
-      delay: TUNING.spawnIntervalMs,
-      startAt: TUNING.spawnIntervalMs,
+      delay: this.level.spawnIntervalMs,
+      startAt: this.level.spawnIntervalMs,
       repeat: this.waiting.length - 1,
       callback: () => this.releaseNextSalmon(),
     });
@@ -218,7 +219,7 @@ class RoundScene extends Phaser.Scene {
   }
 
   override update(_time: number, delta: number): void {
-    const step = (TUNING.salmonSpeed * delta) / 1000;
+    const step = (this.level.salmonSpeed * delta) / 1000;
     this.salmon = this.salmon.filter((salmon) => {
       salmon.container.x -= step;
       if (salmon.container.x + salmon.halfWidth >= 0) return true;
@@ -239,8 +240,8 @@ class RoundScene extends Phaser.Scene {
       const dx = Math.abs(this.eagle.x - salmon.container.x);
       const dy = Math.abs(this.eagle.y - salmon.container.y);
       return (
-        dx <= EAGLE_HALF_WIDTH + salmon.halfWidth + TUNING.hitboxPadding &&
-        dy <= EAGLE_HALF_HEIGHT + salmon.halfHeight + TUNING.hitboxPadding
+        dx <= EAGLE_HALF_WIDTH + salmon.halfWidth + this.level.hitboxPadding &&
+        dy <= EAGLE_HALF_HEIGHT + salmon.halfHeight + this.level.hitboxPadding
       );
     });
     if (hit === undefined) return;
@@ -335,7 +336,7 @@ class RoundScene extends Phaser.Scene {
   /** Nothing is carried between rounds: no progress is stored yet. */
   private startFreshRound(): void {
     this.ui.hideSummary();
-    this.round = buildRound();
+    this.round = buildRound(this.level);
     this.index = 0;
     this.caught = 0;
     this.missed = [];

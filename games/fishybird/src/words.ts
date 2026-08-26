@@ -1,5 +1,5 @@
 import { audioUrl, getPlayableWords, type LexiconEntry } from "@klallam/lexicon";
-import { TUNING } from "./config";
+import { TUNING, type Level } from "./config";
 
 /** Where the game serves the lexicon recordings from. See the audio plugin in vite.config.ts. */
 const AUDIO_BASE = `${import.meta.env.BASE_URL}audio`;
@@ -29,9 +29,10 @@ function shuffle<T>(items: readonly T[], random: () => number): T[] {
 function distractorsFor(
   entry: LexiconEntry,
   pool: readonly LexiconEntry[],
+  level: Level,
   random: () => number
 ): string[] {
-  const wanted = TUNING.salmonPerWord - 1;
+  const wanted = level.salmonPerWord - 1;
   const taken = new Set([entry.english]);
   const picked: string[] = [];
   for (const candidate of shuffle(pool, random)) {
@@ -42,15 +43,15 @@ function distractorsFor(
   }
   if (picked.length < wanted) {
     throw new Error(
-      `Not enough distinct translations to fill ${TUNING.salmonPerWord} salmon for "${entry.id}".`
+      `Not enough distinct translations to fill ${level.salmonPerWord} salmon for "${entry.id}".`
     );
   }
   return picked;
 }
 
-export function buildRound(random: () => number = Math.random): RoundWord[] {
+export function buildRound(level: Level, random: () => number = Math.random): RoundWord[] {
   const pool = getPlayableWords();
-  const needed = Math.max(TUNING.wordsPerRound, TUNING.salmonPerWord);
+  const needed = Math.max(TUNING.wordsPerRound, level.salmonPerWord);
   if (pool.length < needed) {
     throw new Error(
       `A round needs ${needed} confirmed words with recordings, but only ${pool.length} are available. ` +
@@ -68,7 +69,10 @@ export function buildRound(random: () => number = Math.random): RoundWord[] {
       const choices = shuffle(
         [
           { english: entry.english, correct: true },
-          ...distractorsFor(entry, pool, random).map((english) => ({ english, correct: false })),
+          ...distractorsFor(entry, pool, level, random).map((english) => ({
+            english,
+            correct: false,
+          })),
         ],
         random
       );
