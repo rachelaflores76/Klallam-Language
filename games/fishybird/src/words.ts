@@ -97,6 +97,18 @@ function chooseWords(
   take(unseen, Math.min(level.newWordsPerRound, TUNING.wordsPerRound));
   take(due, TUNING.wordsPerRound);
 
+  // Nothing is known on a first play, and on a quiet day little is due. Rather than a
+  // short round, fill up with new words and then with whatever has rested longest.
+  take(unseen, TUNING.wordsPerRound);
+  const restedLongest = pool
+    .flatMap((entry) => {
+      const record = words[entry.id];
+      return record === undefined ? [] : [{ entry, lastRound: record.lastRound }];
+    })
+    .sort((a, b) => a.lastRound - b.lastRound)
+    .map((item) => item.entry);
+  take(restedLongest, TUNING.wordsPerRound);
+
   return shuffle(chosen, random);
 }
 

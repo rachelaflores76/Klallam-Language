@@ -112,7 +112,7 @@ player has not met, then shuffled so the order gives nothing away.
 **Done when:** a word missed in one round turns up in the next, and a word answered right
 several times stops appearing every time.
 
-### 7. Handle a brand-new player and thin data
+### 7. Handle a brand-new player and thin data  ✅
 
 On a first play nothing is known, so a round is all new words. The same fallback covers the
 case where too few words are due.
