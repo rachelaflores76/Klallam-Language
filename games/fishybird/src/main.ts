@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
-import { TUNING, levelAt, type Level } from "./config";
+import { TUNING, clampLevelIndex, levelAt, type Level } from "./config";
+import { getUnlockedLevel, hasHarderLevel, unlockLevel } from "./progress";
 import { createCatchBurst, createSalmon, type Salmon } from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
@@ -50,7 +51,8 @@ function createEagle(scene: Phaser.Scene): Phaser.GameObjects.Container {
 
 class RoundScene extends Phaser.Scene {
   private ui!: GameUi;
-  private level: Level = levelAt(TUNING.forceLevel ?? 0);
+  private level!: Level;
+  private levelIndex = 0;
   private round: RoundWord[] = [];
   private index = 0;
   private orca!: Phaser.GameObjects.Container;
@@ -77,6 +79,7 @@ class RoundScene extends Phaser.Scene {
     this.eagle.setDepth(10);
 
     this.ui = createUi();
+    this.chooseLevel();
     this.round = buildRound(this.level);
 
     this.ui.onStart(() => this.presentWord());
@@ -90,6 +93,11 @@ class RoundScene extends Phaser.Scene {
     this.input.on("pointerdown", () => this.dive());
     this.input.keyboard?.addCapture("SPACE");
     this.input.keyboard?.on("keydown-SPACE", () => this.dive());
+  }
+
+  private chooseLevel(): void {
+    this.levelIndex = clampLevelIndex(TUNING.forceLevel ?? getUnlockedLevel());
+    this.level = levelAt(this.levelIndex);
   }
 
   private dive(): void {
@@ -322,6 +330,11 @@ class RoundScene extends Phaser.Scene {
     this.ui.clearWord();
     this.ui.showSkip(false);
     this.hideOrca();
+
+    if (this.caught >= this.level.advanceAtCaught && hasHarderLevel(this.levelIndex)) {
+      unlockLevel(this.levelIndex + 1);
+    }
+
     this.ui.showSummary(
       this.caught,
       this.round.length,
@@ -333,9 +346,10 @@ class RoundScene extends Phaser.Scene {
     );
   }
 
-  /** Nothing is carried between rounds: no progress is stored yet. */
+  /** A new round re-reads progress, so a level unlocked a moment ago takes effect now. */
   private startFreshRound(): void {
     this.ui.hideSummary();
+    this.chooseLevel();
     this.round = buildRound(this.level);
     this.index = 0;
     this.caught = 0;
