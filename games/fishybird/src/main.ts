@@ -86,7 +86,8 @@ class RoundScene extends Phaser.Scene {
     this.ui.onSkip(() => this.skipIntro());
     this.ui.onReplay(() => this.replayWord());
     this.ui.onPlayAgain(() => this.startFreshRound());
-    this.ui.showScore(0, this.round.length);
+    this.ui.showLevel(this.level.name);
+    this.ui.showScore(this.level.name, 0, this.round.length);
 
     // Mouse and touch both arrive as pointerdown; the space bar joins them on the
     // same call, so there is only ever one dive to get right.
@@ -274,7 +275,7 @@ class RoundScene extends Phaser.Scene {
     });
 
     this.caught += 1;
-    this.ui.showScore(this.caught, this.round.length);
+    this.ui.showScore(this.level.name, this.caught, this.round.length);
     this.wordInPlay = false;
     this.clearSalmon();
     this.time.delayedCall(TUNING.celebrateMs, () => this.advance());
@@ -331,9 +332,9 @@ class RoundScene extends Phaser.Scene {
     this.ui.showSkip(false);
     this.hideOrca();
 
-    if (this.caught >= this.level.advanceAtCaught && hasHarderLevel(this.levelIndex)) {
-      unlockLevel(this.levelIndex + 1);
-    }
+    const cleared = this.caught >= this.level.advanceAtCaught;
+    const harderExists = hasHarderLevel(this.levelIndex);
+    if (cleared && harderExists) unlockLevel(this.levelIndex + 1);
 
     this.ui.showSummary(
       this.caught,
@@ -342,8 +343,19 @@ class RoundScene extends Phaser.Scene {
         klallam: word.klallam,
         english: word.english,
         audioUrl: word.audioUrl,
-      }))
+      })),
+      this.levelNote(cleared, harderExists)
     );
+  }
+
+  private levelNote(cleared: boolean, harderExists: boolean): string {
+    if (!harderExists) {
+      return cleared
+        ? `${this.level.name} is the last level, and you cleared it.`
+        : `${this.level.name} is the last level.`;
+    }
+    if (cleared) return `New level unlocked: ${levelAt(this.levelIndex + 1).name}`;
+    return `Still on ${this.level.name}. Catch ${this.level.advanceAtCaught} of ${this.round.length} to unlock the next one.`;
   }
 
   /** A new round re-reads progress, so a level unlocked a moment ago takes effect now. */
@@ -355,7 +367,8 @@ class RoundScene extends Phaser.Scene {
     this.caught = 0;
     this.missed = [];
     this.roundOver = false;
-    this.ui.showScore(0, this.round.length);
+    this.ui.showLevel(this.level.name);
+    this.ui.showScore(this.level.name, 0, this.round.length);
     this.presentWord();
   }
 

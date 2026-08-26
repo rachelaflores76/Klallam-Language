@@ -21,14 +21,21 @@ export interface GameUi {
   showWord(klallam: string): void;
   clearWord(): void;
   showSkip(visible: boolean): void;
-  showScore(caught: number, outOf: number): void;
-  showSummary(caught: number, outOf: number, missed: readonly MissedWord[]): void;
+  showLevel(name: string): void;
+  showScore(levelName: string, caught: number, outOf: number): void;
+  showSummary(
+    caught: number,
+    outOf: number,
+    missed: readonly MissedWord[],
+    levelNote: string
+  ): void;
   hideSummary(): void;
 }
 
 export function createUi(): GameUi {
   const overlay = element<HTMLDivElement>("start");
   const startButton = element<HTMLButtonElement>("start-button");
+  const levelLabel = element<HTMLParagraphElement>("level");
   const banner = element<HTMLParagraphElement>("banner");
   const skipButton = element<HTMLButtonElement>("skip");
   const replayButton = element<HTMLButtonElement>("replay");
@@ -36,6 +43,7 @@ export function createUi(): GameUi {
   const controls = element<HTMLDivElement>("controls");
   const summary = element<HTMLDivElement>("summary");
   const summaryScore = element<HTMLHeadingElement>("summary-score");
+  const summaryLevel = element<HTMLParagraphElement>("summary-level");
   const summaryLead = element<HTMLParagraphElement>("summary-lead");
   const missedList = element<HTMLUListElement>("summary-missed");
   const playAgainButton = element<HTMLButtonElement>("play-again");
@@ -73,8 +81,11 @@ export function createUi(): GameUi {
     showSkip(visible) {
       skipButton.hidden = !visible || !TUNING.orcaIntroSkippable;
     },
-    showScore(caught, outOf) {
-      score.textContent = `Caught ${caught} of ${outOf}`;
+    showLevel(name) {
+      levelLabel.textContent = `Level: ${name}`;
+    },
+    showScore(levelName, caught, outOf) {
+      score.textContent = `${levelName} - caught ${caught} of ${outOf}`;
     },
     onPlayAgain(handler) {
       playAgainButton.addEventListener("click", () => {
@@ -82,8 +93,9 @@ export function createUi(): GameUi {
         handler();
       });
     },
-    showSummary(caught, outOf, missed) {
+    showSummary(caught, outOf, missed, levelNote) {
       summaryScore.textContent = `You caught ${caught} of ${outOf}`;
+      summaryLevel.textContent = levelNote;
       summaryLead.textContent =
         missed.length === 0
           ? "Every word. Nothing to go back over."
