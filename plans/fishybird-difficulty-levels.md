@@ -1,5 +1,9 @@
 # FishyBird difficulty levels (PLAN.md Phase 3, part 1 of 2)
 
+> **Superseded in part, the same day.** The unlocking built in steps 3 and 4 was removed
+> by `plans/fishybird-level-selection.md`, which lets the player choose any level instead.
+> The level definitions and the split between shared and per-level settings still stand.
+
 **Goal:** give FishyBird three named difficulty levels whose speed, spacing, number of
 choices and catch forgiveness are set independently of each other, and open the next
 level when a player does well enough.

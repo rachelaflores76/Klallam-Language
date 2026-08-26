@@ -97,9 +97,6 @@ export const TUNING = {
   escapeMs: 500,
   autoPlayAudioOnReveal: true,
   allowAudioReplay: true,
-
-  // play-testing: pins every round to one level. Null means play what is unlocked.
-  forceLevel: null as number | null,
 } as const;
 
 export interface Level {
@@ -110,17 +107,19 @@ export interface Level {
   salmonPerWord: number;
   hitboxPadding: number;
   distractorStrategy: "random" | "phonetic";
-  advanceAtCaught: number;
 }
 
-export const LEVELS = [ /* Gentle, Steady, Quick */ ] as const satisfies readonly Level[];
+export const LEVELS = [ /* Level 1, Level 2, Level 3 */ ] as const satisfies readonly Level[];
 ```
 
 | | speed | gap between fish | choices | catch forgiveness |
 |---|---|---|---|---|
-| Gentle | 100 | 2800ms | 3 | 18 |
-| Steady | 140 | 2200ms | 3 | 12 |
-| Quick | 190 | 1700ms | 4 | 8 |
+| Level 1 | 100 | 2800ms | 3 | 18 |
+| Level 2 | 140 | 2200ms | 3 | 12 |
+| Level 3 | 190 | 1700ms | 4 | 8 |
+
+The player chooses a level from a list when the game opens, and can change it at any
+time. There is no unlocking: every level is available from the start.
 
 Rules:
 - No numeric literal that affects difficulty or pacing appears outside this file.
@@ -354,7 +353,8 @@ First game, one level, ~10 words, complete loop.
 - Leitner spaced repetition in `localStorage`
 - Per-word accuracy tracking; missed words resurface
 - [x] Difficulty ramp — three levels, each with its own speed, spacing, choice count and
-  catch forgiveness; the next unlocks on a good round (`plans/fishybird-difficulty-levels.md`)
+  catch forgiveness, chosen by the player from a list
+  (`plans/fishybird-difficulty-levels.md`, `plans/fishybird-level-selection.md`)
 
 **Done when:** missing a word measurably increases how soon it reappears.
 

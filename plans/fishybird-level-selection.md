@@ -68,7 +68,7 @@ it. The summary says which level was played instead.
 
 **Done when:** the game stores nothing in the browser, still plays, and the checks pass.
 
-### 5. Bring the written plans in line
+### 5. Bring the written plans in line  ✅
 
 `PLAN.md` section 3a still documents `advanceAtCaught` and `forceLevel`. The difficulty
 levels plan needs a note saying its unlock behaviour was replaced by this chooser, so the
