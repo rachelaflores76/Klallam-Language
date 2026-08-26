@@ -72,7 +72,11 @@ export const LEVELS = [
 ] as const satisfies readonly Level[];
 
 /** Clamped, so a stale stored number or a bad forceLevel cannot leave the game levelless. */
+export function clampLevelIndex(index: number): number {
+  if (!Number.isFinite(index)) return 0;
+  return Math.min(Math.max(Math.trunc(index), 0), LEVELS.length - 1);
+}
+
 export function levelAt(index: number): Level {
-  const clamped = Math.min(Math.max(Math.trunc(index), 0), LEVELS.length - 1);
-  return LEVELS[clamped] ?? LEVELS[0];
+  return LEVELS[clampLevelIndex(index)] ?? LEVELS[0];
 }
