@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
-import { hasHarderLevel, unlockLevel } from "./progress";
 import { createCatchBurst, createSalmon, type Salmon } from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
@@ -354,10 +353,6 @@ class RoundScene extends Phaser.Scene {
     this.ui.showSkip(false);
     this.hideOrca();
 
-    const cleared = this.caught >= this.level.advanceAtCaught;
-    const harderExists = hasHarderLevel(this.levelIndex);
-    if (cleared && harderExists) unlockLevel(this.levelIndex + 1);
-
     this.ui.showSummary(
       this.caught,
       this.round.length,
@@ -366,18 +361,8 @@ class RoundScene extends Phaser.Scene {
         english: word.english,
         audioUrl: word.audioUrl,
       })),
-      this.levelNote(cleared, harderExists)
+      this.level.name
     );
-  }
-
-  private levelNote(cleared: boolean, harderExists: boolean): string {
-    if (!harderExists) {
-      return cleared
-        ? `${this.level.name} is the last level, and you cleared it.`
-        : `${this.level.name} is the last level.`;
-    }
-    if (cleared) return `New level unlocked: ${levelAt(this.levelIndex + 1).name}`;
-    return `Still on ${this.level.name}. Catch ${this.level.advanceAtCaught} of ${this.round.length} to unlock the next one.`;
   }
 
   private replayWord(): void {

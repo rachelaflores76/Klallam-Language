@@ -60,7 +60,7 @@ from the first word with the score back to zero.
 **Done when:** after a round, the summary offers both "Play again" and "Change level",
 and the missed words are still listed.
 
-### 4. Take out the unlock system
+### 4. Take out the unlock system  ✅
 
 `progress.ts` goes, along with the stored unlocked level, the "New level unlocked"
 message, and the `advanceAtCaught` and `forceLevel` settings that only existed to serve
