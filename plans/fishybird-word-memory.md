@@ -66,13 +66,18 @@ is pointed at the same fold so there is only one definition of it.
 unrelated words, that a pair which folds to identical is excluded, and every existing
 check still passes.
 
-### 2. Choosing the wrong answers, testable
+### 2. Choosing the wrong answers, testable  ✅
 
 A function that picks the wrong answers for a word, given the chance of each one being a
 lookalike. It takes its randomness as an argument so a test can pin the result down exactly.
 
 **Done when:** a test shows that at chance 1 every wrong answer comes from the nearest
-words, at chance 0 none do, and no wrong answer ever repeats a meaning already on offer.
+words, that at chance 0 the choice is drawn from the whole pool rather than the nearest
+ones, and that no wrong answer ever repeats a meaning already on offer.
+
+*Wording corrected during the build: this originally said "at chance 0 none do", which
+would mean deliberately avoiding similar words. The maintainer asked for 0.0 to mean
+completely random, so a near word turning up by luck at 0.0 is correct.*
 
 ### 3. Swap the knob in the config
 

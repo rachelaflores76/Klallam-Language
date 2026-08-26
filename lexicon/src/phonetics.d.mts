@@ -14,3 +14,17 @@ export declare function rankByPhoneticDistance<T extends { klallam: string; id?:
   target: string,
   candidates: readonly T[]
 ): RankedWord<T>[];
+
+export interface DistractorOptions<T> {
+  target: T;
+  pool: readonly T[];
+  count: number;
+  /** 0 draws from the whole pool, 1 always takes a lookalike. Rolled per wrong answer. */
+  chance: number;
+  poolSize: number;
+  random: () => number;
+}
+
+export declare function pickDistractors<
+  T extends { id: string; klallam: string; english: string },
+>(options: DistractorOptions<T>): T[];

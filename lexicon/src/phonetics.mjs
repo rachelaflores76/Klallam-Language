@@ -50,3 +50,50 @@ export function rankByPhoneticDistance(target, candidates) {
       return left < right ? -1 : left > right ? 1 : 0;
     });
 }
+
+function shuffled(items, random) {
+  const out = items.slice();
+  for (let i = out.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+/**
+ * The wrong answers for one word. Each slot is decided on its own: a roll under
+ * `chance` takes a lookalike from the nearest `poolSize` words, otherwise anything.
+ * Falls back to an unrelated word when the lookalikes run out.
+ */
+export function pickDistractors({ target, pool, count, chance, poolSize, random }) {
+  const others = pool.filter((entry) => entry.id !== target.id);
+  const nearest = rankByPhoneticDistance(target.klallam, others)
+    .slice(0, poolSize)
+    .map((ranked) => ranked.entry);
+
+  // Two entries sharing a meaning would put the same words on two fish.
+  const takenGlosses = new Set([target.english]);
+  const picked = [];
+
+  const takeFrom = (candidates) => {
+    for (const candidate of candidates) {
+      if (takenGlosses.has(candidate.english)) continue;
+      takenGlosses.add(candidate.english);
+      picked.push(candidate);
+      return true;
+    }
+    return false;
+  };
+
+  for (let slot = 0; slot < count; slot += 1) {
+    const wantsLookalike = random() < chance;
+    const shuffledNearest = shuffled(nearest, random);
+    const shuffledRest = shuffled(others, random);
+    const order = wantsLookalike
+      ? [shuffledNearest, shuffledRest]
+      : [shuffledRest, shuffledNearest];
+    if (!order.some(takeFrom)) break;
+  }
+
+  return picked;
+}

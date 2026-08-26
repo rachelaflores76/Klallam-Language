@@ -5,6 +5,7 @@ import {
   COMBINING_COMMA_ABOVE_RIGHT,
   foldGlottal,
   phoneticDistance,
+  pickDistractors,
   rankByPhoneticDistance,
 } from "../lexicon/src/phonetics.mjs";
 import { readLexicon } from "../tools/lexicon-cli/lib.mjs";
@@ -64,8 +65,106 @@ test("the lexicon's duplicate pair is never offered against itself", () => {
   assert.ok(first && second, "expected the known duplicate pair to still exist");
 
   const ranked = rankByPhoneticDistance(first.klallam, entries);
+  assert.ok(ranked.length > 0, "the ranking found nothing, so this test proves nothing");
   assert.ok(
     !ranked.some((r) => r.entry.id === second.id),
     "two spellings of one word cannot be told apart on screen, so they must not be paired"
+  );
+});
+
+// A fixed sequence, so a test that passes today passes tomorrow.
+function seededRandom(seed) {
+  let state = seed;
+  return () => {
+    state = (state + 0x6d2b79f5) >>> 0;
+    let t = state;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const TARGET = { id: "target", klallam: "pa", english: "target" };
+const NEAR = [
+  { id: "near-1", klallam: "pab", english: "near one" },
+  { id: "near-2", klallam: "pac", english: "near two" },
+  { id: "near-3", klallam: "pad", english: "near three" },
+];
+const FAR = [
+  { id: "far-1", klallam: "zyxwvu", english: "far one" },
+  { id: "far-2", klallam: "zyxwvt", english: "far two" },
+  { id: "far-3", klallam: "zyxwvs", english: "far three" },
+  { id: "far-4", klallam: "zyxwvr", english: "far four" },
+];
+const POOL = [TARGET, ...NEAR, ...FAR];
+const NEAR_IDS = new Set(NEAR.map((e) => e.id));
+
+function pick(chance, seed, options = {}) {
+  return pickDistractors({
+    target: TARGET,
+    pool: POOL,
+    count: 2,
+    chance,
+    poolSize: NEAR.length,
+    random: seededRandom(seed),
+    ...options,
+  });
+}
+
+test("at full chance every wrong answer is a lookalike", () => {
+  for (let seed = 1; seed <= 25; seed += 1) {
+    const picked = pick(1, seed);
+    assert.equal(picked.length, 2);
+    for (const entry of picked) {
+      assert.ok(NEAR_IDS.has(entry.id), `seed ${seed} offered "${entry.id}", which is not near`);
+    }
+  }
+});
+
+test("at zero chance the whole pool is in play, not just the lookalikes", () => {
+  const seen = new Set();
+  for (let seed = 1; seed <= 25; seed += 1) {
+    for (const entry of pick(0, seed)) seen.add(entry.id);
+  }
+  assert.ok(
+    [...seen].some((id) => !NEAR_IDS.has(id)),
+    "zero chance should be able to draw an unrelated word"
+  );
+});
+
+test("a wrong answer never repeats a meaning already on offer", () => {
+  const shared = [
+    TARGET,
+    { id: "copy-1", klallam: "pab", english: "same meaning" },
+    { id: "copy-2", klallam: "pac", english: "same meaning" },
+    { id: "other", klallam: "pad", english: "different meaning" },
+  ];
+  for (let seed = 1; seed <= 25; seed += 1) {
+    const picked = pickDistractors({
+      target: TARGET,
+      pool: shared,
+      count: 3,
+      chance: 1,
+      poolSize: 3,
+      random: seededRandom(seed),
+    });
+    const glosses = picked.map((e) => e.english);
+    assert.equal(new Set(glosses).size, glosses.length, `seed ${seed} repeated a meaning`);
+    assert.ok(!glosses.includes(TARGET.english), "the right answer must not appear twice");
+  }
+});
+
+test("asking for more wrong answers than exist returns what there is", () => {
+  const picked = pickDistractors({
+    target: TARGET,
+    pool: [TARGET, NEAR[0]],
+    count: 3,
+    chance: 1,
+    poolSize: 3,
+    random: seededRandom(7),
+  });
+  assert.deepEqual(
+    picked.map((e) => e.id),
+    ["near-1"]
   );
 });
