@@ -14,14 +14,15 @@ export interface MissedWord {
 }
 
 export interface GameUi {
-  onStart(handler: () => void): void;
+  renderLevels(names: readonly string[], onPick: (index: number) => void): void;
+  showChooser(): void;
+  hideChooser(): void;
   onSkip(handler: () => void): void;
   onReplay(handler: () => void): void;
   onPlayAgain(handler: () => void): void;
   showWord(klallam: string): void;
   clearWord(): void;
   showSkip(visible: boolean): void;
-  showLevel(name: string): void;
   showScore(levelName: string, caught: number, outOf: number): void;
   showSummary(
     caught: number,
@@ -34,8 +35,7 @@ export interface GameUi {
 
 export function createUi(): GameUi {
   const overlay = element<HTMLDivElement>("start");
-  const startButton = element<HTMLButtonElement>("start-button");
-  const levelLabel = element<HTMLParagraphElement>("level");
+  const levelButtons = element<HTMLDivElement>("level-buttons");
   const banner = element<HTMLParagraphElement>("banner");
   const skipButton = element<HTMLButtonElement>("skip");
   const replayButton = element<HTMLButtonElement>("replay");
@@ -52,11 +52,28 @@ export function createUi(): GameUi {
   skipButton.hidden = true;
 
   return {
-    onStart(handler) {
-      startButton.addEventListener("click", () => {
-        overlay.hidden = true;
-        handler();
-      });
+    renderLevels(names, onPick) {
+      levelButtons.replaceChildren(
+        ...names.map((name, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "start-button";
+          button.textContent = name;
+          button.addEventListener("click", () => {
+            // A button keeping focus would swallow the space bar, which the game uses to dive.
+            button.blur();
+            overlay.hidden = true;
+            onPick(index);
+          });
+          return button;
+        })
+      );
+    },
+    showChooser() {
+      overlay.hidden = false;
+    },
+    hideChooser() {
+      overlay.hidden = true;
     },
     onSkip(handler) {
       skipButton.addEventListener("click", () => {
@@ -80,9 +97,6 @@ export function createUi(): GameUi {
     },
     showSkip(visible) {
       skipButton.hidden = !visible || !TUNING.orcaIntroSkippable;
-    },
-    showLevel(name) {
-      levelLabel.textContent = `Level: ${name}`;
     },
     showScore(levelName, caught, outOf) {
       score.textContent = `${levelName} - caught ${caught} of ${outOf}`;

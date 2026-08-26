@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
-import { TUNING, clampLevelIndex, levelAt, type Level } from "./config";
-import { getUnlockedLevel, hasHarderLevel, unlockLevel } from "./progress";
+import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
+import { hasHarderLevel, unlockLevel } from "./progress";
 import { createCatchBurst, createSalmon, type Salmon } from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
@@ -51,7 +51,7 @@ function createEagle(scene: Phaser.Scene): Phaser.GameObjects.Container {
 
 class RoundScene extends Phaser.Scene {
   private ui!: GameUi;
-  private level!: Level;
+  private level: Level = levelAt(0);
   private levelIndex = 0;
   private round: RoundWord[] = [];
   private index = 0;
@@ -79,15 +79,14 @@ class RoundScene extends Phaser.Scene {
     this.eagle.setDepth(10);
 
     this.ui = createUi();
-    this.chooseLevel();
-    this.round = buildRound(this.level);
 
-    this.ui.onStart(() => this.presentWord());
+    this.ui.renderLevels(
+      LEVELS.map((level) => level.name),
+      (index) => this.beginRound(index)
+    );
     this.ui.onSkip(() => this.skipIntro());
     this.ui.onReplay(() => this.replayWord());
-    this.ui.onPlayAgain(() => this.startFreshRound());
-    this.ui.showLevel(this.level.name);
-    this.ui.showScore(this.level.name, 0, this.round.length);
+    this.ui.onPlayAgain(() => this.beginRound(this.levelIndex));
 
     // Mouse and touch both arrive as pointerdown; the space bar joins them on the
     // same call, so there is only ever one dive to get right.
@@ -96,9 +95,20 @@ class RoundScene extends Phaser.Scene {
     this.input.keyboard?.on("keydown-SPACE", () => this.dive());
   }
 
-  private chooseLevel(): void {
-    this.levelIndex = clampLevelIndex(TUNING.forceLevel ?? getUnlockedLevel());
+  private beginRound(index: number): void {
+    this.levelIndex = clampLevelIndex(index);
     this.level = levelAt(this.levelIndex);
+    this.ui.hideSummary();
+    this.ui.hideChooser();
+    this.clearSalmon();
+    this.round = buildRound(this.level);
+    this.index = 0;
+    this.caught = 0;
+    this.missed = [];
+    this.roundOver = false;
+    this.wordInPlay = false;
+    this.ui.showScore(this.level.name, 0, this.round.length);
+    this.presentWord();
   }
 
   private dive(): void {
@@ -356,20 +366,6 @@ class RoundScene extends Phaser.Scene {
     }
     if (cleared) return `New level unlocked: ${levelAt(this.levelIndex + 1).name}`;
     return `Still on ${this.level.name}. Catch ${this.level.advanceAtCaught} of ${this.round.length} to unlock the next one.`;
-  }
-
-  /** A new round re-reads progress, so a level unlocked a moment ago takes effect now. */
-  private startFreshRound(): void {
-    this.ui.hideSummary();
-    this.chooseLevel();
-    this.round = buildRound(this.level);
-    this.index = 0;
-    this.caught = 0;
-    this.missed = [];
-    this.roundOver = false;
-    this.ui.showLevel(this.level.name);
-    this.ui.showScore(this.level.name, 0, this.round.length);
-    this.presentWord();
   }
 
   private replayWord(): void {

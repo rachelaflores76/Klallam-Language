@@ -40,8 +40,8 @@ export interface Level {
 // Difficulty order: a level's position in this list is its level number.
 export const LEVELS = [
   {
-    id: "gentle",
-    name: "Gentle",
+    id: "level-1",
+    name: "Level 1",
     salmonSpeed: 100,
     spawnIntervalMs: 2800,
     salmonPerWord: 3,
@@ -50,8 +50,8 @@ export const LEVELS = [
     advanceAtCaught: 8,
   },
   {
-    id: "steady",
-    name: "Steady",
+    id: "level-2",
+    name: "Level 2",
     salmonSpeed: 140,
     spawnIntervalMs: 2200,
     salmonPerWord: 3,
@@ -60,8 +60,8 @@ export const LEVELS = [
     advanceAtCaught: 8,
   },
   {
-    id: "quick",
-    name: "Quick",
+    id: "level-3",
+    name: "Level 3",
     salmonSpeed: 190,
     spawnIntervalMs: 1700,
     salmonPerWord: 4,
