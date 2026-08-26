@@ -94,7 +94,7 @@ the three levels get the values in the table above.
 **Done when:** the tests from step 2 cover it. This step cannot be checked by eye, for the
 reason under Risks.
 
-### 5. Remember how each word is going
+### 5. Remember how each word is going  ✅
 
 A new file storing, for each word, which box it is in, how many times it has been seen and
 how many times answered right, plus a count of rounds played. Right moves a word up, a miss

@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
+import { recordAnswer, startRound } from "./memory";
 import { createCatchBurst, createSalmon, type Salmon } from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
@@ -62,6 +63,7 @@ class RoundScene extends Phaser.Scene {
   private spawner?: Phaser.Time.TimerEvent;
   private caught = 0;
   private caughtThisDive = false;
+  private wrongThisWord = false;
   private roundOver = false;
   private wordInPlay = false;
   private missed: RoundWord[] = [];
@@ -101,6 +103,7 @@ class RoundScene extends Phaser.Scene {
     this.ui.hideSummary();
     this.ui.hideChooser();
     this.clearSalmon();
+    startRound();
     this.round = buildRound(this.level);
     this.index = 0;
     this.caught = 0;
@@ -222,6 +225,7 @@ class RoundScene extends Phaser.Scene {
 
   private startSalmonRun(word: RoundWord): void {
     this.clearSalmon();
+    this.wrongThisWord = false;
     this.waiting = word.choices.map((choice) =>
       createSalmon(this, choice, SALMON_START_X, SALMON_LANE_Y)
     );
@@ -297,6 +301,10 @@ class RoundScene extends Phaser.Scene {
 
     this.caught += 1;
     this.ui.showScore(this.level.name, this.caught, this.round.length);
+    // A word only counts as known if nothing was caught wrongly on the way to it.
+    if (this.currentWord !== undefined) {
+      recordAnswer(this.currentWord.id, !this.wrongThisWord);
+    }
     this.wordInPlay = false;
     this.clearSalmon();
     this.time.delayedCall(TUNING.celebrateMs, () => this.advance());
@@ -305,13 +313,17 @@ class RoundScene extends Phaser.Scene {
   private missWord(): void {
     this.wordInPlay = false;
     const word = this.currentWord;
-    if (word !== undefined) this.missed.push(word);
+    if (word !== undefined) {
+      this.missed.push(word);
+      recordAnswer(word.id, false);
+    }
     this.clearSalmon();
     this.advance();
   }
 
   private catchWrong(salmon: Salmon): void {
     const word = this.currentWord;
+    this.wrongThisWord = true;
     // Gated by its own setting: hearing the word again after a miss is teaching,
     // not the same thing as the player asking for a replay.
     if (TUNING.replayAudioOnWrong && word !== undefined) playWord(word.audioUrl);
