@@ -1,5 +1,6 @@
 import { audioUrl, getPlayableWords, pickDistractors, type LexiconEntry } from "@klallam/lexicon";
 import { TUNING, type Level } from "./config";
+import { getMemory, type WordRecord } from "./memory";
 
 /** Where the game serves the lexicon recordings from. See the audio plugin in vite.config.ts. */
 const AUDIO_BASE = `${import.meta.env.BASE_URL}audio`;
@@ -49,6 +50,56 @@ function distractorsFor(
   return picked.map((candidate) => candidate.english);
 }
 
+function restRounds(box: number): number {
+  return TUNING.boxRestRounds[box - 1] ?? TUNING.boxRestRounds[TUNING.boxRestRounds.length - 1] ?? 0;
+}
+
+/** How many rounds past due a word is. Negative means it is still resting. */
+function overdueBy(record: WordRecord, round: number): number {
+  return round - record.lastRound - restRounds(record.box);
+}
+
+/**
+ * Words due for review, most overdue first, topped up with words never seen. Ties are
+ * broken by the lower box, so the shakiest words come back first.
+ */
+function chooseWords(
+  pool: readonly LexiconEntry[],
+  level: Level,
+  random: () => number
+): LexiconEntry[] {
+  const { round, words } = getMemory();
+  const unseen = shuffle(
+    pool.filter((entry) => words[entry.id] === undefined),
+    random
+  );
+  const due = pool
+    .flatMap((entry) => {
+      const record = words[entry.id];
+      if (record === undefined) return [];
+      const overdue = overdueBy(record, round);
+      return overdue >= 0 ? [{ entry, record, overdue }] : [];
+    })
+    .sort((a, b) => b.overdue - a.overdue || a.record.box - b.record.box)
+    .map((item) => item.entry);
+
+  const chosen: LexiconEntry[] = [];
+  const taken = new Set<string>();
+  const take = (entries: readonly LexiconEntry[], limit: number) => {
+    for (const entry of entries) {
+      if (chosen.length >= limit) return;
+      if (taken.has(entry.id)) continue;
+      taken.add(entry.id);
+      chosen.push(entry);
+    }
+  };
+
+  take(unseen, Math.min(level.newWordsPerRound, TUNING.wordsPerRound));
+  take(due, TUNING.wordsPerRound);
+
+  return shuffle(chosen, random);
+}
+
 export function buildRound(level: Level, random: () => number = Math.random): RoundWord[] {
   const pool = getPlayableWords();
   const needed = Math.max(TUNING.wordsPerRound, level.salmonPerWord);
@@ -59,7 +110,7 @@ export function buildRound(level: Level, random: () => number = Math.random): Ro
     );
   }
 
-  return shuffle(pool, random)
+  return chooseWords(pool, level, random)
     .slice(0, TUNING.wordsPerRound)
     .map((entry) => {
       const url = audioUrl(entry, AUDIO_BASE);

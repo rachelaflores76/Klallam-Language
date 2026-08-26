@@ -104,7 +104,7 @@ junk from an older version, and none of that may stop the game.
 **Done when:** answering a word and reloading shows the record survived, and the game still
 starts with storage blocked entirely.
 
-### 6. Build the round from that memory
+### 6. Build the round from that memory  ✅
 
 The words due for review come first, longest overdue first, topped up with new words the
 player has not met, then shuffled so the order gives nothing away.
