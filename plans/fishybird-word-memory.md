@@ -119,7 +119,7 @@ case where too few words are due.
 
 **Done when:** clearing browser storage and playing still gives a full round of ten.
 
-### 8. Update PLAN.md
+### 8. Update PLAN.md  ✅
 
 Section 3a's config block, and the three remaining Phase 3 items.
 

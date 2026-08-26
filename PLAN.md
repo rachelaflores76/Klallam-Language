@@ -97,6 +97,12 @@ export const TUNING = {
   escapeMs: 500,
   autoPlayAudioOnReveal: true,
   allowAudioReplay: true,
+
+  // memory: how often a word comes back
+  phoneticNeighborPool: 6,
+  boxCount: 5,
+  boxRestRounds: [0, 1, 2, 4, 8],
+  missDropsToFirstBox: true,
 } as const;
 
 export interface Level {
@@ -106,17 +112,18 @@ export interface Level {
   spawnIntervalMs: number;
   salmonPerWord: number;
   hitboxPadding: number;
-  distractorStrategy: "random" | "phonetic";
+  phoneticDistractorChance: number;
+  newWordsPerRound: number;
 }
 
 export const LEVELS = [ /* Level 1, Level 2, Level 3 */ ] as const satisfies readonly Level[];
 ```
 
-| | speed | gap between fish | choices | catch forgiveness |
-|---|---|---|---|---|
-| Level 1 | 100 | 2800ms | 3 | 18 |
-| Level 2 | 140 | 2200ms | 3 | 12 |
-| Level 3 | 190 | 1700ms | 4 | 8 |
+| | speed | gap between fish | choices | catch forgiveness | lookalike chance | new words |
+|---|---|---|---|---|---|---|
+| Level 1 | 100 | 2800ms | 3 | 18 | 0.0 | 2 |
+| Level 2 | 200 | 2400ms | 4 | 18 | 0.5 | 3 |
+| Level 3 | 300 | 1000ms | 4 | 18 | 1.0 | 4 |
 
 The player chooses a level from a list when the game opens, and can change it at any
 time. There is no unlocking: every level is available from the start.
@@ -125,8 +132,8 @@ Rules:
 - No numeric literal that affects difficulty or pacing appears outside this file.
 - Changing a value must never require touching a scene.
 - A setting that varies by level belongs on `Level`, never in `TUNING`.
-- `distractorStrategy` starts `random` on every level; `phonetic` lands in Phase 3 part 2
-  behind the same switch.
+- `phoneticDistractorChance` is rolled once per wrong answer: 0 draws from the whole pool,
+  1 always takes a lookalike from the nearest `phoneticNeighborPool` words.
 
 ---
 
@@ -349,14 +356,19 @@ First game, one level, ~10 words, complete loop.
 ---
 
 ### Phase 3 — Pedagogy
-- Phonetic-neighbor distractor sets
-- Leitner spaced repetition in `localStorage`
-- Per-word accuracy tracking; missed words resurface
+- [x] Phonetic-neighbor distractor sets, dialled per level (`plans/fishybird-word-memory.md`)
+- [x] Leitner spaced repetition in `localStorage`
+- [x] Per-word accuracy tracking; missed words resurface
 - [x] Difficulty ramp — three levels, each with its own speed, spacing, choice count and
   catch forgiveness, chosen by the player from a list
   (`plans/fishybird-difficulty-levels.md`, `plans/fishybird-level-selection.md`)
 
-**Done when:** missing a word measurably increases how soon it reappears.
+**Done when:** missing a word measurably increases how soon it reappears. Confirmed: a
+round serves only the words that are due, and a word answered right climbs out of the way.
+
+**Note for a speaker:** only four pairs in the whole lexicon are one mark apart, so
+lookalike distractors are usually the closest available word rather than a true minimal
+pair. More recordings and confirmed entries would sharpen this.
 
 ---
 
