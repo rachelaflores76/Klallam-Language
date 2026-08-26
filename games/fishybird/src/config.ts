@@ -18,6 +18,14 @@ export const TUNING = {
   escapeMs: 500,
   autoPlayAudioOnReveal: true,
   allowAudioReplay: true,
+
+  // memory: how often a word comes back
+  phoneticNeighborPool: 6,
+  boxCount: 5,
+  // Rounds a word sits out at each box, from box 1 upwards. Box 1 rests none, so a word
+  // just missed is due again immediately.
+  boxRestRounds: [0, 1, 2, 4, 8],
+  missDropsToFirstBox: true,
 } as const;
 
 export interface Level {
@@ -28,7 +36,9 @@ export interface Level {
   spawnIntervalMs: number;
   salmonPerWord: number;
   hitboxPadding: number;
-  distractorStrategy: "random" | "phonetic";
+  /** 0 draws wrong answers from anywhere, 1 always uses lookalikes. Rolled per fish. */
+  phoneticDistractorChance: number;
+  newWordsPerRound: number;
 }
 
 // Difficulty order: a level's position in this list is its level number.
@@ -40,7 +50,8 @@ export const LEVELS = [
     spawnIntervalMs: 2800,
     salmonPerWord: 3,
     hitboxPadding: 18,
-    distractorStrategy: "random",
+    phoneticDistractorChance: 0,
+    newWordsPerRound: 2,
   },
   {
     id: "level-2",
@@ -49,7 +60,8 @@ export const LEVELS = [
     spawnIntervalMs: 2400,
     salmonPerWord: 4,
     hitboxPadding: 18,
-    distractorStrategy: "random",
+    phoneticDistractorChance: 0,
+    newWordsPerRound: 3,
   },
   {
     id: "level-3",
@@ -58,7 +70,8 @@ export const LEVELS = [
     spawnIntervalMs: 1000,
     salmonPerWord: 4,
     hitboxPadding: 18,
-    distractorStrategy: "random",
+    phoneticDistractorChance: 0,
+    newWordsPerRound: 4,
   },
 ] as const satisfies readonly Level[];
 

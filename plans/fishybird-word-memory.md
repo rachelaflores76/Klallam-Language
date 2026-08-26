@@ -79,7 +79,7 @@ ones, and that no wrong answer ever repeats a meaning already on offer.
 would mean deliberately avoiding similar words. The maintainer asked for 0.0 to mean
 completely random, so a near word turning up by luck at 0.0 is correct.*
 
-### 3. Swap the knob in the config
+### 3. Swap the knob in the config  ✅
 
 `distractorStrategy` out; `phoneticDistractorChance` and `newWordsPerRound` in, with every
 chance still at 0. The memory settings join `TUNING`.
