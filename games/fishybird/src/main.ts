@@ -86,6 +86,7 @@ class RoundScene extends Phaser.Scene {
     );
     this.ui.onSkip(() => this.skipIntro());
     this.ui.onReplay(() => this.replayWord());
+    this.ui.onChangeLevel(() => this.abandonRound());
     this.ui.onPlayAgain(() => this.beginRound(this.levelIndex));
 
     // Mouse and touch both arrive as pointerdown; the space bar joins them on the
@@ -109,6 +110,17 @@ class RoundScene extends Phaser.Scene {
     this.wordInPlay = false;
     this.ui.showScore(this.level.name, 0, this.round.length);
     this.presentWord();
+  }
+
+  private abandonRound(): void {
+    this.roundOver = true;
+    this.wordInPlay = false;
+    this.clearSalmon();
+    this.ui.clearWord();
+    this.ui.showSkip(false);
+    this.ui.hideSummary();
+    this.hideOrca();
+    this.ui.showChooser();
   }
 
   private dive(): void {

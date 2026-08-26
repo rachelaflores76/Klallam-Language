@@ -17,6 +17,7 @@ export interface GameUi {
   renderLevels(names: readonly string[], onPick: (index: number) => void): void;
   showChooser(): void;
   hideChooser(): void;
+  onChangeLevel(handler: () => void): void;
   onSkip(handler: () => void): void;
   onReplay(handler: () => void): void;
   onPlayAgain(handler: () => void): void;
@@ -36,6 +37,7 @@ export interface GameUi {
 export function createUi(): GameUi {
   const overlay = element<HTMLDivElement>("start");
   const levelButtons = element<HTMLDivElement>("level-buttons");
+  const changeLevelButton = element<HTMLButtonElement>("change-level");
   const banner = element<HTMLParagraphElement>("banner");
   const skipButton = element<HTMLButtonElement>("skip");
   const replayButton = element<HTMLButtonElement>("replay");
@@ -50,6 +52,7 @@ export function createUi(): GameUi {
 
   replayButton.hidden = !TUNING.allowAudioReplay;
   skipButton.hidden = true;
+  changeLevelButton.hidden = true;
 
   return {
     renderLevels(names, onPick) {
@@ -62,7 +65,6 @@ export function createUi(): GameUi {
           button.addEventListener("click", () => {
             // A button keeping focus would swallow the space bar, which the game uses to dive.
             button.blur();
-            overlay.hidden = true;
             onPick(index);
           });
           return button;
@@ -71,9 +73,17 @@ export function createUi(): GameUi {
     },
     showChooser() {
       overlay.hidden = false;
+      changeLevelButton.hidden = true;
     },
     hideChooser() {
       overlay.hidden = true;
+      changeLevelButton.hidden = false;
+    },
+    onChangeLevel(handler) {
+      changeLevelButton.addEventListener("click", () => {
+        changeLevelButton.blur();
+        handler();
+      });
     },
     onSkip(handler) {
       skipButton.addEventListener("click", () => {

@@ -47,7 +47,7 @@ a fourth button with no further work. Picking a level starts a round at it.
 **Done when:** loading the game shows one button per level, and picking Level 3 runs a
 round at Level 3's speed rather than Level 1's.
 
-### 2. Add the "Change level" button during a round
+### 2. Add the "Change level" button during a round  ✅
 
 A button in the top right corner brings the chooser back mid-round. Picking a level
 abandons what was in progress and starts a fresh round at the chosen one.

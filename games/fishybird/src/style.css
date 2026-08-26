@@ -89,6 +89,13 @@ body {
   background: rgba(6, 32, 44, 0.92);
 }
 
+.change-level {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+}
+
 .chooser-title {
   margin: 0;
   font-size: 1.5rem;
