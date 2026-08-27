@@ -46,15 +46,40 @@ npm run lexicon:import -- --apply --allow-edits
 
 Edited entries are automatically marked `needs_review`.
 
+If the correction is only swapping one glottalization mark for the other, do not ask
+anyone to retype the word. `npm run lexicon:mark-fix` writes every affected word out
+corrected, with the row to paste it into, and changes nothing itself. The user pastes;
+the import checks.
+
+## Deleting a word
+
+Delete its row in the spreadsheet. That is the whole mechanism &mdash; the sheet is the
+source and `lexicon.json` is generated from it, so a missing row means a deleted word.
+
+```
+npm run lexicon:import -- --apply --allow-deletes
+```
+
+The dry run lists what would go, with codepoints, so a row deleted by accident can be
+put back from the report. Never delete an entry by editing `lexicon.json`.
+
 ## Resolving a needs_review flag
 
 Entries carry `needs_review` and `review_reasons` explaining the doubt. Clearing a
 flag requires a speaker's ruling, not a judgement call from you or the user. Run
 `npm run lexicon:review` to serve the page a speaker checks.
 
-Once ruled on, have the user set `needs_review` to `false` and empty
-`review_reasons`, then run `npm run lexicon:lock`. Those fields are not part of the
-lock hash, so verification will still pass.
+Once ruled on:
+
+```
+npm run lexicon:resolve -- <id> [<id>...] --apply
+npm run lexicon:flag -- <id> --reason "<plain ASCII>" --apply
+```
+
+Both are dry runs until `--apply`. A word ends up flagged exactly when it has a reason
+left against it, so a word with one question answered and another still open is
+`resolve`d and then `flag`ged with what remains. Neither command goes near the Klallam
+text, the codepoints, or the spreadsheet.
 
 ## Commands
 
@@ -62,6 +87,9 @@ lock hash, so verification will still pass.
 |---|---|
 | `npm run lexicon:import` | Dry run: report what the sheet would change |
 | `npm run lexicon:import -- --apply` | Apply the changes, then verify and lock |
+| `npm run lexicon:mark-fix` | Write out words using the other glottal mark, corrected, to paste in |
+| `npm run lexicon:resolve` | Clear a review flag a speaker has ruled on |
+| `npm run lexicon:flag` | Raise a review flag with a reason |
 | `npm run lexicon:verify` | Check integrity, write nothing |
 | `npm run lexicon:lock` | Accept content changes into the lock |
 | `npm run lexicon:review` | Serve the review page for a speaker to check |
@@ -73,6 +101,7 @@ for recovering a lost spreadsheet, not for any part of the normal workflow.
 ## Never do these
 
 - Hand-edit `lexicon.json` or `lexicon.lock`
+- Delete a word by editing `lexicon.json`; delete its row in the spreadsheet instead
 - Type a Klallam word into a terminal command, a file, or a chat message
 - Offer the user any editing surface other than `lexicon.xlsx`
 - Run `lexicon:sheet` as part of the normal workflow, or to work around an error

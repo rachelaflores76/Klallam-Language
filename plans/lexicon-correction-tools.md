@@ -129,7 +129,7 @@ flagged, stays exactly as it is. It is a general rule and stays true.
 
 **Done when:** `npm test` passes and no check mentions `one-2`.
 
-### 6. Write down what changed
+### 6. Write down what changed  ✅
 
 `README.md` gains the new commands. The `update-lexicon` skill loses the hand-editing
 instruction and gains `lexicon:resolve`, `lexicon:flag`, `lexicon:mark-fix` and the

@@ -295,7 +295,13 @@ What the importer guarantees:
   lexicon already contains such a pair (see Deferred).
 - Editing the Klallam of an existing entry requires `--allow-edits` and marks the
   entry `needs_review`, because the import cannot know who approved it.
-- A row deleted from the sheet is reported, never acted on. Imports never delete.
+- A row missing from the sheet is a deleted word. The sheet is the source and
+  `lexicon.json` is generated from it, so a row that is gone means the word is gone.
+  Applying it requires `--allow-deletes`, and the dry run prints the word's codepoints
+  first, so a row deleted by mistake can be restored from the report. A sheet with
+  headers and no words is a hard error rather than an instruction to empty the lexicon.
+- Removing a word's recording marks it `needs_review`, the same as a new word that
+  arrives without one.
 - The `.xlsx` codec is dependency-free. The published `xlsx` package on npm carries
   unpatched advisories, and no third-party parser belongs in the path of the
   language data.
@@ -307,6 +313,9 @@ Supporting commands:
 | `npm run lexicon:sheet` | Generate `lexicon.xlsx` from the lexicon |
 | `npm run lexicon:import` | Dry run: report what the sheet would change |
 | `npm run lexicon:import -- --apply` | Apply, then verify + lock |
+| `npm run lexicon:mark-fix` | Write out words spelled with U+0315, corrected, to paste into the sheet |
+| `npm run lexicon:resolve` | Clear a word's review flag once a speaker has ruled |
+| `npm run lexicon:flag` | Raise a review flag with a reason |
 | `npm run lexicon:verify` | Integrity check, no writes |
 | `npm run lexicon:lock` | Recompute `lexicon.lock` |
 | `npm run lexicon:review` | Serve the review page |

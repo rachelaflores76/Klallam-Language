@@ -159,6 +159,28 @@ against the lexicon, applies the change, and reports what happened. Ids it gener
 are written back into the sheet in place. The sheet is never rebuilt from the
 lexicon, so anything else in the file survives.
 
+Two kinds of change need saying out loud, because neither one can be undone by
+editing the sheet again:
+
+```bash
+npm run lexicon:import -- --apply --allow-edits     # change the spelling of a word
+npm run lexicon:import -- --apply --allow-deletes   # a row you removed means a deleted word
+```
+
+A word is deleted by deleting its row. The dry run prints its codepoints before
+anything happens, so a row removed by mistake can be put back from that report.
+
+```bash
+npm run lexicon:mark-fix            # write out words using U+0315, corrected, to paste in
+npm run lexicon:resolve -- <id>     # clear a review flag, once a speaker has ruled
+npm run lexicon:flag -- <id> --reason "..."   # raise one
+```
+
+`lexicon:mark-fix` exists because nobody should retype a Klallam word to fix an
+invisible mark. It writes the corrected spellings to a file and changes nothing
+itself. `resolve` and `flag` are the only way review flags are set; they never touch
+the Klallam text or the spreadsheet. Both are dry runs until `--apply`.
+
 The workflow assumes `lexicon.xlsx` exists. If it is missing, damaged, has lost its
 header row, or is open in Excel, the import stops and says which. Read the message
 rather than working around it. When new words need ids written back, it checks the
