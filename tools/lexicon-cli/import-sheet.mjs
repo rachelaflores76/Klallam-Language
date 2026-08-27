@@ -194,7 +194,7 @@ for (const record of records) {
     klallamEdits.push({ record, entry, tags, audio, others });
   } else if (others.length > 0) {
     record.status = "field-edit";
-    fieldEdits.push({ record, entry, tags, audio, others });
+    fieldEdits.push({ record, entry, tags, audio, others, lostRecording: Boolean(entry.audio) && !audio });
   } else {
     record.status = "unchanged";
     unchanged++;
@@ -275,9 +275,10 @@ if (klallamEdits.length > 0) {
 
 if (fieldEdits.length > 0) {
   console.log(`CHANGED DETAILS (${fieldEdits.length})`);
-  for (const { record, entry, others } of fieldEdits) {
+  for (const { record, entry, others, lostRecording } of fieldEdits) {
     console.log(`  row ${record.row}  ${entry.id}`);
     for (const [field, was, now] of others) console.log(`      ${field}: ${was}  ->  ${now}`);
+    if (lostRecording) console.log("      will be flagged for review: no recording linked");
   }
   console.log("");
 }
@@ -407,11 +408,16 @@ for (const { record, entry, tags, audio } of klallamEdits) {
   console.log(`edited  ${entry.id}  (flagged for review)`);
 }
 
-for (const { record, entry, tags, audio } of fieldEdits) {
+for (const { record, entry, tags, audio, lostRecording } of fieldEdits) {
   entry.english = record.english;
   entry.audio = audio;
   entry.tags = tags;
-  console.log(`updated ${entry.id}`);
+  // A word left with no recording is the same open question as a new word without one.
+  if (lostRecording) {
+    entry.needs_review = true;
+    entry.review_reasons = [...new Set([...(entry.review_reasons ?? []), "no recording linked"])];
+  }
+  console.log(`updated ${entry.id}${lostRecording ? "  (flagged for review)" : ""}`);
 }
 
 if (absent.length > 0) {

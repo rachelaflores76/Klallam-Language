@@ -86,7 +86,7 @@ untouched and still fires first.
 with its codepoints and writes nothing, and `--apply` on its own refuses and names
 `--allow-deletes`.
 
-### 3. A word that loses its recording gets flagged
+### 3. A word that loses its recording gets flagged  ✅
 
 When an import changes a word's details it applies them quietly, which is right for a
 changed translation and wrong for a recording being taken away. A word whose recording
