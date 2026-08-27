@@ -40,6 +40,13 @@ body {
   text-align: center;
 }
 
+/* Gives the scaler a box to fit into. 16:9 is the game's own 960 by 540. */
+#game {
+  width: 100%;
+  max-width: 960px;
+  aspect-ratio: 16 / 9;
+}
+
 #game canvas {
   display: block;
 }

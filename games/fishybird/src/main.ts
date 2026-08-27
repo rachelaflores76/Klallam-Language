@@ -496,5 +496,10 @@ new Phaser.Game({
   parent: "game",
   width: WIDTH,
   height: HEIGHT,
+  // Everything is positioned against 960 by 540 whatever the screen does, taps included.
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+  },
   scene: [RoundScene],
 });

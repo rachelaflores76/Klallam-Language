@@ -167,7 +167,7 @@ means the allowance can never actually run out there - by the third grab the onl
 left is the right one. That is the intended gentleness, not an oversight, but it means
 "Level 1 forgives two" is really "Level 1 forgives everything".
 
-### 7. The game fits the screen
+### 7. The game fits the screen  ✅
 
 The canvas is a fixed 960 by 540 with no scaling, so on a narrow screen it overflows
 the page instead of shrinking, and part of the lane sits where no finger can reach it.
@@ -176,6 +176,15 @@ automatically, so none of the aiming changes.
 
 **Done when:** narrowing the browser window shrinks the whole game rather than cutting
 it off, and a tap still lands on the fish underneath it.
+
+**Result:** done. Measured at four window widths: the game shrank to 923, 590, 400 and
+280 pixels wide, held its shape exactly, and never once pushed the page wider than the
+window. Then a fish was caught with the game shrunk to 427 by 240, under half size,
+which is the part that mattered - the scaler translates a tap back to where the fish
+thinks it is.
+
+At full size on a desktop nothing changed at all, so this is invisible until it is
+tried on a small screen.
 
 ### 8. The project document matches the code
 
