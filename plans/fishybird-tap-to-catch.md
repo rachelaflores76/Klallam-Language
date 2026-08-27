@@ -60,7 +60,7 @@ agreed on 18.
 place that read it now reads the shared value. All three levels said 18, so nothing
 about the feel of the game moved.
 
-### 2. Fish get their own depth and a gentle drift
+### 2. Fish get their own depth and a gentle drift  ✅
 
 Each salmon picks a depth within a band of the sea rather than sharing one lane, and
 rises and falls a few pixels as it crosses. Both are worked out from the clock, the
@@ -69,6 +69,19 @@ one fish out of step. Diving still works as it does today.
 
 **Done when:** fish are visibly at different depths and drifting, no fish breaks the
 surface or clips the bottom of the sea, and catching one still works.
+
+**Result:** done, with one caveat. Depth is drawn per fish from a band 96 pixels tall,
+and the drift is 6 pixels either way on a 2.4 second cycle starting at a random point,
+so no two fish rise together. Confirmed by eye: fish sit at clearly different depths.
+
+The first attempt put the band too high and the shallowest fish's tail grazed the
+waterline, so the band was moved down and widened. It now clears the surface and the
+seabed by 12 pixels at the extremes.
+
+*The caveat:* the "catching one still works" half could not be demonstrated at this
+step. The old dive drops straight down from the middle of the sky and has to be timed
+to the fish, and the tools available could not time it reliably. It is proved in step
+3 instead, where the tap picks the fish outright and a catch can be aimed on purpose.
 
 ### 3. The eagle flies to the fish that was tapped
 

@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
 import { recordAnswer, startRound } from "./memory";
-import { createCatchBurst, createSalmon, type Salmon } from "./salmon";
+import { createCatchBurst, createSalmon, positionAt, type Salmon } from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
 
@@ -20,8 +20,10 @@ const ORCA_TILT = 28;
 const ORCA_ENTRY_X = WIDTH / 2 + 140;
 const ORCA_EXIT_X = WIDTH / 2 - 140;
 const EAGLE_PERCH_Y = 110;
-const EAGLE_DIVE_Y = SEA_Y + 50;
-const SALMON_LANE_Y = EAGLE_DIVE_Y;
+// Centred so the shallowest fish still clears the waterline and the deepest the seabed.
+const SALMON_LANE_Y = 450;
+// Deep enough that a dive passes every fish in the band on its way down.
+const EAGLE_DIVE_Y = SALMON_LANE_Y + TUNING.laneSpread + 10;
 const SALMON_START_X = WIDTH + 160;
 const EAGLE_HALF_WIDTH = 58;
 const EAGLE_HALF_HEIGHT = 26;
@@ -228,7 +230,11 @@ class RoundScene extends Phaser.Scene {
     this.clearSalmon();
     this.wrongThisWord = false;
     this.waiting = word.choices.map((choice) =>
-      createSalmon(this, choice, SALMON_START_X, SALMON_LANE_Y)
+      createSalmon(this, choice, {
+        startX: SALMON_START_X,
+        laneY: SALMON_LANE_Y,
+        speed: this.level.salmonSpeed,
+      })
     );
     this.wordInPlay = true;
     this.runStartedAt = this.time.now;
@@ -259,11 +265,9 @@ class RoundScene extends Phaser.Scene {
   override update(time: number, _delta: number): void {
     if (this.wordInPlay) this.releaseDueSalmon(time);
     this.salmon = this.salmon.filter((salmon) => {
-      // Worked out from the clock rather than added up frame by frame: a browser busy
-      // loading a recording must not leave a fish trailing behind its level's speed.
-      const travelled = (this.level.salmonSpeed * (time - salmon.releasedAt)) / 1000;
-      salmon.container.x = SALMON_START_X - travelled;
-      if (salmon.container.x + salmon.halfWidth >= 0) return true;
+      const at = positionAt(salmon, time);
+      salmon.container.setPosition(at.x, at.y);
+      if (at.x + salmon.halfWidth >= 0) return true;
       salmon.container.destroy();
       return false;
     });

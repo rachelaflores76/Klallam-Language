@@ -20,6 +20,11 @@ export const TUNING = {
   autoPlayAudioOnReveal: true,
   allowAudioReplay: true,
 
+  // how the shoal swims
+  laneSpread: 48,
+  bobAmplitude: 6,
+  bobPeriodMs: 2400,
+
   // memory: how often a word comes back
   phoneticNeighborPool: 6,
   boxCount: 5,
