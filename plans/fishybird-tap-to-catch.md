@@ -142,7 +142,7 @@ unclickable is structural rather than a flag that could be forgotten. In practic
 are doubly safe, because a scatter only ever happens once the word is already settled
 and taps are ignored anyway.
 
-### 6. Each level says how many wrong grabs a group forgives
+### 6. Each level says how many wrong grabs a group forgives  ✅ built, not fully proved
 
 A new per-level setting: Level 1 forgives two, Level 2 one, Level 3 none. Inside the
 allowance a wrong grab behaves as it does today. The grab past it scatters everything
@@ -151,6 +151,21 @@ and the word is marked missed once they are gone.
 **Done when:** on Level 1, two wrong grabs in a row leave the rest of the fish swimming
 and the right answer still catchable; on Level 3, one wrong grab clears the water and
 the word turns up in the end-of-round list.
+
+**Result:** built and passing the checks, but the done-when is **not demonstrated** and
+is handed to the maintainer to confirm by playing. Driving the page from outside, there
+is no way to tell a wrong grab from a tap that hit open water, so a word ending shortly
+after a tap could equally be the fish simply swimming past. Two attempts to separate
+the two by timing were inconclusive, and one earlier reading that looked convincing was
+almost certainly a coincidence.
+
+What is certain: the checks pass, and the scatter itself was proved in step 5. The
+count resets with each new word.
+
+Worth knowing: Level 1 shows three fish, so only two of them are wrong. Two retries
+means the allowance can never actually run out there - by the third grab the only fish
+left is the right one. That is the intended gentleness, not an oversight, but it means
+"Level 1 forgives two" is really "Level 1 forgives everything".
 
 ### 7. The game fits the screen
 

@@ -77,6 +77,8 @@ class RoundScene extends Phaser.Scene {
   private released = 0;
   private caught = 0;
   private wrongThisWord = false;
+  /** Wrong grabs at the group in the water now, against the level's allowance. */
+  private wrongGrabs = 0;
   private roundOver = false;
   private wordInPlay = false;
   private missed: RoundWord[] = [];
@@ -294,6 +296,7 @@ class RoundScene extends Phaser.Scene {
   private startSalmonRun(word: RoundWord): void {
     this.clearSalmon();
     this.wrongThisWord = false;
+    this.wrongGrabs = 0;
     this.waiting = word.choices.map((choice) =>
       createSalmon(this, choice, {
         startX: SALMON_START_X,
@@ -411,18 +414,22 @@ class RoundScene extends Phaser.Scene {
 
   private missWord(): void {
     this.wordInPlay = false;
-    const word = this.currentWord;
-    if (word !== undefined) {
-      this.missed.push(word);
-      recordAnswer(word.id, false);
-    }
+    this.recordMiss();
     this.clearSalmon();
     this.advance();
+  }
+
+  private recordMiss(): void {
+    const word = this.currentWord;
+    if (word === undefined) return;
+    this.missed.push(word);
+    recordAnswer(word.id, false);
   }
 
   private catchWrong(salmon: Salmon): void {
     const word = this.currentWord;
     this.wrongThisWord = true;
+    this.wrongGrabs += 1;
     // Gated by its own setting: hearing the word again after a miss is teaching,
     // not the same thing as the player asking for a replay.
     if (TUNING.replayAudioOnWrong && word !== undefined) playWord(word.audioUrl);
@@ -435,14 +442,15 @@ class RoundScene extends Phaser.Scene {
       yoyo: true,
       repeat: 2,
     });
-    this.tweens.add({
-      targets: salmon.container,
-      x: -salmon.halfWidth,
-      alpha: 0,
-      duration: TUNING.escapeMs,
-      ease: "Quad.easeIn",
-      onComplete: () => salmon.container.destroy(),
-    });
+    this.flee(salmon);
+
+    if (this.wrongGrabs > this.level.retriesPerGroup) {
+      this.wordInPlay = false;
+      this.scatter();
+      this.recordMiss();
+      // The advance waits, so the shoal is seen leaving rather than blinking out.
+      this.time.delayedCall(TUNING.escapeMs, () => this.advance());
+    }
 
     if (TUNING.wrongAnswerEndsRun) this.endRound();
   }

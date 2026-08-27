@@ -47,6 +47,8 @@ export interface Level {
   salmonSpeed: number;
   spawnIntervalMs: number;
   salmonPerWord: number;
+  /** Wrong grabs a group forgives. The next one scatters the rest and ends the word. */
+  retriesPerGroup: number;
   /** 0 draws wrong answers from anywhere, 1 always uses lookalikes. Rolled per fish. */
   phoneticDistractorChance: number;
   /** Cap on never-seen words per round; the rest is review. Thin review lets more in. */
@@ -61,6 +63,7 @@ export const LEVELS = [
     salmonSpeed: 100,
     spawnIntervalMs: 2800,
     salmonPerWord: 3,
+    retriesPerGroup: 2,
     phoneticDistractorChance: 0,
     newWordsPerRound: 2,
   },
@@ -70,6 +73,7 @@ export const LEVELS = [
     salmonSpeed: 200,
     spawnIntervalMs: 2400,
     salmonPerWord: 4,
+    retriesPerGroup: 1,
     phoneticDistractorChance: 0.5,
     newWordsPerRound: 3,
   },
@@ -79,6 +83,7 @@ export const LEVELS = [
     salmonSpeed: 300,
     spawnIntervalMs: 1000,
     salmonPerWord: 4,
+    retriesPerGroup: 0,
     phoneticDistractorChance: 1,
     newWordsPerRound: 4,
   },
