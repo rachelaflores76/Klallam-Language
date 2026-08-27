@@ -13,7 +13,6 @@ export const TUNING = {
 
   // pacing
   orcaIntroMs: 1200,
-  orcaIntroSkippable: true,
   celebrateMs: 700,
   escapeMs: 500,
   autoPlayAudioOnReveal: true,

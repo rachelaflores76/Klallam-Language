@@ -100,7 +100,6 @@ class RoundScene extends Phaser.Scene {
       LEVELS.map((level) => level.name),
       (index) => this.beginRound(index)
     );
-    this.ui.onSkip(() => this.skipIntro());
     this.ui.onReplay(() => this.replayWord());
     this.ui.onChangeLevel(() => this.abandonRound());
     this.ui.onPlayAgain(() => this.beginRound(this.levelIndex));
@@ -133,7 +132,6 @@ class RoundScene extends Phaser.Scene {
     this.wordInPlay = false;
     this.clearSalmon();
     this.ui.clearWord();
-    this.ui.showSkip(false);
     this.ui.hideSummary();
     this.hideOrca();
     this.ui.showChooser();
@@ -227,7 +225,6 @@ class RoundScene extends Phaser.Scene {
     if (this.currentWord === undefined) return;
 
     this.ui.clearWord();
-    this.ui.showSkip(true);
     this.hideOrca();
 
     this.tweens.add({
@@ -278,16 +275,9 @@ class RoundScene extends Phaser.Scene {
     });
   }
 
-  private skipIntro(): void {
-    if (!TUNING.orcaIntroSkippable) return;
-    this.hideOrca();
-    this.revealWord();
-  }
-
   private revealWord(): void {
     const word = this.currentWord;
     if (word === undefined) return;
-    this.ui.showSkip(false);
     this.ui.showWord(word.klallam);
     if (TUNING.autoPlayAudioOnReveal) playWord(word.audioUrl);
     this.startSalmonRun(word);
@@ -469,7 +459,6 @@ class RoundScene extends Phaser.Scene {
     this.wordInPlay = false;
     this.clearSalmon();
     this.ui.clearWord();
-    this.ui.showSkip(false);
     this.hideOrca();
 
     this.ui.showSummary(

@@ -18,11 +18,10 @@ export interface GameUi {
   showChooser(): void;
   hideChooser(): void;
   onChangeLevel(handler: () => void): void;
-  onSkip(handler: () => void): void;  onReplay(handler: () => void): void;
+  onReplay(handler: () => void): void;
   onPlayAgain(handler: () => void): void;
   showWord(klallam: string): void;
   clearWord(): void;
-  showSkip(visible: boolean): void;
   showScore(levelName: string, caught: number, outOf: number): void;
   showSummary(
     caught: number,
@@ -38,7 +37,6 @@ export function createUi(): GameUi {
   const levelButtons = element<HTMLDivElement>("level-buttons");
   const changeLevelButton = element<HTMLButtonElement>("change-level");
   const banner = element<HTMLParagraphElement>("banner");
-  const skipButton = element<HTMLButtonElement>("skip");
   const replayButton = element<HTMLButtonElement>("replay");
   const score = element<HTMLParagraphElement>("score");
   const controls = element<HTMLDivElement>("controls");
@@ -51,7 +49,6 @@ export function createUi(): GameUi {
   const summaryChangeLevelButton = element<HTMLButtonElement>("summary-change-level");
 
   replayButton.hidden = !TUNING.allowAudioReplay;
-  skipButton.hidden = true;
   changeLevelButton.hidden = true;
 
   return {
@@ -87,13 +84,6 @@ export function createUi(): GameUi {
         });
       }
     },
-    onSkip(handler) {
-      skipButton.addEventListener("click", () => {
-        // A button keeping focus would swallow the space bar, which the game uses to dive.
-        skipButton.blur();
-        handler();
-      });
-    },
     onReplay(handler) {
       replayButton.addEventListener("click", () => {
         replayButton.blur();
@@ -106,9 +96,6 @@ export function createUi(): GameUi {
     },
     clearWord() {
       banner.textContent = "";
-    },
-    showSkip(visible) {
-      skipButton.hidden = !visible || !TUNING.orcaIntroSkippable;
     },
     showScore(levelName, caught, outOf) {
       score.textContent = `${levelName} - caught ${caught} of ${outOf}`;

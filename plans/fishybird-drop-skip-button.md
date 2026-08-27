@@ -33,7 +33,7 @@ rather than quietly broken.
 
 ## Steps
 
-### 1. Remove the skip button and everything behind it
+### 1. Remove the skip button and everything behind it  ✅
 
 The button leaves the page, the three interface methods and their implementations go,
 the calls that showed and hid it go, the skip itself goes, and `orcaIntroSkippable`
@@ -43,6 +43,12 @@ its settings block.
 **Done when:** no skip button appears at any point in a round, the orca intro still
 plays and still hands over the word, and searching the project for "skip" turns up
 nothing in the game's own code.
+
+**Result:** done. Checked by driving the page: the button is not in the page at all,
+never appears at any point during a round, the word still arrives after the intro, and
+the controls row is left holding "Hear it again" beside the score, centred and tidy.
+A search for "skip" now finds it only in the built output, which is regenerated, and in
+older plan files that record what the button used to do.
 
 ---
 

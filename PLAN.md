@@ -92,7 +92,6 @@ export const TUNING = {
 
   // pacing
   orcaIntroMs: 1200,
-  orcaIntroSkippable: true,
   celebrateMs: 700,
   escapeMs: 500,
   autoPlayAudioOnReveal: true,
@@ -322,7 +321,7 @@ Supporting commands:
 
 **Salmon carry English text.** Three on screen by default — text on fast-moving sprites is hard to read, so count and speed are tuning constants rather than hardcoded values.
 
-**Orca intro must be skippable**, and audio must replay on demand.
+**Audio must replay on demand.** The orca intro runs 1.2 seconds and is not skippable: a button offering to cut it short was more distracting than the wait it saved.
 
 **Feedback cannot be color-only.** Pair red/green with shape and sound.
 
