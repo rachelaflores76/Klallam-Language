@@ -124,7 +124,7 @@ the left, mirrored to face that way.
 Worth knowing: fish only ever swim right to left, so in practice the eagle will spend
 most of a round facing left.
 
-### 5. Catching a fish scatters the rest
+### 5. Catching a fish scatters the rest  ✅
 
 The remaining fish bolt off the left edge at triple speed, fading as they go, and
 cannot be tapped from the moment they turn. Fish still queued to appear are cancelled.
@@ -132,6 +132,15 @@ On a correct catch this happens during the celebration.
 
 **Done when:** catching the right fish sends the others fleeing left, and tapping a
 fleeing fish does nothing.
+
+**Result:** done. Caught on camera: one frame taken the instant a fish was caught shows
+another fish sitting in mid-screen, and a frame a fraction of a second later has it at
+the far left edge and half faded out.
+
+Fleeing fish are moved to a separate list that the tap test never looks at, so being
+unclickable is structural rather than a flag that could be forgotten. In practice they
+are doubly safe, because a scatter only ever happens once the word is already settled
+and taps are ignored anyway.
 
 ### 6. Each level says how many wrong grabs a group forgives
 

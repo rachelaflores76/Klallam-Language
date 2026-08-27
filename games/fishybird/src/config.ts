@@ -29,6 +29,7 @@ export const TUNING = {
   laneSpread: 48,
   bobAmplitude: 6,
   bobPeriodMs: 2400,
+  scatterSpeedMultiplier: 3,
 
   // memory: how often a word comes back
   phoneticNeighborPool: 6,

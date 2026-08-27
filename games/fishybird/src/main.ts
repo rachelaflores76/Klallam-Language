@@ -69,6 +69,8 @@ class RoundScene extends Phaser.Scene {
   private flying = false;
   private salmon: Salmon[] = [];
   private waiting: Salmon[] = [];
+  /** Bolting for the left edge. Out of this list is the only way a fish can be tapped. */
+  private fleeing: Salmon[] = [];
   /** Tapped and answered for, still swimming until the eagle reaches it. */
   private targeted: Salmon | null = null;
   private runStartedAt = 0;
@@ -319,13 +321,43 @@ class RoundScene extends Phaser.Scene {
   }
 
   private clearSalmon(): void {
-    const all = [...this.salmon, ...this.waiting];
+    const all = [...this.salmon, ...this.waiting, ...this.fleeing];
     if (this.targeted !== null) all.push(this.targeted);
-    for (const salmon of all) salmon.container.destroy();
+    for (const salmon of all) {
+      this.tweens.killTweensOf(salmon.container);
+      salmon.container.destroy();
+    }
     this.salmon = [];
     this.waiting = [];
+    this.fleeing = [];
     this.targeted = null;
     this.released = 0;
+  }
+
+  /** Everything still in the water bolts, and anything queued never arrives. */
+  private scatter(): void {
+    for (const salmon of this.waiting) salmon.container.destroy();
+    this.waiting = [];
+    this.released = 0;
+    for (const salmon of this.salmon) this.flee(salmon);
+    this.salmon = [];
+  }
+
+  private flee(salmon: Salmon): void {
+    this.fleeing.push(salmon);
+    const distance = salmon.container.x + salmon.halfWidth;
+    const speed = salmon.speed * TUNING.scatterSpeedMultiplier;
+    this.tweens.add({
+      targets: salmon.container,
+      x: -salmon.halfWidth,
+      alpha: 0,
+      duration: Math.max(TUNING.eagleMinFlightMs, (distance / speed) * 1000),
+      ease: "Quad.easeIn",
+      onComplete: () => {
+        this.fleeing = this.fleeing.filter((other) => other !== salmon);
+        salmon.container.destroy();
+      },
+    });
   }
 
   override update(time: number, _delta: number): void {
@@ -373,7 +405,7 @@ class RoundScene extends Phaser.Scene {
       recordAnswer(this.currentWord.id, !this.wrongThisWord);
     }
     this.wordInPlay = false;
-    this.clearSalmon();
+    this.scatter();
     this.time.delayedCall(TUNING.celebrateMs, () => this.advance());
   }
 
