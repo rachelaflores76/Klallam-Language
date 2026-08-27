@@ -96,7 +96,7 @@ without one already gets, and the dry run should say so before anything is appli
 **Done when:** clearing an audio cell shows the flag coming in the dry run, and sets it
 on apply.
 
-### 4. Raising and clearing a review flag from the command line
+### 4. Raising and clearing a review flag from the command line  ✅
 
 Two new commands, `npm run lexicon:resolve` and `npm run lexicon:flag`. Resolve clears
 a word's review flag and its reasons. Flag sets one, with a reason given on the command
