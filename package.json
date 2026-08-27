@@ -14,6 +14,7 @@
     "lexicon:import": "node tools/lexicon-cli/import-sheet.mjs",
     "lexicon:verify": "node tools/lexicon-cli/verify.mjs",
     "lexicon:lock": "node tools/lexicon-cli/lock.mjs",
+    "lexicon:mark-fix": "node tools/lexicon-cli/mark-fix.mjs",
     "lexicon:review": "node tools/lexicon-cli/review-server.mjs",
     "guard:ascii": "node tools/lexicon-cli/ascii-guard.mjs",
     "game:dev": "npm run dev -w @klallam/fishybird",

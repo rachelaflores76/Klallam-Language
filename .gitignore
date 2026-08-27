@@ -2,3 +2,7 @@ node_modules/
 dist/
 .DS_Store
 *.log
+
+# Scratch files holding Klallam text to copy by hand. Outside the integrity lock.
+WORDS-TO-FIX.txt
+WORD-TO-ADD.txt
