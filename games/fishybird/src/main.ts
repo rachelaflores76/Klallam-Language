@@ -2,7 +2,14 @@ import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
 import { recordAnswer, startRound } from "./memory";
-import { createCatchBurst, createSalmon, positionAt, type Salmon } from "./salmon";
+import {
+  containsPoint,
+  createCatchBurst,
+  createSalmon,
+  interceptPoint,
+  positionAt,
+  type Salmon,
+} from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
 
@@ -22,11 +29,9 @@ const ORCA_EXIT_X = WIDTH / 2 - 140;
 const EAGLE_PERCH_Y = 110;
 // Centred so the shallowest fish still clears the waterline and the deepest the seabed.
 const SALMON_LANE_Y = 450;
-// Deep enough that a dive passes every fish in the band on its way down.
-const EAGLE_DIVE_Y = SALMON_LANE_Y + TUNING.laneSpread + 10;
 const SALMON_START_X = WIDTH + 160;
-const EAGLE_HALF_WIDTH = 58;
-const EAGLE_HALF_HEIGHT = 26;
+// A fish already tapped waits here rather than leaving before the eagle can reach it.
+const LANE_MIN_X = 90;
 
 function drawSea(scene: Phaser.Scene): void {
   scene.add.rectangle(WIDTH / 2, (HEIGHT + SEA_Y) / 2, WIDTH, HEIGHT - SEA_Y, 0x0a5470);
@@ -59,13 +64,14 @@ class RoundScene extends Phaser.Scene {
   private index = 0;
   private orca!: Phaser.GameObjects.Container;
   private eagle!: Phaser.GameObjects.Container;
-  private diving = false;
+  private flying = false;
   private salmon: Salmon[] = [];
   private waiting: Salmon[] = [];
+  /** Tapped and answered for, still swimming until the eagle reaches it. */
+  private targeted: Salmon | null = null;
   private runStartedAt = 0;
   private released = 0;
   private caught = 0;
-  private caughtThisDive = false;
   private wrongThisWord = false;
   private roundOver = false;
   private wordInPlay = false;
@@ -93,11 +99,10 @@ class RoundScene extends Phaser.Scene {
     this.ui.onChangeLevel(() => this.abandonRound());
     this.ui.onPlayAgain(() => this.beginRound(this.levelIndex));
 
-    // Mouse and touch both arrive as pointerdown; the space bar joins them on the
-    // same call, so there is only ever one dive to get right.
-    this.input.on("pointerdown", () => this.dive());
-    this.input.keyboard?.addCapture("SPACE");
-    this.input.keyboard?.on("keydown-SPACE", () => this.dive());
+    // The tap is the answer. Whatever the eagle passes on its way there is not.
+    this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) =>
+      this.tapAt(pointer.worldX, pointer.worldY)
+    );
   }
 
   private beginRound(index: number): void {
@@ -128,19 +133,62 @@ class RoundScene extends Phaser.Scene {
     this.ui.showChooser();
   }
 
-  private dive(): void {
-    if (this.diving || this.roundOver) return;
-    this.diving = true;
-    this.caughtThisDive = false;
+  private tapAt(x: number, y: number): void {
+    if (this.flying || this.roundOver || !this.wordInPlay) return;
+    const hit = this.salmonUnder(x, y);
+    if (hit === undefined) return;
+    this.strike(hit);
+  }
+
+  /** Nearest of whatever the tap covered, so two overlapping fish cannot both claim it. */
+  private salmonUnder(x: number, y: number): Salmon | undefined {
+    const time = this.time.now;
+    let best: Salmon | undefined;
+    let bestDistance = Infinity;
+    for (const salmon of this.salmon) {
+      if (!containsPoint(salmon, time, x, y, TUNING.tapPadding)) continue;
+      const at = positionAt(salmon, time);
+      const distance = Math.hypot(at.x - x, at.y - y);
+      if (distance >= bestDistance) continue;
+      bestDistance = distance;
+      best = salmon;
+    }
+    return best;
+  }
+
+  private strike(salmon: Salmon): void {
+    this.salmon = this.salmon.filter((other) => other !== salmon);
+    this.targeted = salmon;
+    const aim = interceptPoint(salmon, this.eagle.x, this.eagle.y, this.time.now);
+    this.flyTo(Math.max(aim.x, LANE_MIN_X), aim.y, aim.flightMs, () => {
+      // A round can end mid-flight, taking the fish with it.
+      if (this.targeted !== salmon) return;
+      this.targeted = null;
+      if (salmon.choice.correct) this.catchCorrect(salmon);
+      else this.catchWrong(salmon);
+    });
+  }
+
+  private flyTo(x: number, y: number, durationMs: number, onArrive: () => void): void {
+    this.flying = true;
     this.tweens.add({
       targets: this.eagle,
-      y: EAGLE_DIVE_Y,
-      duration: TUNING.diveMs,
+      x,
+      y,
+      duration: durationMs,
       ease: "Quad.easeIn",
-      yoyo: true,
       onComplete: () => {
-        this.eagle.y = EAGLE_PERCH_Y;
-        this.diving = false;
+        onArrive();
+        this.tweens.add({
+          targets: this.eagle,
+          x: WIDTH / 2,
+          y: EAGLE_PERCH_Y,
+          duration: TUNING.eagleReturnMs,
+          ease: "Quad.easeOut",
+          onComplete: () => {
+            this.flying = false;
+          },
+        });
       },
     });
   }
@@ -256,9 +304,12 @@ class RoundScene extends Phaser.Scene {
   }
 
   private clearSalmon(): void {
-    for (const salmon of [...this.salmon, ...this.waiting]) salmon.container.destroy();
+    const all = [...this.salmon, ...this.waiting];
+    if (this.targeted !== null) all.push(this.targeted);
+    for (const salmon of all) salmon.container.destroy();
     this.salmon = [];
     this.waiting = [];
+    this.targeted = null;
     this.released = 0;
   }
 
@@ -271,30 +322,20 @@ class RoundScene extends Phaser.Scene {
       salmon.container.destroy();
       return false;
     });
-    this.checkForCatch();
+    if (this.targeted !== null) {
+      const at = positionAt(this.targeted, time);
+      this.targeted.container.setPosition(Math.max(at.x, LANE_MIN_X), at.y);
+    }
 
     // Every salmon for this word has gone by. That was the chance to catch it.
-    if (this.wordInPlay && this.waiting.length === 0 && this.salmon.length === 0) {
+    if (
+      this.wordInPlay &&
+      this.waiting.length === 0 &&
+      this.salmon.length === 0 &&
+      this.targeted === null
+    ) {
       this.missWord();
     }
-  }
-
-  private checkForCatch(): void {
-    if (!this.diving || this.caughtThisDive) return;
-    const hit = this.salmon.find((salmon) => {
-      const dx = Math.abs(this.eagle.x - salmon.container.x);
-      const dy = Math.abs(this.eagle.y - salmon.container.y);
-      return (
-        dx <= EAGLE_HALF_WIDTH + salmon.halfWidth + TUNING.tapPadding &&
-        dy <= EAGLE_HALF_HEIGHT + salmon.halfHeight + TUNING.tapPadding
-      );
-    });
-    if (hit === undefined) return;
-
-    this.caughtThisDive = true;
-    this.salmon = this.salmon.filter((salmon) => salmon !== hit);
-    if (hit.choice.correct) this.catchCorrect(hit);
-    else this.catchWrong(hit);
   }
 
   private catchCorrect(salmon: Salmon): void {

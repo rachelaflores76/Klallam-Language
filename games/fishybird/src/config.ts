@@ -12,13 +12,18 @@ export const TUNING = {
   tapPadding: 18,
 
   // pacing
-  diveMs: 420,
   orcaIntroMs: 1200,
   orcaIntroSkippable: true,
   celebrateMs: 700,
   escapeMs: 500,
   autoPlayAudioOnReveal: true,
   allowAudioReplay: true,
+
+  // the eagle. Its speed must stay above every level's salmonSpeed, or the aim it
+  // takes at a moving fish stops settling on an answer.
+  eagleSpeed: 900,
+  eagleMinFlightMs: 140,
+  eagleReturnMs: 420,
 
   // how the shoal swims
   laneSpread: 48,

@@ -83,15 +83,30 @@ step. The old dive drops straight down from the middle of the sky and has to be 
 to the fish, and the tools available could not time it reliably. It is proved in step
 3 instead, where the tap picks the fish outright and a catch can be aimed on purpose.
 
-### 3. The eagle flies to the fish that was tapped
+### 3. The eagle flies to the fish that was tapped  ✅
 
 Tapping a fish is the answer. The eagle works out where that fish will be by the time
-it can get there, flies to that point, and the catch resolves on arrival. Tapping open
-water is a short splash that costs nothing. The space bar, the eagle's collision box
-and the old straight-down dive all go.
+it can get there, flies to that point, and the catch resolves on arrival. A tap on open
+water does nothing at all. The space bar, the eagle's collision box and the old
+straight-down dive all go.
 
-**Done when:** tapping a fish catches that fish and no other, tapping water catches
-nothing and costs nothing, and the space bar does nothing at all.
+**Done when:** tapping a fish catches that fish and no other, tapping open water does
+nothing, and the space bar does nothing.
+
+*Changed mid-build, with the maintainer's agreement.* The plan originally had a tap on
+open water send the eagle down for a splash that cost nothing. It turned out to cost
+something after all: while the eagle is in the air, taps are ignored, so a stray tap
+locked the player out for about a second, exactly when they might have spotted the
+right fish. The eagle now only leaves its perch for a fish.
+
+**Result:** done. The aim is taken by guessing the flight time, seeing where the fish
+got to, and guessing again, five times over. It settles only because the eagle is three
+times the speed of the fastest fish, which is now written down in the settings file.
+
+Checked by driving the page: taps aimed at fish scored catches on two separate runs,
+and five rapid taps on open water changed nothing and blocked nothing that followed.
+Fourteen presses of the space bar over fifteen seconds moved nothing at all. This also
+proves the half of step 2 that could not be shown at the time: catching still works.
 
 ### 4. The eagle faces where it is going, and stays where it lands
 

@@ -85,6 +85,41 @@ export function positionAt(salmon: Salmon, time: number): { x: number; y: number
   };
 }
 
+/** A tap counts if it lands inside the fish's box, grown by however forgiving the level is. */
+export function containsPoint(
+  salmon: Salmon,
+  time: number,
+  x: number,
+  y: number,
+  padding: number
+): boolean {
+  const at = positionAt(salmon, time);
+  return (
+    Math.abs(at.x - x) <= salmon.halfWidth + padding &&
+    Math.abs(at.y - y) <= salmon.halfHeight + padding
+  );
+}
+
+/**
+ * Where to aim to meet a fish that is still swimming. Guess the flight, see where the
+ * fish got to, guess again. It settles only because the eagle outruns every fish.
+ */
+export function interceptPoint(
+  salmon: Salmon,
+  fromX: number,
+  fromY: number,
+  now: number
+): { x: number; y: number; flightMs: number } {
+  let flightMs: number = TUNING.eagleMinFlightMs;
+  let at = positionAt(salmon, now);
+  for (let pass = 0; pass < 5; pass += 1) {
+    const distance = Math.hypot(at.x - fromX, at.y - fromY);
+    flightMs = Math.max(TUNING.eagleMinFlightMs, (distance / TUNING.eagleSpeed) * 1000);
+    at = positionAt(salmon, now + flightMs);
+  }
+  return { x: at.x, y: at.y, flightMs };
+}
+
 /** A burst, not a colour: right and wrong must be tellable apart without seeing hue. */
 export function createCatchBurst(
   scene: Phaser.Scene,
