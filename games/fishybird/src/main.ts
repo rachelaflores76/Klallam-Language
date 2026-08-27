@@ -32,6 +32,8 @@ const SALMON_LANE_Y = 450;
 const SALMON_START_X = WIDTH + 160;
 // A fish already tapped waits here rather than leaving before the eagle can reach it.
 const LANE_MIN_X = 90;
+// How close to an edge the eagle may perch, so it always has room to turn.
+const EAGLE_MARGIN_X = 120;
 
 function drawSea(scene: Phaser.Scene): void {
   scene.add.rectangle(WIDTH / 2, (HEIGHT + SEA_Y) / 2, WIDTH, HEIGHT - SEA_Y, 0x0a5470);
@@ -171,6 +173,7 @@ class RoundScene extends Phaser.Scene {
 
   private flyTo(x: number, y: number, durationMs: number, onArrive: () => void): void {
     this.flying = true;
+    this.faceTowards(x);
     this.tweens.add({
       targets: this.eagle,
       x,
@@ -179,18 +182,30 @@ class RoundScene extends Phaser.Scene {
       ease: "Quad.easeIn",
       onComplete: () => {
         onArrive();
-        this.tweens.add({
-          targets: this.eagle,
-          x: WIDTH / 2,
-          y: EAGLE_PERCH_Y,
-          duration: TUNING.eagleReturnMs,
-          ease: "Quad.easeOut",
-          onComplete: () => {
-            this.flying = false;
-          },
-        });
+        this.returnToPerch();
       },
     });
+  }
+
+  private returnToPerch(): void {
+    const x = Phaser.Math.Clamp(this.eagle.x, EAGLE_MARGIN_X, WIDTH - EAGLE_MARGIN_X);
+    this.faceTowards(x);
+    this.tweens.add({
+      targets: this.eagle,
+      x,
+      y: EAGLE_PERCH_Y,
+      duration: TUNING.eagleReturnMs,
+      ease: "Quad.easeOut",
+      onComplete: () => {
+        this.flying = false;
+      },
+    });
+  }
+
+  /** The art faces right, so flying left means mirroring it. */
+  private faceTowards(x: number): void {
+    if (x === this.eagle.x) return;
+    this.eagle.scaleX = x < this.eagle.x ? -1 : 1;
   }
 
   private get currentWord(): RoundWord | undefined {

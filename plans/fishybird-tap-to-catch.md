@@ -108,7 +108,7 @@ and five rapid taps on open water changed nothing and blocked nothing that follo
 Fourteen presses of the space bar over fifteen seconds moved nothing at all. This also
 proves the half of step 2 that could not be shown at the time: catching still works.
 
-### 4. The eagle faces where it is going, and stays where it lands
+### 4. The eagle faces where it is going, and stays where it lands  ✅
 
 It turns to face its direction of travel instead of flying backwards, and climbs back
 to perch height above wherever it landed rather than snapping to the middle of the sky.
@@ -116,6 +116,13 @@ It is kept clear of the screen edges.
 
 **Done when:** the eagle never flies tail-first, and after a catch on the left it is
 perched on the left.
+
+**Result:** done, kept 120 pixels clear of either edge so it always has room to turn.
+Checked by taking every catch on the left of the screen: the eagle finished perched on
+the left, mirrored to face that way.
+
+Worth knowing: fish only ever swim right to left, so in practice the eagle will spend
+most of a round facing left.
 
 ### 5. Catching a fish scatters the rest
 
