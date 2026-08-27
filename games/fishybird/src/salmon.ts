@@ -6,6 +6,8 @@ export interface Salmon {
   readonly container: Phaser.GameObjects.Container;
   readonly halfWidth: number;
   readonly halfHeight: number;
+  /** Scene time it entered the lane. Its position is worked out from this. */
+  releasedAt: number;
 }
 
 const BODY_HEIGHT = 48;
@@ -48,6 +50,7 @@ export function createSalmon(
     container,
     halfWidth: bodyWidth / 2 + TAIL_WIDTH,
     halfHeight: BODY_HEIGHT / 2,
+    releasedAt: 0,
   };
 }
 

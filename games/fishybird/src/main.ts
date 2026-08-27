@@ -60,7 +60,8 @@ class RoundScene extends Phaser.Scene {
   private diving = false;
   private salmon: Salmon[] = [];
   private waiting: Salmon[] = [];
-  private spawner?: Phaser.Time.TimerEvent;
+  private runStartedAt = 0;
+  private released = 0;
   private caught = 0;
   private caughtThisDive = false;
   private wrongThisWord = false;
@@ -230,32 +231,38 @@ class RoundScene extends Phaser.Scene {
       createSalmon(this, choice, SALMON_START_X, SALMON_LANE_Y)
     );
     this.wordInPlay = true;
-    this.spawner = this.time.addEvent({
-      delay: this.level.spawnIntervalMs,
-      startAt: this.level.spawnIntervalMs,
-      repeat: this.waiting.length - 1,
-      callback: () => this.releaseNextSalmon(),
-    });
+    this.runStartedAt = this.time.now;
+    this.released = 0;
   }
 
-  private releaseNextSalmon(): void {
-    const next = this.waiting.shift();
-    if (next === undefined) return;
-    this.salmon.push(next);
+  // Release times come from the clock rather than a frame-counted timer, so the gap
+  // between fish is the level's gap even while the scene is warming up.
+  private releaseDueSalmon(time: number): void {
+    while (this.waiting.length > 0) {
+      const due = this.runStartedAt + this.released * this.level.spawnIntervalMs;
+      if (time < due) return;
+      const next = this.waiting.shift();
+      if (next === undefined) return;
+      next.releasedAt = due;
+      this.released += 1;
+      this.salmon.push(next);
+    }
   }
 
   private clearSalmon(): void {
-    this.spawner?.remove();
-    this.spawner = undefined;
     for (const salmon of [...this.salmon, ...this.waiting]) salmon.container.destroy();
     this.salmon = [];
     this.waiting = [];
+    this.released = 0;
   }
 
-  override update(_time: number, delta: number): void {
-    const step = (this.level.salmonSpeed * delta) / 1000;
+  override update(time: number, _delta: number): void {
+    if (this.wordInPlay) this.releaseDueSalmon(time);
     this.salmon = this.salmon.filter((salmon) => {
-      salmon.container.x -= step;
+      // Worked out from the clock rather than added up frame by frame: a browser busy
+      // loading a recording must not leave a fish trailing behind its level's speed.
+      const travelled = (this.level.salmonSpeed * (time - salmon.releasedAt)) / 1000;
+      salmon.container.x = SALMON_START_X - travelled;
       if (salmon.container.x + salmon.halfWidth >= 0) return true;
       salmon.container.destroy();
       return false;
