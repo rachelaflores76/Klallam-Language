@@ -38,11 +38,7 @@ export interface Level {
   hitboxPadding: number;
   /** 0 draws wrong answers from anywhere, 1 always uses lookalikes. Rolled per fish. */
   phoneticDistractorChance: number;
-  /**
-   * A ceiling, not a quota: at most this many never-seen words get in before review words
-   * take the remaining places. A round is never short, so when little is due for review it
-   * fills up with new words regardless. A first-ever round is entirely new words.
-   */
+  /** Cap on never-seen words per round; the rest is review. Thin review lets more in. */
   newWordsPerRound: number;
 }
 
