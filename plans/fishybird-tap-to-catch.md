@@ -186,12 +186,21 @@ thinks it is.
 At full size on a desktop nothing changed at all, so this is invisible until it is
 tried on a small screen.
 
-### 8. The project document matches the code
+### 8. The project document matches the code  ✅
 
 `PLAN.md` section 3a still shows the old settings block, the old `Level` shape and a
 "catch forgiveness" column that no longer exists per level. Bring it up to date.
 
 **Done when:** the settings shown in `PLAN.md` are the settings in the code.
+
+**Result:** done. The settings block, the `Level` shape and the level table all match
+the code again, and section 3a now says in plain words how the game is controlled,
+which it never did before. Two other lines were corrected: the core loop said the eagle
+"dives to catch the correct salmon", and the scope line still promised keyboard control.
+
+The Phase 2 checklist further down still says "Eagle with dive control
+(mouse/touch/keyboard)". That was left alone on purpose: it is a record of what was
+built at the time, not a claim about now.
 
 ---
 

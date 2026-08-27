@@ -16,7 +16,7 @@ Core loop:
 1. An orca surfaces and leaves a Klallam word in the air.
 2. The word's pronunciation plays automatically.
 3. Salmon swim past, each carrying a candidate English translation (or a picture).
-4. The player, as an eagle, dives to catch the correct salmon.
+4. The player, as an eagle, taps the salmon carrying the right meaning and dives on it.
 5. Audio + visual feedback signals right or wrong.
 
 ---
@@ -36,7 +36,7 @@ These hold for every game in this project, not just v1:
 - ~101 words from the Klallam Grammar alphabet examples
 - Audio playback for every word
 - Progress tracking that resurfaces missed words
-- Desktop + tablet, mouse/touch/keyboard
+- Desktop + tablet, mouse/touch
 
 ### Out of scope for v1
 - Additional game modes
@@ -88,15 +88,26 @@ export const TUNING = {
   wrongAnswerEndsRun: false,
   replayAudioOnWrong: true,
   livesPerRound: Infinity,
+  tapPadding: 18,
 
   // pacing
-  diveMs: 420,
   orcaIntroMs: 1200,
   orcaIntroSkippable: true,
   celebrateMs: 700,
   escapeMs: 500,
   autoPlayAudioOnReveal: true,
   allowAudioReplay: true,
+
+  // the eagle
+  eagleSpeed: 900,
+  eagleMinFlightMs: 140,
+  eagleReturnMs: 420,
+
+  // how the shoal swims
+  laneSpread: 48,
+  bobAmplitude: 6,
+  bobPeriodMs: 2400,
+  scatterSpeedMultiplier: 3,
 
   // memory: how often a word comes back
   phoneticNeighborPool: 6,
@@ -111,7 +122,7 @@ export interface Level {
   salmonSpeed: number;
   spawnIntervalMs: number;
   salmonPerWord: number;
-  hitboxPadding: number;
+  retriesPerGroup: number;
   phoneticDistractorChance: number;
   newWordsPerRound: number;
 }
@@ -119,14 +130,23 @@ export interface Level {
 export const LEVELS = [ /* Level 1, Level 2, Level 3 */ ] as const satisfies readonly Level[];
 ```
 
-| | speed | gap between fish | choices | catch forgiveness | lookalike chance | new words |
+| | speed | gap between fish | choices | wrong grabs forgiven | lookalike chance | new words |
 |---|---|---|---|---|---|---|
-| Level 1 | 100 | 2800ms | 3 | 18 | 0.0 | 2 |
-| Level 2 | 200 | 2400ms | 4 | 18 | 0.5 | 3 |
-| Level 3 | 300 | 1000ms | 4 | 18 | 1.0 | 4 |
+| Level 1 | 100 | 2800ms | 3 | 2 | 0.0 | 2 |
+| Level 2 | 200 | 2400ms | 4 | 1 | 0.5 | 3 |
+| Level 3 | 300 | 1000ms | 4 | 0 | 1.0 | 4 |
 
 The player chooses a level from a list when the game opens, and can change it at any
 time. There is no unlocking: every level is available from the start.
+
+**Control.** The player taps or clicks the fish they mean, and the eagle flies to meet
+it. The tap is the answer; the flight is animation, so nothing the eagle passes on the
+way can be caught by accident. A tap on open water does nothing. There is no keyboard
+control.
+
+**Catch forgiveness** is how far off a tap may land and still count, and is the same at
+every level. **Wrong grabs forgiven** is how many wrong fish a group tolerates before
+the rest of the shoal bolts off the left edge and the word is lost.
 
 Rules:
 - No numeric literal that affects difficulty or pacing appears outside this file.
