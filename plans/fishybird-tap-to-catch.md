@@ -48,13 +48,17 @@ Settled in conversation:
 
 ## Steps
 
-### 1. Catch forgiveness becomes a shared setting
+### 1. Catch forgiveness becomes a shared setting  ✅
 
 `hitboxPadding` leaves the three levels and becomes `tapPadding` in the shared block.
 Nothing about how forgiving the game feels changes, because all three levels already
 agreed on 18.
 
 **Done when:** the checks pass and a round plays exactly as it did before.
+
+**Result:** done. `Level` no longer carries it, `TUNING.tapPadding` does, and the one
+place that read it now reads the shared value. All three levels said 18, so nothing
+about the feel of the game moved.
 
 ### 2. Fish get their own depth and a gentle drift
 

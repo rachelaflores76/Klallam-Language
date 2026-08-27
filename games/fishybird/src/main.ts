@@ -281,8 +281,8 @@ class RoundScene extends Phaser.Scene {
       const dx = Math.abs(this.eagle.x - salmon.container.x);
       const dy = Math.abs(this.eagle.y - salmon.container.y);
       return (
-        dx <= EAGLE_HALF_WIDTH + salmon.halfWidth + this.level.hitboxPadding &&
-        dy <= EAGLE_HALF_HEIGHT + salmon.halfHeight + this.level.hitboxPadding
+        dx <= EAGLE_HALF_WIDTH + salmon.halfWidth + TUNING.tapPadding &&
+        dy <= EAGLE_HALF_HEIGHT + salmon.halfHeight + TUNING.tapPadding
       );
     });
     if (hit === undefined) return;
