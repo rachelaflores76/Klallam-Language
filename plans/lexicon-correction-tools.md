@@ -113,13 +113,16 @@ edit it by hand — which sits directly below a line telling you never to do tha
 **Done when:** both commands report what they would change and the new flagged count
 before writing, and `npm run ci` is green.
 
-### 5. A check that stops depending on a word about to be merged
+### 5. A check that stops depending on a word about to be merged  ✅
 
 One of the similarity checks proves that the two spellings of "one" are never offered
 against each other, and it does that by looking those two words up in the lexicon. The
-next plan merges them, so the check would go red for the wrong reason. It gets rewritten
-against the made-up test words already sitting in the same file, proving the same thing
-without naming a real entry.
+next plan merges them, so the check would go red for the wrong reason.
+
+It is replaced by the same question asked of every word in the lexicon at once: no word
+is ever offered a candidate that is itself spelled differently. That names no entry, it
+still checks the real word list rather than made-up stand-ins, and it keeps its teeth
+after the merge — a future duplicate pair would trip it.
 
 The separate integrity check, that words differing only by an invisible mark must be
 flagged, stays exactly as it is. It is a general rule and stays true.

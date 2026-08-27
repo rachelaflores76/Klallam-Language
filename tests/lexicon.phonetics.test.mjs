@@ -58,18 +58,18 @@ test("the ranking puts the closest word first", () => {
   assert.equal(ranked[0].entry.id, "near");
 });
 
-test("the lexicon's duplicate pair is never offered against itself", () => {
+test("no two spellings of one word are ever offered against each other", () => {
   const entries = readLexicon().entries;
-  const first = entries.find((e) => e.id === "one");
-  const second = entries.find((e) => e.id === "one-2");
-  assert.ok(first && second, "expected the known duplicate pair to still exist");
-
-  const ranked = rankByPhoneticDistance(first.klallam, entries);
-  assert.ok(ranked.length > 0, "the ranking found nothing, so this test proves nothing");
-  assert.ok(
-    !ranked.some((r) => r.entry.id === second.id),
-    "two spellings of one word cannot be told apart on screen, so they must not be paired"
-  );
+  for (const entry of entries) {
+    const collision = rankByPhoneticDistance(entry.klallam, entries).find(
+      (ranked) => foldGlottal(ranked.entry.klallam) === foldGlottal(entry.klallam)
+    );
+    assert.equal(
+      collision,
+      undefined,
+      `"${entry.id}" was offered "${collision?.entry.id}", which is the same word spelled differently`
+    );
+  }
 });
 
 // A fixed sequence, so a test that passes today passes tomorrow.
