@@ -29,6 +29,7 @@ import { findColumnIndexes, parseTags, rowsToRecords } from "./sheet-schema.mjs"
 
 const apply = process.argv.includes("--apply");
 const allowEdits = process.argv.includes("--allow-edits");
+const allowDeletes = process.argv.includes("--allow-deletes");
 
 // Excel drops a ~$ owner file beside a workbook it has open.
 const OWNER_FILE = path.join(
@@ -75,6 +76,18 @@ try {
 if (fs.existsSync(OWNER_FILE)) {
   console.log("NOTE  lexicon.xlsx appears to be open in Excel.");
   console.log("      Anything not saved yet will not be seen by this import.");
+}
+
+// A sheet with headers and no words is a corrupted file, never an instruction to
+// empty the lexicon. Missing rows mean deletions, so this cannot be a warning.
+if (records.length === 0) {
+  console.error("Cannot import: lexicon/lexicon.xlsx has its headers but no words.");
+  console.error("");
+  console.error("A row missing from the sheet means a deleted word, so importing this would");
+  console.error("propose emptying the lexicon. That is not something a sheet gets to say.");
+  console.error("");
+  console.error("Restore the spreadsheet from version control.");
+  process.exit(1);
 }
 
 const errors = [];
@@ -270,15 +283,22 @@ if (fieldEdits.length > 0) {
 }
 
 if (absent.length > 0) {
-  console.log(`IN THE LEXICON BUT NOT IN THE SHEET (${absent.length})`);
-  console.log("  These are left untouched. Nothing is ever deleted by an import.");
-  for (const entry of absent) console.log(`  ${entry.id}  (${entry.english})`);
+  console.log(`DELETIONS (${absent.length})`);
+  console.log("  In the lexicon, no longer in the sheet. The sheet is the source, so these");
+  console.log("  are words that were deleted. Codepoints are printed so a word removed by");
+  console.log("  mistake can be put back from this report.");
+  for (const entry of absent) {
+    console.log(`  ${entry.id}  (${entry.english})`);
+    console.log(`      ${entry.codepoints.join(" ")}`);
+    console.log(`      recording: ${entry.audio ?? "(none)"}${entry.audio ? " - left on disk" : ""}`);
+  }
   console.log("");
 }
 
 console.log(`unchanged     : ${unchanged}`);
 console.log(`to add        : ${additions.length}`);
 console.log(`to edit       : ${klallamEdits.length + fieldEdits.length}`);
+console.log(`to delete     : ${absent.length}`);
 
 for (const w of warnings) console.log(`\nWARN  ${w}`);
 
@@ -298,7 +318,19 @@ if (klallamEdits.length > 0 && !allowEdits) {
   process.exit(1);
 }
 
-const changeCount = additions.length + klallamEdits.length + fieldEdits.length;
+if (absent.length > 0 && !allowDeletes) {
+  console.error("");
+  console.error("This import would remove word(s) from the lexicon, because their rows are no");
+  console.error("longer in the spreadsheet. Deleting a row is how a word is removed, so this is");
+  console.error("working as intended - but it is worth being sure it was meant.");
+  console.error("\nCheck the list above, then re-run with:");
+  console.error(
+    `  npm run lexicon:import -- --apply${klallamEdits.length > 0 ? " --allow-edits" : ""} --allow-deletes`
+  );
+  process.exit(1);
+}
+
+const changeCount = additions.length + klallamEdits.length + fieldEdits.length + absent.length;
 
 if (!apply) {
   console.log("");
@@ -382,8 +414,14 @@ for (const { record, entry, tags, audio } of fieldEdits) {
   console.log(`updated ${entry.id}`);
 }
 
+if (absent.length > 0) {
+  const removing = new Set(absent.map((e) => e.id));
+  lexicon.entries = entries.filter((e) => !removing.has(e.id));
+  for (const entry of absent) console.log(`deleted ${entry.id}  (recording left on disk)`);
+}
+
 writeLexicon(lexicon);
-const lock = writeLock(entries);
+const lock = writeLock(lexicon.entries);
 
 // Only the ids this import generated are written back. The sheet is the source of
 // truth, so it is annotated in place and never rebuilt from the lexicon.

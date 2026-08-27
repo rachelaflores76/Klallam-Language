@@ -67,7 +67,7 @@ file so a person can copy it, because nothing and nobody should be retyping it.
 **Done when:** running it produces a file listing 5 words and 8 changed marks, and
 `npm run lexicon:verify` still reports 102 entries — proof it changed nothing.
 
-### 2. A word deleted from the spreadsheet is deleted from the lexicon
+### 2. A word deleted from the spreadsheet is deleted from the lexicon  ✅
 
 Today the import works out which words are missing from the sheet and then deliberately
 does nothing about them. That reverses. A word missing from the spreadsheet is a word
