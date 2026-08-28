@@ -43,7 +43,6 @@ These hold for every game in this project, not just v1:
 - Sentence or grammar instruction
 
 ### Deferred (tracked, not blocking)
-- Reconciling the two glottalization marks in the source doc (U+0313 vs U+0315)
 - Words with missing audio; audio with no matching word
 - Merging in the word list from the existing app
 - Artwork and animation
@@ -291,8 +290,9 @@ What the importer guarantees:
   characters, a capitalized first letter, `U+FFFD` &mdash; is a hard error. Excel
   rewrites text without being asked, so the sheet is treated as untrusted input.
 - Duplicate detection runs twice: exact, then folded so U+0313 and U+0315 compare
-  equal. Fatal only when the import is what creates the collision, since the
-  lexicon already contains such a pair (see Deferred).
+  equal. Fatal only when the import is what creates the collision. The lexicon no
+  longer contains such a pair, but source material still uses both marks, so the check
+  stays.
 - Editing the Klallam of an existing entry requires `--allow-edits` and marks the
   entry `needs_review`, because the import cannot know who approved it.
 - A row missing from the sheet is a deleted word. The sheet is the source and
@@ -352,7 +352,7 @@ No game yet. Prove the shared data layer is right first.
 - [x] Write the integrity test and CI ASCII guard
 - [x] Ship a plain **lexicon review page**: every word, its gloss, a play button
 
-**Result:** 102 entries, 100 with audio, 11 flagged for review, 3 recordings unused.
+**Result:** 101 entries, 98 with audio, 5 flagged for review, 4 recordings unused.
 Drift detection verified two ways — swapping a single U+0313 for U+0315 fails CI even
 when the codepoints array is regenerated to match.
 
@@ -360,12 +360,10 @@ when the codepoints array is regenerated to match.
 
 | Entry | Question |
 |---|---|
-| `one` / `one-2` | Same word spelled with U+0313 and U+0315. Which is correct? |
-| `bird`, `cut-it`, `afraid`, `trying-it` | Use U+0315 where the rest of the document uses U+0313 |
-| `young-woman` / `young-woman-2` | Differ by a trailing glottal stop |
-| `important-person`, `finish`, `young-woman` | Audio mapping is a best guess |
+| `young-woman` / `young-woman-2` | Differ by a trailing glottal stop. One word or two? |
 | `sack`, `trying-it` | No recording exists |
-| `maple.mp3`, `swim.mp3`, `hand2.mp3` | Recordings with no matching word |
+| `yes` | Recording was of a different word; awaiting a replacement |
+| `maple.mp3`, `swim.mp3`, `hand2.mp3`, `yes.mp3` | Recordings with no matching word |
 
 ---
 
@@ -403,12 +401,30 @@ pair. More recordings and confirmed entries would sharpen this.
 ### Phase 4 — Content reconciliation
 The deferred content work, once a speaker is available.
 
-- Resolve U+0313 vs U+0315 across the lexicon
-- Fill audio gaps; identify unmatched audio
-- Merge the existing app's word list, de-duplicated by exact codepoints
-- Clear all `needs_review` flags
+- [x] Resolve U+0313 vs U+0315 across the lexicon (`plans/apply-expert-rulings.md`)
+- [x] Clear the `needs_review` flags a speaker has ruled on
+- [ ] Fill audio gaps; identify unmatched audio
+- [ ] Merge the existing app's word list, de-duplicated by exact codepoints
 
 **Done when:** zero entries flagged, and a speaker has signed off on the review page.
+
+**Speakers' ruling, 2026-08-27**, after reading the review page:
+
+- The two marks are the list author's own inconsistency, not a distinction. **U+0313
+  everywhere.** Applied: no word uses U+0315 now.
+- The two entries glossed "one" are the same word. `one-2` was removed; `one` stays.
+- The four recordings flagged as a best guess are all correct.
+- The recording on `yes` is a different, variant way of saying yes. A recording mistake.
+  The recording was detached and the word waits for a replacement.
+
+**U+0315 was deliberately not banned in code.** The ruling settles the words that exist,
+not the source material: the list's author used both marks and may again, so a word
+arriving with the old mark is still importable. `npm run lexicon:mark-fix` writes out any
+that do, corrected, rather than asking anyone to retype a word.
+
+**Still open:** whether the two `young-woman` spellings are one word; recordings for
+`sack`, `trying-it` and `yes`; and the four recordings with no word attached. Phase 4
+cannot close until those come back.
 
 ---
 

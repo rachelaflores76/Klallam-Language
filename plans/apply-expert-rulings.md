@@ -98,7 +98,7 @@ spellings should exist is an open question.
 **Done when:** `npm run lexicon:verify` reports 5 words flagged: `sack`, `trying-it`,
 `yes`, `young-woman`, `young-woman-2`.
 
-### 4. Bring PLAN.md up to date
+### 4. Bring PLAN.md up to date  ✅
 
 The Phase 1 result line and its counts. The Phase 4 checklist: tick the mark
 reconciliation and the flag clearing, leave the recordings and the app merge open. The
