@@ -38,35 +38,38 @@ From the email of 2026-08-27, after reading the review page:
 
 ## Steps
 
-### 1. One mark, used everywhere
+### 1. One mark everywhere, and the two "one" entries become one
+
+These were written as two steps and cannot be. Correcting the second "one" is what makes
+it identical to the first, and the import refuses to create a duplicate word, so the
+correction cannot land while the duplicate is still there. Merged on 2026-08-28, after
+the first dry run stopped on exactly that.
 
 `npm run lexicon:mark-fix` writes the file of corrected spellings. The maintainer pastes
-each one into the Klallam column of the row it names in `lexicon.xlsx`, and saves.
+each one into the Klallam column of the row it names in `lexicon.xlsx`, and deletes the
+row whose **id column reads `one-2`** &mdash; not by looking at the Klallam, because once
+corrected the two "one" rows are identical on screen and the id is the only way to tell
+them apart. `one` is the one that stays; it was already spelled with the right mark.
 
-`npm run lexicon:import` then shows a codepoint diff for each. **The maintainer reads it
-and confirms that every position marked as changed is the mark being swapped and nothing
-else.** That reading is the whole point of doing this by hand. Then
-`npm run lexicon:import -- --apply --allow-edits`, and `WORDS-TO-FIX.txt` gets deleted.
+`npm run lexicon:import` then shows a codepoint diff for each correction and lists the
+deletion with its codepoints. **The maintainer reads it and confirms that every position
+marked as changed is the mark being swapped and nothing else.** That reading is the whole
+point of doing this by hand. Then:
 
-Five words are affected: `trying-it`, `bird`, `one-2`, `cut-it`, `afraid`.
+```
+npm run lexicon:import -- --apply --allow-edits --allow-deletes
+```
 
-**Done when:** no word in the lexicon uses the old mark. Expect all five to come back
-flagged for review — an import cannot know who approved a spelling change, so it flags
-every one. Step 4 clears them.
+Four words are corrected: `trying-it`, `bird`, `cut-it`, `afraid`. The fifth, `one-2`,
+goes instead of being corrected. `one.mp3` stays on disk and stays attached to `one`.
+`WORDS-TO-FIX.txt` gets deleted afterwards.
 
-### 2. Two "one" entries become one
+**Done when:** `npm run lexicon:verify` reports 101 entries, no word uses the old mark,
+and the warning about two words being identical once the marks are folded is gone.
+Expect all four corrected words to come back flagged for review &mdash; an import cannot
+know who approved a spelling change, so it flags every one. Step 3 clears them.
 
-`one` is already written with the right mark, so it is the one that stays. The
-maintainer deletes the `one-2` row in `lexicon.xlsx` and saves.
-
-`npm run lexicon:import` lists it as a deletion with its codepoints, and
-`npm run lexicon:import -- --apply --allow-deletes` removes it. `one.mp3` stays on disk
-and stays attached to `one`.
-
-**Done when:** `npm run lexicon:verify` reports 101 entries and no longer warns about
-two words being identical once the marks are folded together.
-
-### 3. The recording comes off "yes"
+### 2. The recording comes off "yes"
 
 The maintainer clears the audio cell on the `yes` row and saves. The dry run shows the
 change and the review flag it brings with it; `--apply` writes it.
@@ -76,7 +79,7 @@ it waits with the others until the experts send the spelling it belongs to.
 
 **Done when:** `yes` has no recording and carries a flag saying so.
 
-### 4. Settle the review flags
+### 3. Settle the review flags
 
 Clear the flags the experts ruled on, using `npm run lexicon:resolve`:
 
@@ -95,7 +98,7 @@ spellings should exist is an open question.
 **Done when:** `npm run lexicon:verify` reports 5 words flagged: `sack`, `trying-it`,
 `yes`, `young-woman`, `young-woman-2`.
 
-### 5. Bring PLAN.md up to date
+### 4. Bring PLAN.md up to date
 
 The Phase 1 result line and its counts. The Phase 4 checklist: tick the mark
 reconciliation and the flag clearing, leave the recordings and the app merge open. The
@@ -104,7 +107,7 @@ of the 2026-08-27 ruling, including that U+0315 was deliberately not banned outr
 
 **Done when:** every number in `PLAN.md` matches what `npm run lexicon:verify` prints.
 
-### 6. The questions that go back to the experts
+### 5. The questions that go back to the experts
 
 A plain list the maintainer can paste into an email:
 
