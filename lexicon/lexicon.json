@@ -91,9 +91,7 @@
       "tags": [],
       "needs_review": true,
       "review_reasons": [
-        "no matching recording in the archive",
-        "uses U+0315 where most of the document uses U+0313",
-        "Klallam text was changed by a spreadsheet import; needs a speaker's confirmation"
+        "no matching recording in the archive"
       ]
     },
     {
@@ -183,10 +181,8 @@
       "audio": "boss.mp3",
       "image": null,
       "tags": [],
-      "needs_review": true,
-      "review_reasons": [
-        "audio mapping is a best guess and needs a speaker to confirm"
-      ]
+      "needs_review": false,
+      "review_reasons": []
     },
     {
       "id": "yes",
@@ -344,10 +340,8 @@
       "audio": "one.mp3",
       "image": null,
       "tags": [],
-      "needs_review": true,
-      "review_reasons": [
-        "differs from \"one-2\" only by an invisible mark"
-      ]
+      "needs_review": false,
+      "review_reasons": []
     },
     {
       "id": "canoe",
@@ -504,11 +498,8 @@
       "audio": "bird(small).mp3",
       "image": null,
       "tags": [],
-      "needs_review": true,
-      "review_reasons": [
-        "uses U+0315 where most of the document uses U+0313",
-        "Klallam text was changed by a spreadsheet import; needs a speaker's confirmation"
-      ]
+      "needs_review": false,
+      "review_reasons": []
     },
     {
       "id": "cut-it",
@@ -524,11 +515,8 @@
       "audio": "cut.mp3",
       "image": null,
       "tags": [],
-      "needs_review": true,
-      "review_reasons": [
-        "uses U+0315 where most of the document uses U+0313",
-        "Klallam text was changed by a spreadsheet import; needs a speaker's confirmation"
-      ]
+      "needs_review": false,
+      "review_reasons": []
     },
     {
       "id": "outside",
@@ -562,11 +550,8 @@
       "audio": "afraid.mp3",
       "image": null,
       "tags": [],
-      "needs_review": true,
-      "review_reasons": [
-        "uses U+0315 where most of the document uses U+0313",
-        "Klallam text was changed by a spreadsheet import; needs a speaker's confirmation"
-      ]
+      "needs_review": false,
+      "review_reasons": []
     },
     {
       "id": "tooth",
@@ -798,10 +783,8 @@
       "audio": "quitfornow.mp3",
       "image": null,
       "tags": [],
-      "needs_review": true,
-      "review_reasons": [
-        "audio mapping is a best guess and needs a speaker to confirm"
-      ]
+      "needs_review": false,
+      "review_reasons": []
     },
     {
       "id": "good",
@@ -1378,7 +1361,7 @@
       "tags": [],
       "needs_review": true,
       "review_reasons": [
-        "audio mapping is a best guess and needs a speaker to confirm"
+        "speakers confirmed the recording 2026-08-27; are these two spellings one word or two?"
       ]
     },
     {
@@ -1744,7 +1727,7 @@
       "tags": [],
       "needs_review": true,
       "review_reasons": [
-        "audio mapping is a best guess and needs a speaker to confirm"
+        "speakers confirmed the recording 2026-08-27; are these two spellings one word or two?"
       ]
     },
     {

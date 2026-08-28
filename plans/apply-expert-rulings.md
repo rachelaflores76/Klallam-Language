@@ -79,7 +79,7 @@ it waits with the others until the experts send the spelling it belongs to.
 
 **Done when:** `yes` has no recording and carries a flag saying so.
 
-### 3. Settle the review flags
+### 3. Settle the review flags  ✅
 
 Clear the flags the experts ruled on, using `npm run lexicon:resolve`:
 
