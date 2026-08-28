@@ -69,7 +69,7 @@ and the warning about two words being identical once the marks are folded is gon
 Expect all four corrected words to come back flagged for review &mdash; an import cannot
 know who approved a spelling change, so it flags every one. Step 3 clears them.
 
-### 2. The recording comes off "yes"
+### 2. The recording comes off "yes"  ✅
 
 The maintainer clears the audio cell on the `yes` row and saves. The dry run shows the
 change and the review flag it brings with it; `--apply` writes it.

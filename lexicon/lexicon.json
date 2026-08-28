@@ -196,11 +196,13 @@
         "U+0313"
       ],
       "english": "yes",
-      "audio": "yes.mp3",
+      "audio": null,
       "image": null,
       "tags": [],
-      "needs_review": false,
-      "review_reasons": []
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
     },
     {
       "id": "strong",
