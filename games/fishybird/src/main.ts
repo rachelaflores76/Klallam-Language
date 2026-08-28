@@ -110,30 +110,50 @@ class RoundScene extends Phaser.Scene {
     );
   }
 
+  /**
+   * Puts the scene back the way a round finds it. Every start and every stop goes
+   * through here, so no level can inherit the last one's fish, timers or bird.
+   */
+  private stopPlay(): void {
+    // A queued advance from the last round would otherwise fire into the new one.
+    this.time.removeAllEvents();
+    this.wordInPlay = false;
+    this.wrongThisWord = false;
+    this.wrongGrabs = 0;
+    this.runStartedAt = 0;
+    this.clearSalmon();
+    this.hideOrca();
+    this.perchEagle();
+  }
+
+  private perchEagle(): void {
+    this.tweens.killTweensOf(this.eagle);
+    this.eagle.setPosition(WIDTH / 2, EAGLE_PERCH_Y);
+    this.eagle.scaleX = 1;
+    this.flying = false;
+  }
+
   private beginRound(index: number): void {
     this.levelIndex = clampLevelIndex(index);
     this.level = levelAt(this.levelIndex);
     this.ui.hideSummary();
     this.ui.hideChooser();
-    this.clearSalmon();
+    this.stopPlay();
     startRound();
     this.round = buildRound(this.level);
     this.index = 0;
     this.caught = 0;
     this.missed = [];
     this.roundOver = false;
-    this.wordInPlay = false;
     this.ui.showScore(this.level.name, 0, this.round.length);
     this.presentWord();
   }
 
   private abandonRound(): void {
     this.roundOver = true;
-    this.wordInPlay = false;
-    this.clearSalmon();
+    this.stopPlay();
     this.ui.clearWord();
     this.ui.hideSummary();
-    this.hideOrca();
     this.ui.showChooser();
   }
 
@@ -456,10 +476,8 @@ class RoundScene extends Phaser.Scene {
 
   private endRound(): void {
     this.roundOver = true;
-    this.wordInPlay = false;
-    this.clearSalmon();
+    this.stopPlay();
     this.ui.clearWord();
-    this.hideOrca();
 
     this.ui.showSummary(
       this.caught,
