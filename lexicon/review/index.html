@@ -125,6 +125,11 @@
           return e.english.toLowerCase().includes(term) || e.id.includes(term);
         });
 
+        // Sorted for the reader only. lexicon.json keeps its own order, which the lock covers.
+        visible.sort(
+          (a, b) => a.english.localeCompare(b.english) || a.id.localeCompare(b.id)
+        );
+
         rows.replaceChildren();
 
         for (const entry of visible) {
