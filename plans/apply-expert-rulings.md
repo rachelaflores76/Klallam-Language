@@ -38,7 +38,7 @@ From the email of 2026-08-27, after reading the review page:
 
 ## Steps
 
-### 1. One mark everywhere, and the two "one" entries become one
+### 1. One mark everywhere, and the two "one" entries become one  ✅
 
 These were written as two steps and cannot be. Correcting the second "one" is what makes
 it identical to the first, and the import refuses to create a duplicate word, so the

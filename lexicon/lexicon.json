@@ -74,13 +74,13 @@
     },
     {
       "id": "trying-it",
-      "klallam": "p̕ap̕áʔt",
+      "klallam": "p̓ap̓áʔt",
       "codepoints": [
         "U+0070",
-        "U+0315",
+        "U+0313",
         "U+0061",
         "U+0070",
-        "U+0315",
+        "U+0313",
         "U+00E1",
         "U+0294",
         "U+0074"
@@ -92,7 +92,8 @@
       "needs_review": true,
       "review_reasons": [
         "no matching recording in the archive",
-        "uses U+0315 where most of the document uses U+0313"
+        "uses U+0315 where most of the document uses U+0313",
+        "Klallam text was changed by a spreadsheet import; needs a speaker's confirmation"
       ]
     },
     {
@@ -485,17 +486,17 @@
     },
     {
       "id": "bird",
-      "klallam": "c̕éʔc̕əm̕",
+      "klallam": "c̓éʔc̓əm̓",
       "codepoints": [
         "U+0063",
-        "U+0315",
+        "U+0313",
         "U+00E9",
         "U+0294",
         "U+0063",
-        "U+0315",
+        "U+0313",
         "U+0259",
         "U+006D",
-        "U+0315"
+        "U+0313"
       ],
       "english": "bird",
       "audio": "bird(small).mp3",
@@ -503,39 +504,18 @@
       "tags": [],
       "needs_review": true,
       "review_reasons": [
-        "uses U+0315 where most of the document uses U+0313"
-      ]
-    },
-    {
-      "id": "one-2",
-      "klallam": "nə́c̕uʔ",
-      "codepoints": [
-        "U+006E",
-        "U+0259",
-        "U+0301",
-        "U+0063",
-        "U+0315",
-        "U+0075",
-        "U+0294"
-      ],
-      "english": "one",
-      "audio": "one.mp3",
-      "image": null,
-      "tags": [],
-      "needs_review": true,
-      "review_reasons": [
         "uses U+0315 where most of the document uses U+0313",
-        "differs from \"one\" only by an invisible mark"
+        "Klallam text was changed by a spreadsheet import; needs a speaker's confirmation"
       ]
     },
     {
       "id": "cut-it",
-      "klallam": "ɬíc̕t",
+      "klallam": "ɬíc̓t",
       "codepoints": [
         "U+026C",
         "U+00ED",
         "U+0063",
-        "U+0315",
+        "U+0313",
         "U+0074"
       ],
       "english": "cut it",
@@ -544,7 +524,8 @@
       "tags": [],
       "needs_review": true,
       "review_reasons": [
-        "uses U+0315 where most of the document uses U+0313"
+        "uses U+0315 where most of the document uses U+0313",
+        "Klallam text was changed by a spreadsheet import; needs a speaker's confirmation"
       ]
     },
     {
@@ -565,12 +546,12 @@
     },
     {
       "id": "afraid",
-      "klallam": "sáy̕siʔ",
+      "klallam": "sáy̓siʔ",
       "codepoints": [
         "U+0073",
         "U+00E1",
         "U+0079",
-        "U+0315",
+        "U+0313",
         "U+0073",
         "U+0069",
         "U+0294"
@@ -581,7 +562,8 @@
       "tags": [],
       "needs_review": true,
       "review_reasons": [
-        "uses U+0315 where most of the document uses U+0313"
+        "uses U+0315 where most of the document uses U+0313",
+        "Klallam text was changed by a spreadsheet import; needs a speaker's confirmation"
       ]
     },
     {
