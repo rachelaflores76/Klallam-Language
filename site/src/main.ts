@@ -1,8 +1,16 @@
-import { getChapters, getWords, type Chapter } from "@klallam/lexicon";
+import {
+  getChapters,
+  getPronunciationGuide,
+  getWords,
+  type Chapter,
+  type PronunciationEntry,
+} from "@klallam/lexicon";
 import {
   ensureKlallamFont,
   getPoints,
   placeGame,
+  playRecording,
+  recordingUrl,
   GAME_FINISHED_EVENT,
 } from "@klallam/game-kit";
 import "./style.css";
@@ -90,6 +98,8 @@ const panelIcon = document.querySelector("#g-icon");
 const panelBadge = document.querySelector("#g-badge");
 const panelTabs = document.querySelector("#g-tabs");
 const panelBody = document.querySelector("#g-body");
+const guide = document.querySelector("#pg");
+const guideTitle = document.querySelector("#pg-title");
 
 function chapterCard(chapter: Chapter): HTMLElement {
   const decoration = DECORATION[chapter.tag];
@@ -210,6 +220,62 @@ function chapterWordIds(chapter: Chapter): string[] {
   return getWords({ tags: [chapter.tag] }).map((entry) => entry.id);
 }
 
+function soundCard(sound: PronunciationEntry): HTMLElement {
+  const card = document.createElement("div");
+  card.className = "pc";
+
+  const symbols = document.createElement("div");
+  symbols.className = "ps";
+  symbols.textContent = sound.symbols;
+
+  const description = document.createElement("div");
+  description.className = "pd";
+  description.textContent = sound.description;
+
+  card.append(symbols, description);
+
+  const example = sound.example;
+  if (example !== null) {
+    const line = document.createElement("div");
+    line.className = "pe";
+
+    const word = document.createElement("span");
+    word.className = "pe-kl";
+    word.textContent = example.klallam;
+
+    const gloss = document.createElement("span");
+    gloss.textContent = `= ${example.english}`;
+
+    line.append(word, gloss);
+
+    // Most words have no recording yet, so the button only shows where there is one.
+    if (recordingUrl(example) !== null) {
+      const play = document.createElement("button");
+      play.type = "button";
+      play.className = "p-play";
+      play.textContent = "\u{1F50A}";
+      play.setAttribute("aria-label", `Play the recording of "${example.english}"`);
+      play.addEventListener("click", () => {
+        playRecording(example);
+      });
+      line.append(play);
+    }
+
+    card.append(line);
+  }
+
+  return card;
+}
+
+/** The guide stays out of the way entirely until a speaker has filled it in. */
+function showGuide(): void {
+  const sounds = getPronunciationGuide();
+  guide?.replaceChildren(...sounds.map(soundCard));
+  const empty = sounds.length === 0;
+  if (guide instanceof HTMLElement) guide.hidden = empty;
+  if (guideTitle instanceof HTMLElement) guideTitle.hidden = empty;
+}
+
 /** The address is what says which chapter and game are open, so back and reload work. */
 function showWhatTheAddressAsksFor(scroll: boolean): void {
   const params = new URLSearchParams(location.search);
@@ -224,6 +290,7 @@ function showWhatTheAddressAsksFor(scroll: boolean): void {
 }
 
 if (grid !== null) grid.replaceChildren(...getChapters().map(chapterCard));
+showGuide();
 // A game awards its points as a round ends, which is when the header can catch up.
 panelBody?.addEventListener(GAME_FINISHED_EVENT, showPoints);
 window.addEventListener("popstate", () => showWhatTheAddressAsksFor(false));
