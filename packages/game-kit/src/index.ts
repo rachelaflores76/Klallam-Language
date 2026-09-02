@@ -5,7 +5,7 @@ import { awardPoints, getPoints, storageFor, type GameStorage } from "./storage"
 
 export type { GameStorage } from "./storage";
 export { awardPoints, getPoints, storageFor } from "./storage";
-export { recordingUrl } from "./audio";
+export { recordingUrl, playRecording } from "./audio";
 export { ensureKlallamFont, KLALLAM_FONT_FAMILY } from "./font";
 
 /** Whether the game wants the whole screen or is happy in a panel on a page. */
