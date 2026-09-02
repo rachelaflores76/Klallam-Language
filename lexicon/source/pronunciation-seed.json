@@ -1,0 +1,66 @@
+{
+  "source": "Pronunciation guide from the original Fun With Klallam page",
+  "note": "Starter rows for the pronunciation sheet. English only; the symbols are typed by a speaker.",
+  "sounds": [
+    {
+      "id": "glottal-stop",
+      "description": "Glottal stop — the catch in \"uh-oh\"",
+      "example_id": "sleep"
+    },
+    {
+      "id": "schwa",
+      "description": "Schwa — like \"uh\" in \"above\" (often drops in fast speech)",
+      "example_id": "you"
+    },
+    {
+      "id": "throaty-h",
+      "description": "Throaty \"h\" — deep in the throat (uvular fricative)",
+      "example_id": "dog"
+    },
+    {
+      "id": "velar-hw",
+      "description": "Velar \"hw\" — like blowing with rounded lips",
+      "example_id": "your"
+    },
+    {
+      "id": "voiceless-lateral",
+      "description": "Voiceless lateral — like Welsh \"ll\" or breathed \"hl\"",
+      "example_id": "three"
+    },
+    {
+      "id": "ch",
+      "description": "Like English \"ch\" in \"church\"",
+      "example_id": "work"
+    },
+    {
+      "id": "ejective-lateral",
+      "description": "Ejective lateral — a popping \"tl!\" sound",
+      "example_id": "salt"
+    },
+    {
+      "id": "back-k",
+      "description": "\"k\" sounds pronounced far back in the throat",
+      "example_id": "water"
+    },
+    {
+      "id": "ejective-stops",
+      "description": "Ejective stops — the same sounds with a sharp release burst",
+      "example_id": "raven"
+    },
+    {
+      "id": "stressed-vowels",
+      "description": "Accent mark = stressed vowel — louder and slightly longer",
+      "example_id": "mother"
+    },
+    {
+      "id": "glottalized-sonorants",
+      "description": "Glottalized sonorants — tense your throat while saying them",
+      "example_id": "grandparent"
+    },
+    {
+      "id": "sh",
+      "description": "Like English \"sh\" in \"shoe\"",
+      "example_id": "cow"
+    }
+  ]
+}
