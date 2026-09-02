@@ -51,7 +51,7 @@ broken gets in either way. It is just far less annoying to prevent them.
 | **Klallam** | Type or paste the word. |
 | **English** | The translation. |
 | **audio file** | A filename in `lexicon/audio/`, for example `white.mp3`. |
-| **tags** | Optional, comma separated. |
+| **tags** | Optional, comma separated. See *Chapter tags* below. |
 
 - **To add a word,** type into the first empty row and **leave the id blank**.
   An id is created for you and written back into the sheet afterwards.
@@ -64,6 +64,31 @@ broken gets in either way. It is just far less annoying to prevent them.
 - **You can add your own columns.** Anything the lexicon does not recognise, such as
   a notes column, is left untouched.
 
+### Chapter tags
+
+The **tags** column is what puts a word into a chapter on the site. A word with no
+tag still exists; it just does not appear in any chapter. A word can carry more than
+one tag, separated by commas.
+
+Type one of these, exactly:
+
+| Tag | Chapter |
+|---|---|
+| `ch-1.1` | Ch. 1.1 &mdash; Intransitive Verbs |
+| `ch-1.2` | Ch. 1.2 &mdash; Transitive Verbs |
+| `ch-4` | Ch. 4 &mdash; Nouns |
+| `ch-6` | Ch. 6 &mdash; Adjectives |
+| `pronouns` | Subject Pronouns |
+
+- **Capitals and stray spaces do not matter.** `CH-4`, ` ch-4 ` and `ch-4` are all
+  the same tag, and typing one twice stores it once.
+- **A tag that is not on the list stops the import.** You get the row number, what you
+  typed, and the tag you probably meant. Nothing is written until it is fixed, so a
+  mistyped tag can never quietly drop a word out of its chapter.
+- **To add a chapter,** ask Claude to add it to `lexicon/tags.json`. That file holds no
+  Klallam, so Claude can edit it safely. Until a tag is in there, the import will
+  reject it.
+
 ### Changing a word that is already in the lexicon
 
 This is treated as a bigger deal than adding one, on purpose. Claude will show you
@@ -75,19 +100,15 @@ review automatically, because the process cannot know who approved them.
 
 ## Checking the words
 
-Ask Claude to *"open the lexicon review page"*. It renders every word properly and
-plays its recording, which is the right way for a speaker to check them.
+Ask Claude to *"open the lexicon review page"*. That starts the site and opens it at
+**<http://localhost:5173/review/>**, which lists every word, rendered properly, and
+plays its recording.
 
-### Two audiences, two kinds of checking
+It is one website: the games are at the same address, and the review page is a part of
+it rather than a thing of its own.
 
-A **speaker** checks a word by reading it rendered, in the spreadsheet or on the
-review page.
-
-A **maintainer** checks a word by reading codepoints: the `codepoints` array in
-`lexicon.json`, the before/after diff the import prints, and the git diff.
-
-Never ask a speaker to verify that `U+0313` should have been `U+0315`. Nobody reads
-Unicode by eye, and the two marks look identical on screen.
+That page is the right way to check a word: read it and listen to it. Words waiting on
+a speaker's say-so are marked, so you can work straight down the list.
 
 ---
 
@@ -149,7 +170,8 @@ Requires Node 20 or newer.
 npm run lexicon:import              # validate, diff, report - writes nothing
 npm run lexicon:import -- --apply   # apply, then re-lock and verify
 npm run lexicon:verify              # integrity check
-npm run lexicon:review              # serve the review page
+npm run site:dev                    # the site: hub, games, review page, one address
+npm run lexicon:review              # start the site, open it at the review page
 npm test                            # integrity and codec tests
 npm run ci                          # everything CI runs
 ```

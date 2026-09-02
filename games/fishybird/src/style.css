@@ -1,22 +1,9 @@
-:root {
-  color-scheme: dark;
-}
-
-/* Klallam stacks combining marks that system fonts misplace, so the banner waits
-   for this font rather than swapping in whatever is already on the machine. */
-@font-face {
-  font-family: "Charis";
-  src: url("/fonts/Charis-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: block;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
+/* Everything here is scoped to the game's own element, so it cannot repaint the page
+   around it and the page cannot restyle the game. */
+:host {
+  display: block;
   height: 100%;
+  color-scheme: dark;
   background: #06202c;
   font-family: system-ui, sans-serif;
 }
@@ -85,8 +72,10 @@ body {
   display: none;
 }
 
+/* Pinned to the game's own element, not the window, so a game placed in a panel on a
+   page covers only itself. */
 .start-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
@@ -97,7 +86,7 @@ body {
 }
 
 .change-level {
-  position: fixed;
+  position: absolute;
   top: 1rem;
   right: 1rem;
   z-index: 1;
@@ -128,7 +117,7 @@ body {
 }
 
 .summary {
-  position: fixed;
+  position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;

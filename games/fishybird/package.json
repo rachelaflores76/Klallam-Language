@@ -4,12 +4,13 @@
   "private": true,
   "type": "module",
   "description": "FishyBird: an eagle catches the salmon carrying the correct translation.",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+  "main": "./src/main.ts",
+  "types": "./src/main.ts",
+  "exports": {
+    ".": "./src/main.ts"
   },
   "dependencies": {
+    "@klallam/game-kit": "*",
     "@klallam/lexicon": "*",
     "phaser": "^3.90.0"
   },

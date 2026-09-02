@@ -1,3 +1,5 @@
+import { registerGame } from "@klallam/game-kit";
+import type { LexiconEntry } from "@klallam/lexicon";
 import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
@@ -12,6 +14,7 @@ import {
 } from "./salmon";
 import { createUi, type GameUi } from "./ui";
 import { buildRound, type RoundWord } from "./words";
+import styles from "./style.css?inline";
 
 const WIDTH = 960;
 const HEIGHT = 540;
@@ -59,7 +62,6 @@ function createEagle(scene: Phaser.Scene): Phaser.GameObjects.Container {
 }
 
 class RoundScene extends Phaser.Scene {
-  private ui!: GameUi;
   private level: Level = levelAt(0);
   private levelIndex = 0;
   private round: RoundWord[] = [];
@@ -83,7 +85,11 @@ class RoundScene extends Phaser.Scene {
   private wordInPlay = false;
   private missed: RoundWord[] = [];
 
-  constructor() {
+  constructor(
+    private readonly ui: GameUi,
+    private readonly pool: readonly LexiconEntry[],
+    private readonly onFinished: (caught: number, outOf: number) => void
+  ) {
     super("round");
   }
 
@@ -93,8 +99,6 @@ class RoundScene extends Phaser.Scene {
     this.orca = createOrca(this);
     this.eagle = createEagle(this);
     this.eagle.setDepth(10);
-
-    this.ui = createUi();
 
     this.ui.renderLevels(
       LEVELS.map((level) => level.name),
@@ -140,7 +144,7 @@ class RoundScene extends Phaser.Scene {
     this.ui.hideChooser();
     this.stopPlay();
     startRound();
-    this.round = buildRound(this.level);
+    this.round = buildRound(this.pool, this.level);
     this.index = 0;
     this.caught = 0;
     this.missed = [];
@@ -489,6 +493,8 @@ class RoundScene extends Phaser.Scene {
       })),
       this.level.name
     );
+
+    this.onFinished(this.caught, this.round.length);
   }
 
   private replayWord(): void {
@@ -498,15 +504,36 @@ class RoundScene extends Phaser.Scene {
   }
 }
 
-new Phaser.Game({
-  type: Phaser.AUTO,
-  parent: "game",
-  width: WIDTH,
-  height: HEIGHT,
-  // Everything is positioned against 960 by 540 whatever the screen does, taps included.
-  scale: {
-    mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+registerGame({
+  id: "fishybird",
+  name: "FishyBird",
+  icon: "fish",
+  layout: "fullscreen",
+  start(context) {
+    const sheet = document.createElement("style");
+    sheet.textContent = styles;
+    context.root.append(sheet);
+
+    const ui = createUi(context.root);
+    const scene = new RoundScene(ui, context.words(), (caught, outOf) => {
+      context.finish({ score: caught, outOf });
+    });
+
+    const game = new Phaser.Game({
+      type: Phaser.AUTO,
+      // The element itself, not its name: a name is looked up on the document, which
+      // cannot see inside the game's own sealed-off root.
+      parent: ui.gameParent,
+      width: WIDTH,
+      height: HEIGHT,
+      // Everything is positioned against 960 by 540 whatever the screen does, taps included.
+      scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+      },
+      scene: [scene],
+    });
+
+    return () => game.destroy(true);
   },
-  scene: [RoundScene],
 });

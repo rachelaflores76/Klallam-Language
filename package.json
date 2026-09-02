@@ -6,7 +6,9 @@
   "description": "Browser games for teaching the Klallam language. Client-side only, no backend.",
   "workspaces": [
     "lexicon",
-    "games/*"
+    "packages/*",
+    "games/*",
+    "site"
   ],
   "scripts": {
     "lexicon:seed": "node tools/lexicon-cli/seed.mjs",
@@ -17,15 +19,15 @@
     "lexicon:mark-fix": "node tools/lexicon-cli/mark-fix.mjs",
     "lexicon:resolve": "node tools/lexicon-cli/review-flags.mjs resolve",
     "lexicon:flag": "node tools/lexicon-cli/review-flags.mjs flag",
-    "lexicon:review": "node tools/lexicon-cli/review-server.mjs",
+    "lexicon:review": "npm run dev -w @klallam/site -- --open /review/",
+    "lexicon:gap": "node tools/lexicon-cli/gap.mjs",
     "guard:ascii": "node tools/lexicon-cli/ascii-guard.mjs",
-    "game:dev": "npm run dev -w @klallam/fishybird",
-    "game:lan": "npm run dev -w @klallam/fishybird -- --host",
-    "game:build": "npm run build -w @klallam/fishybird",
-    "site:build": "npm run game:build && node tools/site/build-site.mjs",
+    "site:dev": "npm run dev -w @klallam/site",
+    "site:lan": "npm run dev -w @klallam/site -- --host",
+    "site:build": "npm run build -w @klallam/site && node tools/site/build-site.mjs",
     "test": "node --test \"tests/**/*.test.mjs\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "ci": "npm run guard:ascii && npm run typecheck && npm run lexicon:verify && npm test && npm run game:build"
+    "ci": "npm run guard:ascii && npm run typecheck && npm run lexicon:verify && npm test && npm run site:build"
   },
   "devDependencies": {
     "typescript": "^5.6.3"

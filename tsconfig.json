@@ -3,7 +3,7 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "lib": ["ES2022", "DOM"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
@@ -12,5 +12,10 @@
     "noEmit": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["lexicon/src/**/*.ts", "games/*/src/**/*.ts"]
+  "include": [
+    "lexicon/src/**/*.ts",
+    "packages/*/src/**/*.ts",
+    "games/*/src/**/*.ts",
+    "site/src/**/*.ts"
+  ]
 }
