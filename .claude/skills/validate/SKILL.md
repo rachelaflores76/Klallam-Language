@@ -1,6 +1,6 @@
 ---
 name: validate
-description: Confirm a change is really finished - run the automated checks, then tell the user in plain language what they still have to look at with their own eyes. Use when a plan's steps are done, or when the user asks whether something works or is ready.
+description: Confirm a change is really finished - run the automated checks, retire the plan file if there was one, then tell the user in plain language what they still have to look at with their own eyes. Use when the agreed steps are done, or when the user asks whether something works or is ready.
 ---
 
 # Validating a change
@@ -18,9 +18,24 @@ enough for someone who does not read code to actually do it.
 
 1. Run `npm run ci` &mdash; the ASCII guard, the TypeScript check, lexicon integrity,
    and the test suite.
-2. Walk the plan's **done when** lines one at a time. Each is either satisfied or it
-   is not. A step you cannot demonstrate is not done.
-3. Write the report.
+2. Walk each **done when** line one at a time. Each is either satisfied or it is not.
+   A step you cannot demonstrate is not done.
+3. If the work had a plan file, delete `plans/<slug>.md` and commit the deletion with
+   the change. The code now says what the code does; the plan has nothing left to
+   tell anyone, and left in place it will eventually mislead someone.
+4. Write the report.
+
+## The plan file is retired, not archived
+
+## The plan file is retired, not archived
+
+Deleting it loses nothing: the commits are the record of what changed, and `git log`
+still has every word of the plan if anyone ever wants it. What deleting it does buy
+is that no future reader &mdash; person or agent &mdash; mistakes a description of
+last month's intentions for a description of the code.
+
+If steps are left unfinished, the work is not validated. Leave the file where it is
+and say what remains.
 
 ## This step is enforced
 
@@ -61,9 +76,14 @@ exactly why you have to be exact.
 | "I'll say done and mention the caveat at the end." | A caveat the user has to notice is not a caveat. It is a surprise on a delay. |
 | "They'll see for themselves if it's wrong." | Not unless they know where to look. Telling them where is the job. |
 | "The word looks right to me." | You cannot see a combining mark, and neither can the user. A speaker rules on Klallam, every time. |
+| "I'll keep the plan file, it's a useful record." | The commits are the record. A kept plan is a stale explanation waiting to be believed. |
 
 ## Never do these
 
 - Report done with a check that failed, or one you did not run
-- Describe a partly working change as working- Disable or work around the Stop hook- Ask a speaker to verify codepoints — they verify a word by reading it rendered
+- Describe a partly working change as working
+- Leave a finished plan file sitting in `plans/`
+- Delete a plan file whose steps are not all done
+- Disable or work around the Stop hook
+- Ask a speaker to verify codepoints &mdash; they verify a word by reading it rendered
 - Ask anyone to accept "it looks fine" in place of running the checks

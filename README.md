@@ -129,10 +129,15 @@ Ask in plain language, the same way you would for words:
 
 ### What happens
 
-1. **Plan.** Claude asks whatever it needs to, then writes the plan into `plans/`
-   as a numbered list of small steps. Each step says what "done" looks like.
-   **Nothing is built until you read it and say yes.** If a step looks wrong, say
-   so &mdash; it is far cheaper to fix a sentence than working code.
+1. **Plan.** Claude asks whatever it needs to, then lays out the work as a numbered
+   list of small steps. Each step says what "done" looks like. **Nothing is built
+   until you read them and say yes.** If a step looks wrong, say so &mdash; it is far
+   cheaper to fix a sentence than working code.
+
+   For a big change &mdash; several files, or things nobody is sure about yet &mdash;
+   the steps go into a file in `plans/` so you can read them properly and come back
+   to them. For a small one they are just written out in the chat. You still get the
+   same say either way.
 2. **Build.** One step at a time. After every step Claude runs the automatic checks
    and tells you what changed. If a check fails it stops there rather than piling
    the next step on top.
@@ -143,8 +148,10 @@ Ask in plain language, the same way you would for words:
 Step 3 is not a courtesy. The checks run automatically before Claude is allowed to
 finish, and a failure is handed back to Claude rather than to you.
 
-The plan file stays in the repo afterwards, so there is always a plain-language
-record of what changed and why.
+When the work is validated, the plan file is deleted. Plans go stale the moment the
+code moves on, and a stale plan is worse than none &mdash; it sounds authoritative and
+is quietly wrong. The record of what changed lives in the project's history, which
+keeps every plan ever written.
 
 ### Things Claude will refuse
 

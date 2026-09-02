@@ -51,7 +51,10 @@ These are not v1 limitations. They apply for the life of the project.
 ## Making Any Other Change
 - Every change that is not a lexicon entry goes through the same loop: `plan` &rarr; `build` &rarr; `validate`.
 - The skills live in `.claude/skills/`. Use them; do not improvise a substitute.
-- `plan` writes `plans/<slug>.md` and stops for approval. No code is written before that yes.
+- `plan` settles the steps and stops for approval. No code is written before that yes.
+- A written plan file is for big changes only &mdash; several files, real unknowns, more than about four steps. Anything smaller gets its steps proposed in chat and starts on the user's yes. Demanding a document for a two-line change is friction, not rigour.
+- Plan files are transient. `validate` deletes `plans/<slug>.md` when the work is done, and git history keeps the record.
+- Never read an old plan to learn how the project works. The code is the source of truth; a plan only ever recorded an intention.
 - `build` does one step at a time and runs `npm run ci` after each. A red check stops the work.
 - `validate` reports what the checks proved and what a human still has to confirm by eye.
 - `validate` has to pass before anything is called done. A Stop hook in `.claude/settings.json` runs `npm run ci` and refuses to end a turn that left the checks red.
