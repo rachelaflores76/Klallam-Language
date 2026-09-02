@@ -12,6 +12,10 @@ export const AUDIO_DIR = path.join(LEXICON_DIR, "audio");
 export const SOURCE_DIR = path.join(LEXICON_DIR, "source");
 export const LEXICON_SHEET = path.join(LEXICON_DIR, "lexicon.xlsx");
 export const TAGS_JSON = path.join(LEXICON_DIR, "tags.json");
+export const PRONUNCIATION_JSON = path.join(LEXICON_DIR, "pronunciation.json");
+export const PRONUNCIATION_LOCK = path.join(LEXICON_DIR, "pronunciation.lock");
+export const PRONUNCIATION_SHEET = path.join(LEXICON_DIR, "pronunciation.xlsx");
+export const PRONUNCIATION_SEED = path.join(SOURCE_DIR, "pronunciation-seed.json");
 
 // Folding the two glottalization marks is defined once, in the lexicon package, so the
 // tools and the games cannot drift apart on which marks count as the same.
@@ -90,6 +94,45 @@ export function writeLock(entries) {
 
 export function readAudioMap() {
   return JSON.parse(fs.readFileSync(path.join(SOURCE_DIR, "audio-map.json"), "utf8"));
+}
+
+/** Same idea as canonicalContent: the linguistic content only, immune to reformatting. */
+export function canonicalSounds(sounds) {
+  return [...sounds]
+    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
+    .map((s) => [s.id, s.symbols, s.description, s.example_id].join("\u0000"))
+    .join("\n");
+}
+
+export function hashSounds(sounds) {
+  return createHash("sha256").update(canonicalSounds(sounds), "utf8").digest("hex");
+}
+
+export function readPronunciation() {
+  return JSON.parse(fs.readFileSync(PRONUNCIATION_JSON, "utf8"));
+}
+
+export function writePronunciation(guide) {
+  fs.writeFileSync(PRONUNCIATION_JSON, JSON.stringify(guide, null, 2) + "\n", "utf8");
+}
+
+export function readPronunciationSeed() {
+  return JSON.parse(fs.readFileSync(PRONUNCIATION_SEED, "utf8")).sounds;
+}
+
+export function readPronunciationLock() {
+  if (!fs.existsSync(PRONUNCIATION_LOCK)) return null;
+  return JSON.parse(fs.readFileSync(PRONUNCIATION_LOCK, "utf8"));
+}
+
+export function writePronunciationLock(sounds) {
+  const lock = {
+    algorithm: "sha256",
+    soundCount: sounds.length,
+    hash: hashSounds(sounds),
+  };
+  fs.writeFileSync(PRONUNCIATION_LOCK, JSON.stringify(lock, null, 2) + "\n", "utf8");
+  return lock;
 }
 
 /** The chapters a word may be tagged with, in the order they are meant to read. */
