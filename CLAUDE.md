@@ -48,6 +48,13 @@ These are not v1 limitations. They apply for the life of the project.
   it rendered in the sheet or on the review page.
 - Changing the Klallam of an existing word needs a speaker's confirmation, not agent judgement.
 
+## Setting Up a Computer
+- Use the `setup` skill. Do not improvise an install sequence.
+- Install the tooling yourself rather than handing the user commands to paste; the
+  maintainer is not a programmer and has no developer tools installed.
+- Credentials are the one thing you never touch. A password, a token or a sign-in
+  prompt is handed to the user to type directly into the terminal.
+
 ## Making Any Other Change
 - Every change that is not a lexicon entry goes through the same loop: `plan` &rarr; `build` &rarr; `validate`.
 - The skills live in `.claude/skills/`. Use them; do not improvise a substitute.
