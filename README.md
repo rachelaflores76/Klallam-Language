@@ -9,8 +9,7 @@ All games share one lexicon, in `lexicon/`.
 
 ## Setting up on a new computer
 
-**The only thing you need installed is Claude Code.** Not Git, not Node, not
-anything else. Claude installs the rest for you.
+**The only thing you need installed is Claude Code.** Claude installs the rest for you.
 
 Open Claude Code in the folder where you want the project to live &mdash; somewhere
 like `C:\Code` on Windows or your home folder on a Mac. A `khallam` folder gets made
