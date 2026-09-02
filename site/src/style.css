@@ -342,6 +342,65 @@ header {
   color: var(--soft);
 }
 
+/* PRONUNCIATION GUIDE */
+.pg {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 13px;
+}
+.pc {
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: var(--sh);
+}
+.ps {
+  font-family: var(--klallam-font);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 5px;
+  /* Stacked marks sit above the letter and would otherwise clip the line above. */
+  line-height: 1.4;
+}
+.pd {
+  font-size: 0.83rem;
+  color: var(--soft);
+  font-weight: 600;
+  line-height: 1.5;
+}
+.pe {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  color: var(--teal);
+  font-weight: 700;
+  margin-top: 6px;
+}
+.pe-kl {
+  font-family: var(--klallam-font);
+  font-size: 0.95rem;
+}
+.p-play {
+  border: 2px solid var(--border);
+  background: #fff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 0.8rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.18s;
+  flex: none;
+  margin-left: auto;
+}
+.p-play:hover {
+  border-color: var(--blue);
+  transform: scale(1.08);
+}
+
 @media (max-width: 500px) {
   .game-hdr {
     flex-direction: column;
