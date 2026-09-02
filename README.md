@@ -7,6 +7,50 @@ All games share one lexicon, in `lexicon/`.
 
 ---
 
+## Setting up on a new computer
+
+**The only thing you need installed is Claude Code.** Not Git, not Node, not
+anything else. Claude installs the rest for you.
+
+Open Claude Code in the folder where you want the project to live &mdash; somewhere
+like `C:\Code` on Windows or your home folder on a Mac. A `khallam` folder gets made
+inside it. Then paste this in:
+
+```text
+Set up the Klallam language games project on this computer.
+The code is at https://github.com/upta/khallam
+
+I have no developer tools installed. Please install what's needed (Git, the
+GitHub CLI, and Node.js), help me sign in to GitHub, clone the repo, and then
+follow the setup skill at .claude/skills/setup/SKILL.md.
+```
+
+It takes a while, mostly downloading. Claude tells you what it is installing before
+it installs it.
+
+### The three things you have to do yourself
+
+Claude will stop and wait at each of these. Nothing is stuck &mdash; it is your turn.
+
+1. **Allow the installer.** Windows shows a box asking whether to let the app make
+   changes; click **Yes**. A Mac asks for your account password in the terminal
+   &mdash; type it there. Claude never sees it, and it will not appear on screen as
+   you type, which is normal.
+2. **Sign in to GitHub.** A code appears in the terminal and a browser page opens.
+   Enter the code and confirm. This is what lets you send your word changes back
+   later, so it matters even though the project is readable without it.
+3. **Look at the site at the end**, and say whether it works.
+
+### You are set up when
+
+Claude reports the checks passed, and <http://localhost:5173/> opens in your browser
+showing the games. If it does not, say so &mdash; do not try to fix it yourself.
+
+Doing this again on another computer is the same paste. And if something stops
+working later, *"set this project up again"* runs the same steps.
+
+---
+
 ## Changing words
 
 **`lexicon/lexicon.xlsx` is the source of truth for Klallam text.** It is a normal
