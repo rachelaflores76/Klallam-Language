@@ -9,9 +9,55 @@ All games share one lexicon, in `lexicon/`.
 
 ## Setting up on a new computer
 
-**The only thing you need installed is Claude Code.** Claude installs the rest for you.
+**You need two things installed first: Git, and Claude.** Claude installs
+everything else for you.
 
-Open Claude Code in the folder where you want the project to live &mdash; somewhere
+Git has to come first because Claude will not open a local folder without it.
+
+### 1. Install Git
+
+Open a terminal &mdash; **Terminal** on a Mac, or **Windows Terminal** or
+**PowerShell** on Windows &mdash; and paste in the one line for your computer.
+
+**Windows:**
+
+```text
+winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
+```
+
+**Mac:**
+
+```text
+xcode-select --install
+```
+
+On Windows a box may appear asking whether to let the installer make changes; click
+**Yes**. On a Mac a window appears asking you to install the developer tools; click
+**Install** and wait for it to finish.
+
+If you already have Claude running you may need to create a new session or restart the application if it still tells you that Git needs to be installed.
+
+### 2. Install Claude
+
+This is the desktop app you will do everything else through.
+
+**Windows** &mdash; in the same terminal:
+
+```text
+winget install -e --id Anthropic.Claude --accept-package-agreements --accept-source-agreements
+```
+
+Or download it from <https://claude.ai/download> and run the installer, if you would
+rather click than paste.
+
+**Mac** &mdash; download it from <https://claude.ai/download>, open the file, and
+drag Claude into your Applications folder.
+
+Open Claude and sign in with your Anthropic account.
+
+### 3. Run the setup
+
+In Claude, open the folder where you want the project to live &mdash; somewhere
 like `C:\Code` on Windows or your home folder on a Mac. A `khallam` folder gets made
 inside it. Then paste this in:
 
@@ -19,8 +65,8 @@ inside it. Then paste this in:
 Set up the Klallam language games project on this computer.
 The code is at https://github.com/upta/khallam
 
-I have no developer tools installed. Please install what's needed (Git, the
-GitHub CLI, and Node.js), help me sign in to GitHub, clone the repo, and then
+I have no developer tools installed apart from Git. Please install what's needed
+(the GitHub CLI and Node.js), help me sign in to GitHub, clone the repo, and then
 follow the setup skill at .claude/skills/setup/SKILL.md.
 ```
 
@@ -45,8 +91,9 @@ Claude will stop and wait at each of these. Nothing is stuck &mdash; it is your 
 Claude reports the checks passed, and <http://localhost:5173/> opens in your browser
 showing the games. If it does not, say so &mdash; do not try to fix it yourself.
 
-Doing this again on another computer is the same paste. And if something stops
-working later, *"set this project up again"* runs the same steps.
+Doing this again on another computer is the same three steps: install Git, install
+Claude, paste the prompt. And if something stops working later, *"set this project
+up again"* &mdash; or the **`/setup`** command &mdash; runs the same steps.
 
 ---
 
@@ -64,7 +111,8 @@ You do not need to run anything or use a terminal. Ask Claude, in plain language
 > *"I have a new recording to attach."*
 
 Claude will start the workflow, tell you when to edit the spreadsheet, and take it
-from there.
+from there. If you would rather be explicit, type **`/update-lexicon`** instead
+&mdash; see *Saying which step you want* below.
 
 ### What happens
 
@@ -175,19 +223,19 @@ a speaker's say-so are marked, so you can work straight down the list.
 Words go through the spreadsheet. Everything else &mdash; a new feature, a fix, a
 change to how a game plays &mdash; goes through the same three steps, every time.
 
-**Plan &rarr; build &rarr; validate.**
+**Outline &rarr; build &rarr; validate.**
 
 Ask in plain language, the same way you would for words:
 
-> *"I'd like to plan a change to how the game scores a wrong answer."*
+> *"I'd like to outline a change to how the game scores a wrong answer."*
 >
-> *"Let's build that plan."*
+> *"Let's build that."*
 >
 > *"Is that finished?"*
 
 ### What happens
 
-1. **Plan.** Claude asks whatever it needs to, then lays out the work as a numbered
+1. **Outline.** Claude asks whatever it needs to, then lays out the work as a numbered
    list of small steps. Each step says what "done" looks like. **Nothing is built
    until you read them and say yes.** If a step looks wrong, say so &mdash; it is far
    cheaper to fix a sentence than working code.
@@ -210,6 +258,23 @@ When the work is validated, the plan file is deleted. Plans go stale the moment 
 code moves on, and a stale plan is worse than none &mdash; it sounds authoritative and
 is quietly wrong. The record of what changed lives in the project's history, which
 keeps every plan ever written.
+
+### Saying which step you want
+
+Plain language is enough &mdash; Claude picks the right step on its own. But each one
+also has a command, for when you want to be certain which one it reached for. Type
+`/` in Claude and pick from the list, or type the name:
+
+| Command | What it does |
+|---|---|
+| `/outline` | Works out the steps and stops for your yes. Writes no code. |
+| `/build` | Builds the agreed steps, one at a time, checking after each. |
+| `/validate` | Confirms the work is finished, and says what you must look at. |
+| `/update-lexicon` | Starts the spreadsheet workflow for adding or fixing words. |
+| `/setup` | Sets the project up on a computer, or repairs one that stopped working. |
+
+Using a command skips the guesswork about what you meant. It changes nothing else
+&mdash; `/build` still refuses to start without steps you have agreed to.
 
 ### Things Claude will refuse
 
@@ -300,7 +365,7 @@ is either an import you meant to make, or something to look into.
 - `PLAN.md` &mdash; architecture, tech decisions, and why the safeguards exist
 - `CLAUDE.md` &mdash; rules for AI agents working in this repo
 - `.claude/skills/update-lexicon/` &mdash; the lexicon workflow, for agents
-- `.claude/skills/{plan,build,validate}/` &mdash; the loop for every other change
+- `.claude/skills/{outline,build,validate}/` &mdash; the loop for every other change
 - `.claude/hooks/require-green.mjs` &mdash; Stop hook; blocks an agent from finishing a turn that left `npm run ci` red
 
 The short version of the rule agents follow: **an agent never types Klallam

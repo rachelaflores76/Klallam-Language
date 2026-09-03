@@ -1,5 +1,5 @@
 ---
-name: plan
+name: outline
 description: Decide how a change gets done and agree the steps before any code exists. Small changes get their steps proposed in chat; changes spanning several files or carrying real unknowns get a throwaway plan file in plans/. Use when the user asks for a new feature, a change to a game, a fix, or anything that is not a Klallam word change. Writes no code.
 ---
 

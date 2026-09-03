@@ -1,6 +1,6 @@
 ---
 name: build
-description: Implement agreed steps one at a time, running the checks after every step. The steps may have been proposed in chat or written to plans/. Use when the user says to start building, or to carry on with work already underway. Requires the user's yes on the steps; if there is none, use the plan skill first.
+description: Implement agreed steps one at a time, running the checks after every step. The steps may have been proposed in chat or written to plans/. Use when the user says to start building, or to carry on with work already underway. Requires the user's yes on the steps; if there is none, use the outline skill first.
 ---
 
 # Building from agreed steps
@@ -16,9 +16,9 @@ top of it.
 ## Before the first step
 
 The user must have said yes to the steps. They may be in a chat message or in
-`plans/<slug>.md` &mdash; either is fine, and the `plan` skill decides which. What is
-not fine is building from a request that was never turned into steps anyone agreed
-to. If that is where you are, use the `plan` skill.
+`plans/<slug>.md` &mdash; either is fine, and the `outline` skill decides which. What
+is not fine is building from a request that was never turned into steps anyone agreed
+to. If that is where you are, use the `outline` skill.
 
 ## The code is the source of truth
 

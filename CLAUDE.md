@@ -56,9 +56,9 @@ These are not v1 limitations. They apply for the life of the project.
   prompt is handed to the user to type directly into the terminal.
 
 ## Making Any Other Change
-- Every change that is not a lexicon entry goes through the same loop: `plan` &rarr; `build` &rarr; `validate`.
+- Every change that is not a lexicon entry goes through the same loop: `outline` &rarr; `build` &rarr; `validate`.
 - The skills live in `.claude/skills/`. Use them; do not improvise a substitute.
-- `plan` settles the steps and stops for approval. No code is written before that yes.
+- `outline` settles the steps and stops for approval. No code is written before that yes.
 - A written plan file is for big changes only &mdash; several files, real unknowns, more than about four steps. Anything smaller gets its steps proposed in chat and starts on the user's yes. Demanding a document for a two-line change is friction, not rigour.
 - Plan files are transient. `validate` deletes `plans/<slug>.md` when the work is done, and git history keeps the record.
 - Never read an old plan to learn how the project works. The code is the source of truth; a plan only ever recorded an intention.
