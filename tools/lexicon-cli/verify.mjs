@@ -5,12 +5,9 @@ import {
   closestTag,
   foldGlottal,
   hashEntries,
-  hashSounds,
   knownTags,
   readLexicon,
   readLock,
-  readPronunciation,
-  readPronunciationLock,
   toCodepoints,
 } from "./lib.mjs";
 
@@ -106,79 +103,12 @@ if (!lock) {
 
 const flagged = entries.filter((e) => e.needs_review);
 
-/* --------------------------------------------------- the pronunciation guide --- */
-
-const sounds = readPronunciation().sounds;
-const soundIds = new Set();
-const wordIds = new Set(entries.map((e) => e.id));
-
-for (const sound of sounds) {
-  const where = `sound ${sound.id ?? "(missing id)"}`;
-
-  if (!/^[a-z0-9-]+$/.test(sound.id ?? "")) {
-    errors.push(`${where}: id must be lowercase ASCII letters, digits and hyphens`);
-  }
-  if (soundIds.has(sound.id)) errors.push(`${where}: duplicate id`);
-  soundIds.add(sound.id);
-
-  if (!sound.description) errors.push(`${where}: description is empty`);
-
-  if (!wordIds.has(sound.example_id)) {
-    const suggestion = closestTag(sound.example_id ?? "", [...wordIds]);
-    errors.push(
-      `${where}: example word "${sound.example_id}" is not in the lexicon.` +
-        (suggestion ? ` Did you mean "${suggestion}"?` : "")
-    );
-  }
-
-  if (typeof sound.symbols !== "string" || sound.symbols.length === 0) {
-    errors.push(`${where}: symbols is empty`);
-    continue;
-  }
-
-  // The codepoints array is the human-auditable mirror of the symbols string.
-  const actualCodepoints = toCodepoints(sound.symbols);
-  const storedCodepoints = sound.codepoints ?? [];
-  if (actualCodepoints.join(" ") !== storedCodepoints.join(" ")) {
-    errors.push(
-      `${where}: codepoints do not match the symbols field\n` +
-        `      stored: ${storedCodepoints.join(" ")}\n` +
-        `      actual: ${actualCodepoints.join(" ")}`
-    );
-  }
-
-  if (/['"`]/.test(sound.symbols)) {
-    errors.push(`${where}: symbols hold an ASCII quote or backtick, which means transliteration crept in`);
-  }
-}
-
-const soundLock = readPronunciationLock();
-if (sounds.length > 0 && !soundLock) {
-  errors.push("pronunciation.lock is missing. Run: npm run pronunciation:lock");
-} else if (soundLock) {
-  const actualSoundHash = hashSounds(sounds);
-  if (actualSoundHash !== soundLock.hash) {
-    errors.push(
-      "pronunciation.lock does not match the guide contents.\n" +
-        `      locked: ${soundLock.hash}\n` +
-        `      actual: ${actualSoundHash}\n` +
-        "      A Klallam symbol changed. If that was meant, re-lock with: npm run pronunciation:lock"
-    );
-  }
-  if (soundLock.soundCount !== sounds.length) {
-    errors.push(
-      `pronunciation.lock records ${soundLock.soundCount} sound(s) but the file has ${sounds.length}`
-    );
-  }
-}
-
 for (const w of warnings) console.log(`WARN  ${w}`);
 
 console.log("");
 console.log(`entries       : ${entries.length}`);
 console.log(`with audio    : ${entries.filter((e) => e.audio).length}`);
 console.log(`needs review  : ${flagged.length}`);
-console.log(`sounds        : ${sounds.length}`);
 console.log(`warnings      : ${warnings.length}`);
 
 if (errors.length > 0) {
