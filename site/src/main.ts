@@ -1,9 +1,9 @@
 import {
   getChapters,
-  getPronunciationGuide,
+  getWordById,
   getWords,
   type Chapter,
-  type PronunciationEntry,
+  type LexiconEntry,
 } from "@klallam/lexicon";
 import {
   ensureKlallamFont,
@@ -13,6 +13,7 @@ import {
   recordingUrl,
   GAME_FINISHED_EVENT,
 } from "@klallam/game-kit";
+import pronunciation from "./pronunciation.json";
 import "./style.css";
 
 // Loaded before anything shows a word, so no Klallam is ever drawn in a fallback font.
@@ -220,22 +221,38 @@ function chapterWordIds(chapter: Chapter): string[] {
   return getWords({ tags: [chapter.tag] }).map((entry) => entry.id);
 }
 
-function soundCard(sound: PronunciationEntry): HTMLElement {
-  const card = document.createElement("div");
-  card.className = "pc";
+/** One card of the pronunciation guide. The Klallam itself lives in the lexicon. */
+interface GuideCard {
+  symbolIds: string[];
+  description: string;
+  exampleId: string;
+}
+
+const GUIDE = (pronunciation as { cards: GuideCard[] }).cards;
+
+function guideCard(card: GuideCard): HTMLElement | null {
+  const found = card.symbolIds
+    .map((id) => getWordById(id))
+    .filter((entry): entry is LexiconEntry => entry !== undefined);
+
+  // A card whose sounds are not in the lexicon yet simply does not appear.
+  if (found.length === 0) return null;
+
+  const element = document.createElement("div");
+  element.className = "pc";
 
   const symbols = document.createElement("div");
   symbols.className = "ps";
-  symbols.textContent = sound.symbols;
+  symbols.textContent = found.map((entry) => entry.klallam).join(" ");
 
   const description = document.createElement("div");
   description.className = "pd";
-  description.textContent = sound.description;
+  description.textContent = card.description;
 
-  card.append(symbols, description);
+  element.append(symbols, description);
 
-  const example = sound.example;
-  if (example !== null) {
+  const example = getWordById(card.exampleId);
+  if (example !== undefined) {
     const line = document.createElement("div");
     line.className = "pe";
 
@@ -261,17 +278,17 @@ function soundCard(sound: PronunciationEntry): HTMLElement {
       line.append(play);
     }
 
-    card.append(line);
+    element.append(line);
   }
 
-  return card;
+  return element;
 }
 
-/** The guide stays out of the way entirely until a speaker has filled it in. */
+/** The guide stays out of the way entirely until the sounds are in the lexicon. */
 function showGuide(): void {
-  const sounds = getPronunciationGuide();
-  guide?.replaceChildren(...sounds.map(soundCard));
-  const empty = sounds.length === 0;
+  const cards = GUIDE.map(guideCard).filter((card): card is HTMLElement => card !== null);
+  guide?.replaceChildren(...cards);
+  const empty = cards.length === 0;
   if (guide instanceof HTMLElement) guide.hidden = empty;
   if (guideTitle instanceof HTMLElement) guideTitle.hidden = empty;
 }
