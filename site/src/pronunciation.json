@@ -1,0 +1,64 @@
+{
+  "cards": [
+    {
+      "symbolIds": ["glottal-stop"],
+      "description": "Glottal stop — the catch in \"uh-oh\"",
+      "exampleId": "sleep"
+    },
+    {
+      "symbolIds": ["schwa"],
+      "description": "Schwa — like \"uh\" in \"above\" (often drops in fast speech)",
+      "exampleId": "you"
+    },
+    {
+      "symbolIds": ["uvular-fricative"],
+      "description": "Throaty \"h\" — deep in the throat (uvular fricative)",
+      "exampleId": "dog"
+    },
+    {
+      "symbolIds": ["rounded-velar-fricative"],
+      "description": "Velar \"hw\" — like blowing with rounded lips",
+      "exampleId": "your"
+    },
+    {
+      "symbolIds": ["voiceless-lateral"],
+      "description": "Voiceless lateral — like Welsh \"ll\" or breathed \"hl\"",
+      "exampleId": "three"
+    },
+    {
+      "symbolIds": ["ch-sound"],
+      "description": "Like English \"ch\" in \"church\"",
+      "exampleId": "work"
+    },
+    {
+      "symbolIds": ["ejective-lateral"],
+      "description": "Ejective lateral — a popping \"tl!\" sound",
+      "exampleId": "salt"
+    },
+    {
+      "symbolIds": ["uvular-k", "rounded-uvular-k"],
+      "description": "\"k\" sounds pronounced far back in the throat",
+      "exampleId": "water"
+    },
+    {
+      "symbolIds": ["ejective-p", "ejective-t", "ejective-k"],
+      "description": "Ejective stops — the same sounds with a sharp release burst",
+      "exampleId": "raven"
+    },
+    {
+      "symbolIds": ["stressed-a", "stressed-e", "stressed-i", "stressed-schwa", "stressed-u"],
+      "description": "Accent mark = stressed vowel — louder and slightly longer",
+      "exampleId": "mother"
+    },
+    {
+      "symbolIds": ["glottalized-m", "glottalized-n", "glottalized-y"],
+      "description": "Glottalized sonorants — tense your throat while saying them",
+      "exampleId": "grandparent"
+    },
+    {
+      "symbolIds": ["sh-sound"],
+      "description": "Like English \"sh\" in \"shoe\"",
+      "exampleId": "cow"
+    }
+  ]
+}
