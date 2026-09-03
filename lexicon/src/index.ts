@@ -1,6 +1,5 @@
 import lexiconData from "../lexicon.json";
 import tagsData from "../tags.json";
-import pronunciationData from "../pronunciation.json";
 
 export { pickDistractors, phoneticDistance } from "./phonetics.mjs";
 
@@ -30,28 +29,8 @@ export interface Chapter {
   order: number;
 }
 
-/** One row of the pronunciation guide, as the spreadsheet stores it. */
-export interface Sound {
-  id: string;
-  /** Authoritative Klallam. One or more related symbols, space separated. */
-  symbols: string;
-  codepoints: string[];
-  description: string;
-  example_id: string;
-}
-
-/** A guide row with its example word already looked up. */
-export interface PronunciationEntry {
-  id: string;
-  symbols: string;
-  description: string;
-  /** Null when the row names a word the lexicon no longer holds. */
-  example: LexiconEntry | null;
-}
-
 const lexicon = lexiconData as unknown as Lexicon;
 const chapters = (tagsData as unknown as { chapters: Chapter[] }).chapters;
-const sounds = (pronunciationData as unknown as { sounds: Sound[] }).sounds;
 
 /** The chapters, in the order they are meant to read. */
 export function getChapters(): Chapter[] {
@@ -85,16 +64,6 @@ export function getWordById(id: string): LexiconEntry | undefined {
 
 export function audioUrl(entry: LexiconEntry, basePath = "/audio"): string | null {
   return entry.audio ? `${basePath}/${encodeURIComponent(entry.audio)}` : null;
-}
-
-/** The pronunciation guide, in the order the spreadsheet lists it. */
-export function getPronunciationGuide(): PronunciationEntry[] {
-  return sounds.map((sound) => ({
-    id: sound.id,
-    symbols: sound.symbols,
-    description: sound.description,
-    example: getWordById(sound.example_id) ?? null,
-  }));
 }
 
 export function getLexiconVersion(): number {
