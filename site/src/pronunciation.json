@@ -51,7 +51,7 @@
       "exampleId": "mother"
     },
     {
-      "symbolIds": ["glottalized-m", "glottalized-n", "glottalized-y"],
+      "symbolIds": ["yes", "glottalized-n", "glottalized-y"],
       "description": "Glottalized sonorants — tense your throat while saying them",
       "exampleId": "grandparent"
     },

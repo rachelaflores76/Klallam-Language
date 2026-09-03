@@ -2670,6 +2670,316 @@
       "review_reasons": [
         "no recording linked"
       ]
+    },
+    {
+      "id": "glottal-stop",
+      "klallam": "ʔ",
+      "codepoints": [
+        "U+0294"
+      ],
+      "english": "glottal stop",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "schwa",
+      "klallam": "ə",
+      "codepoints": [
+        "U+0259"
+      ],
+      "english": "schwa",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "uvular-fricative",
+      "klallam": "x̣",
+      "codepoints": [
+        "U+0078",
+        "U+0323"
+      ],
+      "english": "uvular fricative",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "rounded-velar-fricative",
+      "klallam": "xʷ",
+      "codepoints": [
+        "U+0078",
+        "U+02B7"
+      ],
+      "english": "rounded velar fricative",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "voiceless-lateral",
+      "klallam": "ɬ",
+      "codepoints": [
+        "U+026C"
+      ],
+      "english": "voiceless lateral",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "ch-sound",
+      "klallam": "č",
+      "codepoints": [
+        "U+010D"
+      ],
+      "english": "ch sound",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "ejective-lateral",
+      "klallam": "ƛ̓",
+      "codepoints": [
+        "U+019B",
+        "U+0313"
+      ],
+      "english": "ejective lateral",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "uvular-k",
+      "klallam": "q",
+      "codepoints": [
+        "U+0071"
+      ],
+      "english": "uvular k",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "rounded-uvular-k",
+      "klallam": "qʷ",
+      "codepoints": [
+        "U+0071",
+        "U+02B7"
+      ],
+      "english": "rounded uvular k",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "ejective-p",
+      "klallam": "p̓",
+      "codepoints": [
+        "U+0070",
+        "U+0313"
+      ],
+      "english": "ejective p",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "ejective-t",
+      "klallam": "t̓",
+      "codepoints": [
+        "U+0074",
+        "U+0313"
+      ],
+      "english": "ejective t",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "ejective-k",
+      "klallam": "k̓",
+      "codepoints": [
+        "U+006B",
+        "U+0313"
+      ],
+      "english": "ejective k",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "stressed-a",
+      "klallam": "á",
+      "codepoints": [
+        "U+00E1"
+      ],
+      "english": "stressed a",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "stressed-e",
+      "klallam": "é",
+      "codepoints": [
+        "U+00E9"
+      ],
+      "english": "stressed e",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "stressed-i",
+      "klallam": "í",
+      "codepoints": [
+        "U+00ED"
+      ],
+      "english": "stressed i",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "stressed-schwa",
+      "klallam": "ə́",
+      "codepoints": [
+        "U+0259",
+        "U+0301"
+      ],
+      "english": "stressed schwa",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "stressed-u",
+      "klallam": "ú",
+      "codepoints": [
+        "U+00FA"
+      ],
+      "english": "stressed u",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "glottalized-n",
+      "klallam": "n̓",
+      "codepoints": [
+        "U+006E",
+        "U+0313"
+      ],
+      "english": "glottalized n",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "glottalized-y",
+      "klallam": "y̓",
+      "codepoints": [
+        "U+0079",
+        "U+0313"
+      ],
+      "english": "glottalized y",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
+    },
+    {
+      "id": "sh-sound",
+      "klallam": "š",
+      "codepoints": [
+        "U+0161"
+      ],
+      "english": "sh sound",
+      "audio": null,
+      "image": null,
+      "tags": [],
+      "needs_review": true,
+      "review_reasons": [
+        "no recording linked"
+      ]
     }
   ]
 }
