@@ -83,31 +83,17 @@ text, the codepoints, or the spreadsheet.
 
 ## The pronunciation guide
 
-The alphabet cards on the site come from `lexicon/pronunciation.xlsx`, a second sheet
-with its own `pronunciation.json` and `pronunciation.lock`. Same rule, same loop: the
-user types the symbols, you run the import, you show the dry run first.
+The alphabet cards on the site are ordinary lexicon words. A symbol is a row in
+`lexicon.xlsx` like any other, so adding one is the normal loop above and nothing new.
 
-It differs from the word sheet in three ways worth knowing:
+What the page does with them lives in `site/src/pronunciation.json`: which cards there
+are, the English explanation under each, the example word, and the order. That file is
+yours to edit &mdash; it holds ids and English only. A test fails if a Klallam character
+lands in it.
 
-- **You fill in everything except the Symbols column.** The id, the English description
-  and the example word id are all ASCII, so pre-fill them and leave the user one column
-  to type into. `lexicon/source/pronunciation-seed.json` holds the starter rows.
-- **The id is typed, not generated.** There is no English gloss to slugify, so a new row
-  gets a short name from the user. No ids are written back into the sheet.
-- **Row order is display order,** so never sort the rows to be helpful.
-
-A row whose Symbols cell is still empty is skipped with a warning, not an error, so a
-half-filled sheet imports fine. Clearing a cell that already held a symbol *is* an
-error, because it would otherwise lose the symbol silently.
-
-```
-npm run pronunciation:sheet                  build the sheet for the user
-npm run pronunciation:import                 dry run, writes nothing
-npm run pronunciation:import -- --apply      write, re-lock, verify
-```
-
-Changing a symbol already in the guide needs `--allow-edits`, and deleting a row needs
-`--allow-deletes`, exactly as words do.
+A card names its sounds by lexicon id. Several ids on one card is how the grouped rows
+work, such as the ejective stops sharing a card. A card whose ids are not in the lexicon
+yet does not render, so the page is never half-built while words are being added.
 
 ## Commands
 
@@ -118,29 +104,23 @@ Changing a symbol already in the guide needs `--allow-edits`, and deleting a row
 | `npm run lexicon:mark-fix` | Write out words using the other glottal mark, corrected, to paste in |
 | `npm run lexicon:resolve` | Clear a review flag a speaker has ruled on |
 | `npm run lexicon:flag` | Raise a review flag with a reason |
-| `npm run lexicon:verify` | Check integrity of the words and the guide, write nothing |
+| `npm run lexicon:verify` | Check integrity, write nothing |
 | `npm run lexicon:lock` | Accept content changes into the lock |
 | `npm run lexicon:review` | Start the site at the review page, for a speaker to check |
-| `npm run pronunciation:sheet` | Build the pronunciation sheet for the user to fill in |
-| `npm run pronunciation:import` | Dry run: report what the pronunciation sheet would change |
-| `npm run pronunciation:lock` | Accept guide changes into the pronunciation lock |
 | `npm test` | Run the integrity and codec test suite |
 
 `npm run lexicon:sheet` also exists. It builds the sheet *from* the lexicon and is
 for recovering a lost spreadsheet, not for any part of the normal workflow.
-`pronunciation:sheet` is different: the guide has no other editing surface, so building
-it is the normal way to hand the user their sheet.
 
 ## Never do these
 
 - Hand-edit `lexicon.json` or `lexicon.lock`
-- Hand-edit `pronunciation.json` or `pronunciation.lock`
 - Delete a word by editing `lexicon.json`; delete its row in the spreadsheet instead
 - Type a Klallam word into a terminal command, a file, or a chat message
-- Offer the user any editing surface other than `lexicon.xlsx` or `pronunciation.xlsx`
+- Offer the user any editing surface other than `lexicon.xlsx`
+- Put a Klallam character in `site/src/pronunciation.json`; it names sounds by id
 - Run `lexicon:sheet` as part of the normal workflow, or to work around an error
-- Run either import with `--apply` before showing the user a dry run
-- Sort or reorder the pronunciation rows; their order is what the page shows
+- Run `lexicon:import -- --apply` before showing the user a dry run
 - Ask a speaker to verify codepoints; they verify by reading the word rendered
 - Call `.normalize()` on Klallam text, or "clean up" spacing and accents
 - Substitute an ASCII apostrophe for a glottal stop

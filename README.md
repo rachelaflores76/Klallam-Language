@@ -143,33 +143,16 @@ review automatically, because the process cannot know who approved them.
 
 ## The pronunciation guide
 
-The alphabet cards at the bottom of the site come from a second spreadsheet,
-`lexicon/pronunciation.xlsx`. It works exactly like the word sheet, and it is the only
-place those symbols are edited.
+The alphabet cards at the bottom of the site are ordinary lexicon words. Each symbol
+is a row in `lexicon.xlsx` like any other, and the page looks them up by id.
 
-Ask Claude for *"the pronunciation sheet"* and it will build one for you. Every column
-is filled in already except one:
+Which cards appear, what English explanation sits under each one, and which word is
+offered as an example all live in `site/src/pronunciation.json`. That file holds no
+Klallam at all &mdash; only ids and English &mdash; so ask Claude to change it. A test
+fails if a Klallam character is ever put there.
 
-| Column | |
-|---|---|
-| **id** | A short name for the row, such as `schwa`. English letters and hyphens. |
-| **Symbols** | **The only column you type Klallam into.** |
-| **How it sounds** | The plain-English explanation shown under the symbol. |
-| **example word id** | The id of a word already in `lexicon.xlsx`, such as `sleep`. |
-| **Klallam** | Locked. Shows that example word so you can see what the id refers to. |
-
-- **Put several related sounds on one row** if they belong together, separated by
-  spaces. The original guide groups the ejective stops that way.
-- **The order of the rows is the order on the page.** Sort them however reads best.
-- **A row with an empty Symbols cell is skipped,** not an error. You can fill the sheet
-  in over several sittings.
-- **An example word id that is not in the lexicon stops the import,** and tells you the
-  id you probably meant.
-- **Deleting a row deletes the sound,** the same as with words.
-
-Claude shows you the codepoints and waits for your go-ahead before writing anything.
-Then check it the way you check a word: **look at the rendered page**, not the
-codepoints.
+To add a sound, add its row to the spreadsheet the same way you would add a word, then
+ask Claude to put it on a card.
 
 ---
 
