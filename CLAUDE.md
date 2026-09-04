@@ -48,6 +48,12 @@ These are not v1 limitations. They apply for the life of the project.
   it rendered in the sheet or on the review page.
 - Changing the Klallam of an existing word needs a speaker's confirmation, not agent judgement.
 
+## Looking at the Site
+- Use the `run` skill. Starting the site is: check port 5173, start `site:dev` in the
+  background if nothing answers, hand over <http://localhost:5173/>. Nothing else.
+- Never run the checks, a build or an install as a prelude to showing someone the site.
+- A dev server does not exit. Never wait in the foreground for it to finish.
+
 ## Setting Up a Computer
 - Use the `setup` skill. Do not improvise an install sequence.
 - Install the tooling yourself rather than handing the user commands to paste; the

@@ -271,6 +271,7 @@ also has a command, for when you want to be certain which one it reached for. Ty
 | `/build` | Builds the agreed steps, one at a time, checking after each. |
 | `/validate` | Confirms the work is finished, and says what you must look at. |
 | `/update-lexicon` | Starts the spreadsheet workflow for adding or fixing words. |
+| `/run` | Starts the site if it is not already running, and gives you the address. |
 | `/setup` | Sets the project up on a computer, or repairs one that stopped working. |
 
 Using a command skips the guesswork about what you meant. It changes nothing else
@@ -366,6 +367,7 @@ is either an import you meant to make, or something to look into.
 - `CLAUDE.md` &mdash; rules for AI agents working in this repo
 - `.claude/skills/update-lexicon/` &mdash; the lexicon workflow, for agents
 - `.claude/skills/{outline,build,validate}/` &mdash; the loop for every other change
+- `.claude/skills/run/` &mdash; starting the dev server and handing over the address
 - `.claude/hooks/require-green.mjs` &mdash; Stop hook; blocks an agent from finishing a turn that left `npm run ci` red
 
 The short version of the rule agents follow: **an agent never types Klallam
