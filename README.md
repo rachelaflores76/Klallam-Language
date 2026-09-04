@@ -58,12 +58,12 @@ Open Claude and sign in with your Anthropic account.
 ### 3. Run the setup
 
 In Claude, open the folder where you want the project to live &mdash; somewhere
-like `C:\Code` on Windows or your home folder on a Mac. A `khallam` folder gets made
-inside it. Then paste this in:
+like `C:\Code` on Windows or your home folder on a Mac. A `Klallam-Language` folder
+gets made inside it. Then paste this in:
 
 ```text
 Set up the Klallam language games project on this computer.
-The code is at https://github.com/upta/khallam
+The code is at https://github.com/rachelaflores76/Klallam-Language
 
 I have no developer tools installed apart from Git. Please install what's needed
 (the GitHub CLI and Node.js), help me sign in to GitHub, clone the repo, and then

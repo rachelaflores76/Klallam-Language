@@ -93,7 +93,7 @@ their word changes go back to GitHub later.
 ### 5. Clone the repo
 
 ```
-gh repo clone upta/khallam
+gh repo clone rachelaflores76/Klallam-Language
 ```
 
 Skip this if you are already inside the repo. Clone into the folder they opened, not
