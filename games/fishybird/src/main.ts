@@ -38,9 +38,54 @@ const LANE_MIN_X = 90;
 // How close to an edge the eagle may perch, so it always has room to turn.
 const EAGLE_MARGIN_X = 120;
 
+function drawBackground(scene: Phaser.Scene): void {
+  // Sky gradient - three bands from deep blue at top to warm horizon near waterline
+  scene.add.rectangle(WIDTH / 2, SEA_Y / 4, WIDTH, SEA_Y / 2, 0x0d2d5e);
+  scene.add.rectangle(WIDTH / 2, SEA_Y * 0.625, WIDTH, SEA_Y / 4, 0x1a4a80);
+  scene.add.rectangle(WIDTH / 2, SEA_Y * 0.875, WIDTH, SEA_Y / 4, 0x3a7ab8);
+
+  // Distant mountain range - dark silhouette on the horizon
+  const gfx = scene.add.graphics();
+  gfx.fillStyle(0x1a3352, 1);
+  // Left mountain group
+  gfx.fillTriangle(0, SEA_Y, 160, SEA_Y - 140, 320, SEA_Y);
+  gfx.fillTriangle(80, SEA_Y, 220, SEA_Y - 110, 360, SEA_Y);
+  // Right mountain group
+  gfx.fillTriangle(500, SEA_Y, 660, SEA_Y - 160, 820, SEA_Y);
+  gfx.fillTriangle(620, SEA_Y, 760, SEA_Y - 120, 960, SEA_Y);
+  gfx.fillTriangle(800, SEA_Y, 920, SEA_Y - 90, 960, SEA_Y);
+  // Snow caps
+  gfx.fillStyle(0xe8f4f8, 1);
+  gfx.fillTriangle(130, SEA_Y - 118, 160, SEA_Y - 140, 192, SEA_Y - 118);
+  gfx.fillTriangle(634, SEA_Y - 134, 660, SEA_Y - 160, 688, SEA_Y - 134);
+
+  // Clouds - overlapping circles for a fluffy look
+  gfx.fillStyle(0xd8eef8, 0.85);
+  // Cloud 1 (left)
+  gfx.fillCircle(140, 60, 32);
+  gfx.fillCircle(172, 52, 38);
+  gfx.fillCircle(210, 60, 28);
+  gfx.fillCircle(156, 72, 30);
+  // Cloud 2 (right)
+  gfx.fillCircle(680, 80, 26);
+  gfx.fillCircle(710, 70, 34);
+  gfx.fillCircle(748, 78, 28);
+  gfx.fillCircle(722, 88, 24);
+  // Cloud 3 (far right, smaller)
+  gfx.fillStyle(0xc8e4f4, 0.65);
+  gfx.fillCircle(860, 48, 20);
+  gfx.fillCircle(882, 42, 26);
+  gfx.fillCircle(906, 50, 18);
+}
+
 function drawSea(scene: Phaser.Scene): void {
-  scene.add.rectangle(WIDTH / 2, (HEIGHT + SEA_Y) / 2, WIDTH, HEIGHT - SEA_Y, 0x0a5470);
-  scene.add.rectangle(WIDTH / 2, SEA_Y, WIDTH, 6, 0x7fc8de);
+  // Layered water - deeper blue at bottom, lighter near surface
+  scene.add.rectangle(WIDTH / 2, (SEA_Y + HEIGHT) / 2 + 60, WIDTH, (HEIGHT - SEA_Y) / 2, 0x06263a);
+  scene.add.rectangle(WIDTH / 2, SEA_Y + 60, WIDTH, (HEIGHT - SEA_Y) / 2, 0x0a4a64);
+  // Surface shimmer band
+  scene.add.rectangle(WIDTH / 2, SEA_Y + 6, WIDTH, 12, 0x5ab8d4);
+  // Waterline
+  scene.add.rectangle(WIDTH / 2, SEA_Y, WIDTH, 4, 0x8fd8ec);
 }
 
 // Shapes drawn in code, so swapping in real artwork later changes no layout.
@@ -94,7 +139,8 @@ class RoundScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor("#123c50");
+    this.cameras.main.setBackgroundColor("#0d2d5e");
+    drawBackground(this);
     drawSea(this);
     this.orca = createOrca(this);
     this.eagle = createEagle(this);
