@@ -42,52 +42,14 @@ export function createSalmon(
     })
     .setOrigin(0.5);
   const bodyWidth = Math.max(MIN_BODY_WIDTH, label.width + 40);
-  const hw = bodyWidth / 2;
 
-  // Main salmon-pink body
-  const body = scene.add.ellipse(0, 0, bodyWidth, BODY_HEIGHT, 0xd96840);
-  // White/cream belly - offset downward
-  const belly = scene.add.ellipse(0, 10, bodyWidth * 0.78, BODY_HEIGHT * 0.44, 0xf4d8c0);
-  // Forked tail - two lobes
-  const tailTop = scene.add.triangle(
-    hw + TAIL_WIDTH * 0.5, -4,
-    TAIL_WIDTH, -26, TAIL_WIDTH, 2, 0, 0,
-    0xb04830
-  );
-  const tailBot = scene.add.triangle(
-    hw + TAIL_WIDTH * 0.5, 4,
-    TAIL_WIDTH, -2, TAIL_WIDTH, 26, 0, 0,
-    0xb04830
-  );
-  // Dorsal fin on top
-  const dorsalFin = scene.add.triangle(
-    -hw * 0.1, -BODY_HEIGHT / 2,
-    -20, 0, 10, -22, 36, 0,
-    0xc25840
-  );
-  // Pectoral fin - small side fin
-  const pectoralFin = scene.add.triangle(
-    -hw * 0.3, 8,
-    0, 0, 28, 14, 0, 26,
-    0xc25840
-  );
-  // Scale shimmer - a few small arcs as highlight dashes
-  const shimmer1 = scene.add.arc(-hw * 0.15, -4, 14, 200, 340, false, 0xe8906a, 0.4);
-  const shimmer2 = scene.add.arc(hw * 0.15, -6, 12, 200, 340, false, 0xe8906a, 0.4);
-  const shimmer3 = scene.add.arc(hw * 0.4, -4, 10, 200, 340, false, 0xe8906a, 0.35);
-  // Eye with glint
-  const eye = scene.add.circle(-hw + 22, -8, 6, 0x1a0a06);
-  const eyeGlint = scene.add.circle(-hw + 24, -10, 2, 0xffffff);
+  // SVG image replaces all drawn shapes; label sits on top
+  const img = scene.add
+    .image(0, 0, "salmon")
+    .setDisplaySize(bodyWidth + TAIL_WIDTH, BODY_HEIGHT + 16);
 
   const baseY = spawn.laneY + (random() * 2 - 1) * TUNING.laneSpread;
-  const container = scene.add.container(spawn.startX, baseY, [
-    body, belly,
-    tailTop, tailBot,
-    dorsalFin, pectoralFin,
-    shimmer1, shimmer2, shimmer3,
-    eye, eyeGlint,
-    label,
-  ]);
+  const container = scene.add.container(spawn.startX, baseY, [img, label]);
   return {
     choice,
     container,
