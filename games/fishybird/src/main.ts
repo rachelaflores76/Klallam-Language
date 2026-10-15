@@ -3,7 +3,7 @@ import type { LexiconEntry } from "@klallam/lexicon";
 import Phaser from "phaser";
 import eagleUrl from "./eagle.svg?url";
 import orcaUrl from "./orca.svg?url";
-import salmonSvg from "./salmon.svg?raw";
+import salmonUrl from "./salmon.svg?url";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
 import { recordAnswer, startRound } from "./memory";
@@ -126,9 +126,6 @@ class RoundScene extends Phaser.Scene {
   preload(): void {
     this.load.svg("eagle", eagleUrl, { scale: 2 });
     this.load.svg("orca", orcaUrl, { scale: 2 });
-    // salmon.svg is inlined as raw SVG text and converted to a blob URL at load time
-    const salmonBlob = new Blob([salmonSvg], { type: "image/svg+xml" });
-    const salmonUrl = URL.createObjectURL(salmonBlob);
     this.load.svg("salmon", salmonUrl, { scale: 2 });
   }
 
