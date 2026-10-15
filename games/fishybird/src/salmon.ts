@@ -23,9 +23,9 @@ export interface SalmonSpawn {
   speed: number;
 }
 
-const BODY_HEIGHT = 48;
-const TAIL_WIDTH = 30;
-const MIN_BODY_WIDTH = 130;
+const BODY_HEIGHT = 52;
+const TAIL_WIDTH = 36;
+const MIN_BODY_WIDTH = 140;
 
 // English on the canvas is fine. Klallam never is: only the DOM banner stacks marks correctly.
 export function createSalmon(
@@ -38,27 +38,56 @@ export function createSalmon(
     .text(0, 0, choice.english, {
       fontFamily: "system-ui, sans-serif",
       fontSize: "18px",
-      color: "#2a120c",
+      color: "#1a0a06",
     })
     .setOrigin(0.5);
-  const bodyWidth = Math.max(MIN_BODY_WIDTH, label.width + 36);
+  const bodyWidth = Math.max(MIN_BODY_WIDTH, label.width + 40);
+  const hw = bodyWidth / 2;
 
-  const body = scene.add.ellipse(0, 0, bodyWidth, BODY_HEIGHT, 0xe08a5f);
-  const tail = scene.add.triangle(
-    bodyWidth / 2 + TAIL_WIDTH / 2,
-    0,
-    TAIL_WIDTH,
-    -22,
-    TAIL_WIDTH,
-    22,
-    0,
-    0,
-    0xc2553a
+  // Main salmon-pink body
+  const body = scene.add.ellipse(0, 0, bodyWidth, BODY_HEIGHT, 0xd96840);
+  // White/cream belly - offset downward
+  const belly = scene.add.ellipse(0, 10, bodyWidth * 0.78, BODY_HEIGHT * 0.44, 0xf4d8c0);
+  // Forked tail - two lobes
+  const tailTop = scene.add.triangle(
+    hw + TAIL_WIDTH * 0.5, -4,
+    TAIL_WIDTH, -26, TAIL_WIDTH, 2, 0, 0,
+    0xb04830
   );
-  const eye = scene.add.circle(-bodyWidth / 2 + 20, -8, 4, 0x2a120c);
+  const tailBot = scene.add.triangle(
+    hw + TAIL_WIDTH * 0.5, 4,
+    TAIL_WIDTH, -2, TAIL_WIDTH, 26, 0, 0,
+    0xb04830
+  );
+  // Dorsal fin on top
+  const dorsalFin = scene.add.triangle(
+    -hw * 0.1, -BODY_HEIGHT / 2,
+    -20, 0, 10, -22, 36, 0,
+    0xc25840
+  );
+  // Pectoral fin - small side fin
+  const pectoralFin = scene.add.triangle(
+    -hw * 0.3, 8,
+    0, 0, 28, 14, 0, 26,
+    0xc25840
+  );
+  // Scale shimmer - a few small arcs as highlight dashes
+  const shimmer1 = scene.add.arc(-hw * 0.15, -4, 14, 200, 340, false, 0xe8906a, 0.4);
+  const shimmer2 = scene.add.arc(hw * 0.15, -6, 12, 200, 340, false, 0xe8906a, 0.4);
+  const shimmer3 = scene.add.arc(hw * 0.4, -4, 10, 200, 340, false, 0xe8906a, 0.35);
+  // Eye with glint
+  const eye = scene.add.circle(-hw + 22, -8, 6, 0x1a0a06);
+  const eyeGlint = scene.add.circle(-hw + 24, -10, 2, 0xffffff);
 
   const baseY = spawn.laneY + (random() * 2 - 1) * TUNING.laneSpread;
-  const container = scene.add.container(spawn.startX, baseY, [body, tail, eye, label]);
+  const container = scene.add.container(spawn.startX, baseY, [
+    body, belly,
+    tailTop, tailBot,
+    dorsalFin, pectoralFin,
+    shimmer1, shimmer2, shimmer3,
+    eye, eyeGlint,
+    label,
+  ]);
   return {
     choice,
     container,
