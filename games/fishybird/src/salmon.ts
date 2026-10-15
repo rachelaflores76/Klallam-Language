@@ -46,7 +46,8 @@ export function createSalmon(
   // SVG image replaces all drawn shapes; label sits on top
   const img = scene.add
     .image(0, 0, "salmon")
-    .setDisplaySize(bodyWidth + TAIL_WIDTH, BODY_HEIGHT + 16);
+    .setDisplaySize(bodyWidth + TAIL_WIDTH, BODY_HEIGHT + 16)
+    .setFlipX(true);
 
   const baseY = spawn.laneY + (random() * 2 - 1) * TUNING.laneSpread;
   const container = scene.add.container(spawn.startX, baseY, [img, label]);

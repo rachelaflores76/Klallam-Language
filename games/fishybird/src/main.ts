@@ -140,9 +140,10 @@ class RoundScene extends Phaser.Scene {
     drawSea(this);
     this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
       .setDisplaySize(220, 90)
+      .setFlipX(true)
       .setDepth(5);
     this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
-      .setDisplaySize(90, 90)
+      .setDisplaySize(110, 80)
       .setDepth(10);
 
     this.ui.renderLevels(
