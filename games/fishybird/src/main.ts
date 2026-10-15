@@ -90,11 +90,29 @@ function drawSea(scene: Phaser.Scene): void {
 
 // Shapes drawn in code, so swapping in real artwork later changes no layout.
 function createOrca(scene: Phaser.Scene): Phaser.GameObjects.Container {
-  const body = scene.add.ellipse(0, 0, 260, 90, 0x101c24);
-  const belly = scene.add.ellipse(30, 26, 170, 38, 0xf2fbff);
-  const eyePatch = scene.add.ellipse(-78, -14, 30, 16, 0xf2fbff);
-  const fin = scene.add.triangle(-10, -60, 0, 30, 34, -30, 62, 30, 0x101c24);
-  return scene.add.container(WIDTH / 2, ORCA_HIDDEN_Y, [body, belly, eyePatch, fin]);
+  // Main body - larger, rounder
+  const body = scene.add.ellipse(0, 0, 290, 100, 0x0e1a22);
+  // White belly - wider, more realistic coverage
+  const belly = scene.add.ellipse(24, 30, 200, 46, 0xf4faff);
+  // Saddle patch behind dorsal fin - characteristic orca marking
+  const saddle = scene.add.ellipse(-30, -20, 70, 32, 0x6a8a9a);
+  // Eye patch - more oval, positioned correctly
+  const eyePatch = scene.add.ellipse(-88, -16, 36, 22, 0xf4faff);
+  // Eye
+  const eye = scene.add.circle(-88, -16, 7, 0x0e1a22);
+  const eyeGlint = scene.add.circle(-85, -18, 3, 0x4a7a9a);
+  // Tall upright dorsal fin - the orca's signature
+  const dorsalFin = scene.add.triangle(-18, -50, -18, 46, 10, -60, 38, 46, 0x0e1a22);
+  // Pectoral flipper - large paddle shape
+  const flipper = scene.add.ellipse(60, 42, 80, 28, 0x0e1a22);
+  // Tail flukes hint at the right end
+  const tailTop = scene.add.triangle(138, -10, 0, 0, 30, -28, 40, 10, 0x0e1a22);
+  const tailBot = scene.add.triangle(138, 10, 0, 0, 30, 28, 40, -10, 0x0e1a22);
+  return scene.add.container(WIDTH / 2, ORCA_HIDDEN_Y, [
+    body, belly, saddle, flipper,
+    eyePatch, eye, eyeGlint,
+    dorsalFin, tailTop, tailBot,
+  ]);
 }
 
 function createEagle(scene: Phaser.Scene): Phaser.GameObjects.Container {
