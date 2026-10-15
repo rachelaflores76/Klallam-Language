@@ -1,6 +1,7 @@
 import { registerGame } from "@klallam/game-kit";
 import type { LexiconEntry } from "@klallam/lexicon";
 import Phaser from "phaser";
+import eagleUrl from "./eagle.png";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
 import { recordAnswer, startRound } from "./memory";
@@ -115,41 +116,13 @@ function createOrca(scene: Phaser.Scene): Phaser.GameObjects.Container {
   ]);
 }
 
-function createEagle(scene: Phaser.Scene): Phaser.GameObjects.Container {
-  // White tail feathers - fan of three shapes
-  const tailLeft = scene.add.triangle(-62, 4, 0, -14, 0, 14, 28, 0, 0xe8f2f8);
-  const tailMid = scene.add.triangle(-58, 0, 0, -18, 0, 18, 32, 0, 0xf2fbff);
-  const tailRight = scene.add.triangle(-62, -4, 0, -14, 0, 14, 28, 0, 0xe0eef6);
-  // Dark brown body - slightly larger and more elongated
-  const body = scene.add.ellipse(0, 0, 126, 48, 0x3a2010);
-  // Upper wing - sweeps back and up
-  const wingUpper = scene.add.triangle(-8, -22, 0, 18, 36, -36, 88, -8, 0x2a1608);
-  // Lower wing edge - adds depth
-  const wingLower = scene.add.triangle(-4, 4, 0, 18, 40, -8, 72, 22, 0x4a2c12);
-  // White head - bald eagle
-  const head = scene.add.circle(54, -10, 24, 0xf4faff);
-  // Dark eye
-  const eye = scene.add.circle(64, -14, 5, 0x1a0e04);
-  const eyeGlint = scene.add.circle(66, -15, 2, 0xffffff);
-  // Yellow hooked beak - two parts for the hook shape
-  const beakBase = scene.add.triangle(72, -8, 0, -10, 0, 8, 20, 0, 0xf4b820);
-  const beakHook = scene.add.triangle(88, -2, 0, -8, 0, 2, 12, 6, 0xe8a810);
-  // Talons hint - small yellow shapes at bottom front
-  const talon = scene.add.triangle(40, 22, -8, 0, 8, 0, 0, 12, 0xd49010);
-  return scene.add.container(WIDTH / 2, EAGLE_PERCH_Y, [
-    tailLeft, tailRight, tailMid,
-    body, wingUpper, wingLower,
-    head, eye, eyeGlint, beakBase, beakHook, talon,
-  ]);
-}
-
 class RoundScene extends Phaser.Scene {
   private level: Level = levelAt(0);
   private levelIndex = 0;
   private round: RoundWord[] = [];
   private index = 0;
   private orca!: Phaser.GameObjects.Container;
-  private eagle!: Phaser.GameObjects.Container;
+  private eagle!: Phaser.GameObjects.Image;
   private flying = false;
   private salmon: Salmon[] = [];
   private waiting: Salmon[] = [];
@@ -175,13 +148,20 @@ class RoundScene extends Phaser.Scene {
     super("round");
   }
 
+  preload(): void {
+    this.load.image("eagle", eagleUrl);
+  }
+
   create(): void {
     this.cameras.main.setBackgroundColor("#0d2d5e");
     drawBackground(this);
     drawSea(this);
     this.orca = createOrca(this);
-    this.eagle = createEagle(this);
-    this.eagle.setDepth(10);
+    this.eagle = this.add
+      .image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
+      .setDisplaySize(160, 110)
+      .setDepth(10)
+      .setOrigin(0.5, 0.5);
 
     this.ui.renderLevels(
       LEVELS.map((level) => level.name),
