@@ -159,7 +159,7 @@ class RoundScene extends Phaser.Scene {
     this.orca = createOrca(this);
     this.eagle = this.add
       .image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
-      .setDisplaySize(160, 110)
+      .setDisplaySize(90, 76)
       .setDepth(10)
       .setOrigin(0.5, 0.5);
 
