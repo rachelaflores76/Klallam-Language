@@ -1,8 +1,6 @@
 import { registerGame } from "@klallam/game-kit";
 import type { LexiconEntry } from "@klallam/lexicon";
 import Phaser from "phaser";
-import eagleUrl from "./eagle.svg?url";
-import orcaUrl from "./orca.svg?url";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
 import { recordAnswer, startRound } from "./memory";
@@ -90,13 +88,81 @@ function drawSea(scene: Phaser.Scene): void {
   scene.add.rectangle(WIDTH / 2, SEA_Y, WIDTH, 4, 0x8fd8ec);
 }
 
+// Shapes drawn in code, so swapping in real artwork later changes no layout.
+function createOrca(scene: Phaser.Scene): Phaser.GameObjects.Container {
+  // Main body - larger, rounder
+  const body = scene.add.ellipse(0, 0, 290, 100, 0x0e1a22);
+  // White belly - wider, more realistic coverage
+  const belly = scene.add.ellipse(24, 30, 200, 46, 0xf4faff);
+  // Saddle patch behind dorsal fin - characteristic orca marking
+  const saddle = scene.add.ellipse(-30, -20, 70, 32, 0x6a8a9a);
+  // Eye patch - more oval, positioned correctly
+  const eyePatch = scene.add.ellipse(-88, -16, 36, 22, 0xf4faff);
+  // Eye
+  const eye = scene.add.circle(-88, -16, 7, 0x0e1a22);
+  const eyeGlint = scene.add.circle(-85, -18, 3, 0x4a7a9a);
+  // Tall upright dorsal fin - the orca's signature
+  const dorsalFin = scene.add.triangle(-18, -50, -18, 46, 10, -60, 38, 46, 0x0e1a22);
+  // Pectoral flipper - large paddle shape
+  const flipper = scene.add.ellipse(60, 42, 80, 28, 0x0e1a22);
+  // Tail flukes hint at the right end
+  const tailTop = scene.add.triangle(138, -10, 0, 0, 30, -28, 40, 10, 0x0e1a22);
+  const tailBot = scene.add.triangle(138, 10, 0, 0, 30, 28, 40, -10, 0x0e1a22);
+  return scene.add.container(WIDTH / 2, ORCA_HIDDEN_Y, [
+    body, belly, saddle, flipper,
+    eyePatch, eye, eyeGlint,
+    dorsalFin, tailTop, tailBot,
+  ]);
+}
+
+function createEagle(scene: Phaser.Scene): Phaser.GameObjects.Container {
+  // Left wing - sweeps up and out to the left
+  const wingLeft = scene.add.triangle(
+    -60, -10,
+    0, 0, -110, -45, -20, 20,
+    0x2a1608
+  );
+  const wingLeftTip = scene.add.triangle(
+    -110, -45,
+    0, 0, -60, -55, -20, 10,
+    0x3a2010
+  );
+  // Right wing - mirrors to the right
+  const wingRight = scene.add.triangle(
+    60, -10,
+    0, 0, 110, -45, 20, 20,
+    0x2a1608
+  );
+  const wingRightTip = scene.add.triangle(
+    110, -45,
+    0, 0, 60, -55, 20, 10,
+    0x3a2010
+  );
+  // Compact body between the wings
+  const body = scene.add.ellipse(18, 8, 80, 28, 0x3a2010);
+  // White tail fan
+  const tail = scene.add.triangle(-30, 14, -50, 2, -50, 26, -10, 14, 0xf2fbff);
+  // White head - clearly distinct at the right end
+  const head = scene.add.circle(52, 0, 18, 0xf4faff);
+  // Eye
+  const eye = scene.add.circle(58, -4, 4, 0x1a0e04);
+  const eyeGlint = scene.add.circle(59, -5, 1, 0xffffff);
+  // Yellow hooked beak pointing right
+  const beak = scene.add.triangle(68, 2, 0, -6, 18, 2, 0, 10, 0xf4b820);
+  return scene.add.container(WIDTH / 2, EAGLE_PERCH_Y, [
+    wingLeft, wingLeftTip, wingRight, wingRightTip,
+    body, tail,
+    head, eye, eyeGlint, beak,
+  ]);
+}
+
 class RoundScene extends Phaser.Scene {
   private level: Level = levelAt(0);
   private levelIndex = 0;
   private round: RoundWord[] = [];
   private index = 0;
-  private orca!: Phaser.GameObjects.Image;
-  private eagle!: Phaser.GameObjects.Image;
+  private orca!: Phaser.GameObjects.Container;
+  private eagle!: Phaser.GameObjects.Container;
   private flying = false;
   private salmon: Salmon[] = [];
   private waiting: Salmon[] = [];
@@ -122,21 +188,13 @@ class RoundScene extends Phaser.Scene {
     super("round");
   }
 
-  preload(): void {
-    this.load.svg("eagle", eagleUrl, { scale: 2 });
-    this.load.svg("orca", orcaUrl, { scale: 2 });
-  }
-
   create(): void {
     this.cameras.main.setBackgroundColor("#0d2d5e");
     drawBackground(this);
     drawSea(this);
-    this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
-      .setDisplaySize(220, 90)
-      .setDepth(5);
-    this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
-      .setDisplaySize(80, 80)
-      .setDepth(10);
+    this.orca = createOrca(this);
+    this.eagle = createEagle(this);
+    this.eagle.setDepth(10);
 
     this.ui.renderLevels(
       LEVELS.map((level) => level.name),
