@@ -140,8 +140,8 @@ class RoundScene extends Phaser.Scene {
     drawSea(this);
     this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
       .setDisplaySize(220, 90)
-      .setFlipX(true)
       .setDepth(5);
+    this.orca.scaleX = -1;
     this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
       .setDisplaySize(110, 80)
       .setDepth(10);
@@ -274,10 +274,10 @@ class RoundScene extends Phaser.Scene {
     });
   }
 
-  /** The art faces right, so flying left means mirroring it. */
+  /** The art faces left, so flying right means mirroring it. */
   private faceTowards(x: number): void {
     if (x === this.eagle.x) return;
-    this.eagle.scaleX = x < this.eagle.x ? -1 : 1;
+    this.eagle.scaleX = x < this.eagle.x ? 1 : -1;
   }
 
   private get currentWord(): RoundWord | undefined {
