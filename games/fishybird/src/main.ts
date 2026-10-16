@@ -129,22 +129,25 @@ class RoundScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.svg("eagle", svgUrl(eagleSvg), { scale: 2 });
-    this.load.svg("orca", svgUrl(orcaSvg), { scale: 2 });
-    this.load.svg("salmon", svgUrl(salmonSvg), { scale: 2 });
+    // Rasterize each SVG at its intended display size (2x for retina sharpness).
+    // Using explicit width/height avoids Phaser stretching the texture to fit setDisplaySize.
+    this.load.svg("eagle", svgUrl(eagleSvg), { width: 220, height: 160 });
+    this.load.svg("orca", svgUrl(orcaSvg), { width: 440, height: 292 });
+    this.load.svg("salmon", svgUrl(salmonSvg), { width: 400, height: 184 });
   }
 
   create(): void {
     this.cameras.main.setBackgroundColor("#0d2d5e");
     drawBackground(this);
     drawSea(this);
-    // Orca SVG viewBox 512x340 -> display at same ratio (220 wide, ~146 tall)
+    // setScale(0.5) because each SVG was rasterized at 2x the desired display size.
+    // Avoid setDisplaySize: it forces exact pixel dimensions and ignores texture aspect ratio.
     this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
-      .setDisplaySize(220, 146)
+      .setScale(0.5)
       .setDepth(5);
-    this.orca.scaleX = -1;
+    this.orca.scaleX = -0.5;
     this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
-      .setDisplaySize(110, 80)
+      .setScale(0.5)
       .setDepth(10);
 
     this.ui.renderLevels(

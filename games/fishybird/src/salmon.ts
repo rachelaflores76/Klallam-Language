@@ -44,14 +44,18 @@ export function createSalmon(
   const bodyWidth = Math.max(MIN_BODY_WIDTH, label.width + 40);
 
   // SVG image replaces all drawn shapes; label sits on top.
-  // The salmon SVG faces right; fish swim left, so we mirror it.
-  // viewBox is 512x235 (cropped), so height = width * 235/512.
+  // The salmon SVG was rasterized at 400x184 (2x display size).
+  // We scale it so the display width matches bodyWidth + TAIL_WIDTH.
+  // Avoid setDisplaySize: it forces exact pixels and ignores texture aspect ratio.
   const displayW = bodyWidth + TAIL_WIDTH;
-  const displayH = Math.round(displayW * 235 / 512);
+  // Texture width is 400px at 2x -> display width = 200px at scale 1.0.
+  // Scale uniformly so the display width matches what we want.
+  const salmonScale = displayW / 200;
+  const displayH = Math.round(184 / 2 * salmonScale);
   const img = scene.add
     .image(0, 0, "salmon")
-    .setDisplaySize(displayW, displayH);
-  img.scaleX = -1;
+    .setScale(salmonScale);
+  img.scaleX = -salmonScale;
 
   const baseY = spawn.laneY + (random() * 2 - 1) * TUNING.laneSpread;
   const container = scene.add.container(spawn.startX, baseY, [img, label]);
