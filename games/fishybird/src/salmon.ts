@@ -37,7 +37,8 @@ export function createSalmon(
   const label = scene.add
     .text(0, 0, choice.english, {
       fontFamily: "system-ui, sans-serif",
-      fontSize: "18px",
+      fontSize: "22px",
+      fontStyle: "bold",
       color: "#1a0a06",
     })
     .setOrigin(0.5);
