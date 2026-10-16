@@ -59,6 +59,8 @@ export function createSalmon(
   img.scaleX = -salmonScale;
 
   const baseY = spawn.laneY + (random() * 2 - 1) * TUNING.laneSpread;
+  // Shift the label down so it sits on the fish body rather than at the centre of the image.
+  label.setPosition(0, displayH * 0.15);
   const container = scene.add.container(spawn.startX, baseY, [img, label]);
   return {
     choice,
