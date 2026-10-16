@@ -132,7 +132,7 @@ class RoundScene extends Phaser.Scene {
     // Rasterize each SVG at its intended display size (2x for retina sharpness).
     // Using explicit width/height avoids Phaser stretching the texture to fit setDisplaySize.
     this.load.svg("eagle", svgUrl(eagleSvg), { width: 220, height: 160 });
-    this.load.svg("orca", svgUrl(orcaSvg), { width: 440, height: 292 });
+    this.load.svg("orca", svgUrl(orcaSvg), { width: 660, height: 438 });
     this.load.svg("salmon", svgUrl(salmonSvg), { width: 400, height: 184 });
   }
 
@@ -145,6 +145,7 @@ class RoundScene extends Phaser.Scene {
     this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
       .setScale(0.5)
       .setDepth(5);
+    // Negative scaleX mirrors the orca so it faces the right direction.
     this.orca.scaleX = -0.5;
     this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
       .setScale(0.5)
