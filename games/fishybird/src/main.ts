@@ -454,7 +454,7 @@ class RoundScene extends Phaser.Scene {
   }
 
   private catchCorrect(salmon: Salmon): void {
-    playCatchChime();
+    const chime = playCatchChime();
     const burst = createCatchBurst(this, salmon.container.x, salmon.container.y);
     salmon.container.destroy();
     this.tweens.add({
@@ -474,7 +474,9 @@ class RoundScene extends Phaser.Scene {
     }
     this.wordInPlay = false;
     this.scatter();
-    this.time.delayedCall(TUNING.celebrateMs, () => this.advance());
+    // Wait for the catch sound to finish before presenting the next word,
+    // so the whoop does not overlap the Klallam recording.
+    void chime.then(() => this.advance());
   }
 
   private missWord(): void {

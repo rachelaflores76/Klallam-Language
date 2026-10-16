@@ -14,9 +14,15 @@ export function playWord(url: string): void {
 
 const catchSound = new Audio(whoopUrl);
 
-export function playCatchChime(): void {
+/** Plays the catch sound and resolves when it finishes (or immediately on error). */
+export function playCatchChime(): Promise<void> {
   catchSound.currentTime = 0;
-  void catchSound.play().catch((error: unknown) => {
-    console.error("Catch sound did not play:", error);
+  return new Promise((resolve) => {
+    const done = () => resolve();
+    catchSound.addEventListener("ended", done, { once: true });
+    catchSound.play().catch(() => {
+      catchSound.removeEventListener("ended", done);
+      resolve();
+    });
   });
 }
