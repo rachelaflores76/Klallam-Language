@@ -138,8 +138,9 @@ class RoundScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#0d2d5e");
     drawBackground(this);
     drawSea(this);
+    // Orca SVG viewBox 512x340 -> display at same ratio (220 wide, ~146 tall)
     this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
-      .setDisplaySize(220, 90)
+      .setDisplaySize(220, 146)
       .setDepth(5);
     this.orca.scaleX = -1;
     this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")

@@ -45,9 +45,12 @@ export function createSalmon(
 
   // SVG image replaces all drawn shapes; label sits on top.
   // The salmon SVG faces right; fish swim left, so we mirror it.
+  // viewBox is 512x235 (cropped), so height = width * 235/512.
+  const displayW = bodyWidth + TAIL_WIDTH;
+  const displayH = Math.round(displayW * 235 / 512);
   const img = scene.add
     .image(0, 0, "salmon")
-    .setDisplaySize(bodyWidth + TAIL_WIDTH, BODY_HEIGHT + 16);
+    .setDisplaySize(displayW, displayH);
   img.scaleX = -1;
 
   const baseY = spawn.laneY + (random() * 2 - 1) * TUNING.laneSpread;
@@ -56,7 +59,7 @@ export function createSalmon(
     choice,
     container,
     halfWidth: bodyWidth / 2 + TAIL_WIDTH,
-    halfHeight: BODY_HEIGHT / 2,
+    halfHeight: displayH / 2,
     startX: spawn.startX,
     speed: spawn.speed,
     baseY,
