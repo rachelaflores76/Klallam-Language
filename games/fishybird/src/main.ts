@@ -1,7 +1,7 @@
 import { registerGame } from "@klallam/game-kit";
 import type { LexiconEntry } from "@klallam/lexicon";
 import Phaser from "phaser";
-import eagleSvg from "./eagle.svg?raw";
+import eagleUrl from "./eagle.png";
 import orcaUrl from "./orca.png";
 import salmonSvg from "./salmon.svg?raw";
 import backgroundUrl from "./background.png";
@@ -93,7 +93,7 @@ class RoundScene extends Phaser.Scene {
     this.load.image("background", backgroundUrl);
     // Rasterize each SVG at its intended display size (2x for retina sharpness).
     // New SVGs are all square (512x512 or 128x128 viewBox).
-    this.load.svg("eagle", svgUrl(eagleSvg), { width: 320, height: 320 });
+    this.load.image("eagle", eagleUrl);
     this.load.image("orca", orcaUrl);
     this.load.svg("salmon", svgUrl(salmonSvg), { width: 500, height: 500 });
   }
@@ -109,8 +109,9 @@ class RoundScene extends Phaser.Scene {
     this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
       .setScale(0.375)
       .setDepth(5);
+    // PNG is 800x680; scale to ~160px wide display (matches old eagle size).
     this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
-      .setScale(0.5)
+      .setScale(0.2)
       .setDepth(10);
 
     this.ui.renderLevels(
@@ -539,6 +540,7 @@ registerGame({
       // The element itself, not its name: a name is looked up on the document, which
       // cannot see inside the game's own sealed-off root.
       parent: ui.gameParent,
+      backgroundColor: "#06202c",
       width: WIDTH,
       height: HEIGHT,
       // Everything is positioned against 960 by 540 whatever the screen does, taps included.
