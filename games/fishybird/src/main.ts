@@ -4,6 +4,7 @@ import Phaser from "phaser";
 import eagleSvg from "./eagle.svg?raw";
 import orcaSvg from "./orca.svg?raw";
 import salmonSvg from "./salmon.svg?raw";
+import backgroundUrl from "./background.png";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
 import { recordAnswer, startRound } from "./memory";
@@ -42,53 +43,12 @@ const LANE_MIN_X = 90;
 const EAGLE_MARGIN_X = 120;
 
 function drawBackground(scene: Phaser.Scene): void {
-  // Sky gradient - three bands from deep blue at top to warm horizon near waterline
-  scene.add.rectangle(WIDTH / 2, SEA_Y / 4, WIDTH, SEA_Y / 2, 0x0d2d5e);
-  scene.add.rectangle(WIDTH / 2, SEA_Y * 0.625, WIDTH, SEA_Y / 4, 0x1a4a80);
-  scene.add.rectangle(WIDTH / 2, SEA_Y * 0.875, WIDTH, SEA_Y / 4, 0x3a7ab8);
-
-  // Distant mountain range - dark silhouette on the horizon
-  const gfx = scene.add.graphics();
-  gfx.fillStyle(0x1a3352, 1);
-  // Left mountain group
-  gfx.fillTriangle(0, SEA_Y, 160, SEA_Y - 140, 320, SEA_Y);
-  gfx.fillTriangle(80, SEA_Y, 220, SEA_Y - 110, 360, SEA_Y);
-  // Right mountain group
-  gfx.fillTriangle(500, SEA_Y, 660, SEA_Y - 160, 820, SEA_Y);
-  gfx.fillTriangle(620, SEA_Y, 760, SEA_Y - 120, 960, SEA_Y);
-  gfx.fillTriangle(800, SEA_Y, 920, SEA_Y - 90, 960, SEA_Y);
-  // Snow caps
-  gfx.fillStyle(0xe8f4f8, 1);
-  gfx.fillTriangle(130, SEA_Y - 118, 160, SEA_Y - 140, 192, SEA_Y - 118);
-  gfx.fillTriangle(634, SEA_Y - 134, 660, SEA_Y - 160, 688, SEA_Y - 134);
-
-  // Clouds - overlapping circles for a fluffy look
-  gfx.fillStyle(0xd8eef8, 0.85);
-  // Cloud 1 (left)
-  gfx.fillCircle(140, 60, 32);
-  gfx.fillCircle(172, 52, 38);
-  gfx.fillCircle(210, 60, 28);
-  gfx.fillCircle(156, 72, 30);
-  // Cloud 2 (right)
-  gfx.fillCircle(680, 80, 26);
-  gfx.fillCircle(710, 70, 34);
-  gfx.fillCircle(748, 78, 28);
-  gfx.fillCircle(722, 88, 24);
-  // Cloud 3 (far right, smaller)
-  gfx.fillStyle(0xc8e4f4, 0.65);
-  gfx.fillCircle(860, 48, 20);
-  gfx.fillCircle(882, 42, 26);
-  gfx.fillCircle(906, 50, 18);
+  // Background image stretched to fill the full canvas.
+  scene.add.image(WIDTH / 2, HEIGHT / 2, "background").setDisplaySize(WIDTH, HEIGHT).setDepth(0);
 }
 
-function drawSea(scene: Phaser.Scene): void {
-  // Layered water - deeper blue at bottom, lighter near surface
-  scene.add.rectangle(WIDTH / 2, (SEA_Y + HEIGHT) / 2 + 60, WIDTH, (HEIGHT - SEA_Y) / 2, 0x06263a);
-  scene.add.rectangle(WIDTH / 2, SEA_Y + 60, WIDTH, (HEIGHT - SEA_Y) / 2, 0x0a4a64);
-  // Surface shimmer band
-  scene.add.rectangle(WIDTH / 2, SEA_Y + 6, WIDTH, 12, 0x5ab8d4);
-  // Waterline
-  scene.add.rectangle(WIDTH / 2, SEA_Y, WIDTH, 4, 0x8fd8ec);
+function drawSea(_scene: Phaser.Scene): void {
+  // Sea is part of the background image; nothing extra needed.
 }
 
 /** Convert an SVG string to a blob URL Phaser can load. */
@@ -129,24 +89,25 @@ class RoundScene extends Phaser.Scene {
   }
 
   preload(): void {
+    // Background PNG.
+    this.load.image("background", backgroundUrl);
     // Rasterize each SVG at its intended display size (2x for retina sharpness).
-    // Using explicit width/height avoids Phaser stretching the texture to fit setDisplaySize.
-    this.load.svg("eagle", svgUrl(eagleSvg), { width: 320, height: 232 });
-    this.load.svg("orca", svgUrl(orcaSvg), { width: 880, height: 584 });
-    this.load.svg("salmon", svgUrl(salmonSvg), { width: 400, height: 184 });
+    // New SVGs are all square (512x512 or 128x128 viewBox).
+    this.load.svg("eagle", svgUrl(eagleSvg), { width: 320, height: 320 });
+    this.load.svg("orca", svgUrl(orcaSvg), { width: 880, height: 880 });
+    this.load.svg("salmon", svgUrl(salmonSvg), { width: 500, height: 500 });
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor("#0d2d5e");
+    this.cameras.main.setBackgroundColor("#4a2060");
     drawBackground(this);
     drawSea(this);
     // setScale(0.5) because each SVG was rasterized at 2x the desired display size.
     // Avoid setDisplaySize: it forces exact pixel dimensions and ignores texture aspect ratio.
+    // New orca SVG already faces left; no mirror needed.
     this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
       .setScale(0.5)
       .setDepth(5);
-    // Negative scaleX mirrors the orca so it faces the right direction.
-    this.orca.scaleX = -0.5;
     this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
       .setScale(0.5)
       .setDepth(10);

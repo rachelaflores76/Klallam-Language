@@ -45,18 +45,15 @@ export function createSalmon(
   const bodyWidth = Math.max(MIN_BODY_WIDTH, label.width + 40);
 
   // SVG image replaces all drawn shapes; label sits on top.
-  // The salmon SVG was rasterized at 400x184 (2x display size).
-  // We scale it so the display width matches bodyWidth + TAIL_WIDTH.
-  // Avoid setDisplaySize: it forces exact pixels and ignores texture aspect ratio.
+  // The salmon SVG now faces left (head on left), matching the swim direction.
+  // Rasterized at 500x500 (2x); display width = 250px at scale 1.0.
+  // Scale uniformly so the display width matches bodyWidth + TAIL_WIDTH.
   const displayW = bodyWidth + TAIL_WIDTH;
-  // Texture width is 400px at 2x -> display width = 200px at scale 1.0.
-  // Scale uniformly so the display width matches what we want.
-  const salmonScale = displayW / 200;
-  const displayH = Math.round(184 / 2 * salmonScale);
+  const salmonScale = displayW / 250;
+  const displayH = Math.round(250 * salmonScale);
   const img = scene.add
     .image(0, 0, "salmon")
     .setScale(salmonScale);
-  img.scaleX = -salmonScale;
 
   const baseY = spawn.laneY + (random() * 2 - 1) * TUNING.laneSpread;
   // Shift the label down so it sits on the fish body rather than at the centre of the image.
