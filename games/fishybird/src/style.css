@@ -36,6 +36,7 @@
 
 #game canvas {
   display: block;
+  background: #06202c;
 }
 
 .controls {

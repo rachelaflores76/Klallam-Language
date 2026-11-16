@@ -2,7 +2,7 @@ import { registerGame } from "@klallam/game-kit";
 import type { LexiconEntry } from "@klallam/lexicon";
 import Phaser from "phaser";
 import eagleSvg from "./eagle.svg?raw";
-import orcaSvg from "./orca.svg?raw";
+import orcaUrl from "./orca.png";
 import salmonSvg from "./salmon.svg?raw";
 import backgroundUrl from "./background.png";
 import { playCatchChime, playWord } from "./audio";
@@ -94,7 +94,7 @@ class RoundScene extends Phaser.Scene {
     // Rasterize each SVG at its intended display size (2x for retina sharpness).
     // New SVGs are all square (512x512 or 128x128 viewBox).
     this.load.svg("eagle", svgUrl(eagleSvg), { width: 320, height: 320 });
-    this.load.svg("orca", svgUrl(orcaSvg), { width: 880, height: 880 });
+    this.load.image("orca", orcaUrl);
     this.load.svg("salmon", svgUrl(salmonSvg), { width: 500, height: 500 });
   }
 
@@ -105,8 +105,9 @@ class RoundScene extends Phaser.Scene {
     // setScale(0.5) because each SVG was rasterized at 2x the desired display size.
     // Avoid setDisplaySize: it forces exact pixel dimensions and ignores texture aspect ratio.
     // New orca SVG already faces left; no mirror needed.
+    // PNG is 1172x634; scale to ~440px wide display.
     this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
-      .setScale(0.5)
+      .setScale(0.375)
       .setDepth(5);
     this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
       .setScale(0.5)
