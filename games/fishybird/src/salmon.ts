@@ -44,20 +44,20 @@ export function createSalmon(
     .setOrigin(0.5);
   const bodyWidth = Math.max(MIN_BODY_WIDTH, label.width + 40);
 
-  // SVG image replaces all drawn shapes; label sits on top.
-  // The salmon SVG now faces left (head on left), matching the swim direction.
-  // Rasterized at 500x500 (2x); display width = 250px at scale 1.0.
-  // Scale uniformly so the display width matches bodyWidth + TAIL_WIDTH.
+  // PNG is 908x326; natural display width at scale 1.0 = 908px.
+  // Scale so display width matches bodyWidth + TAIL_WIDTH.
+  // The PNG faces right, so mirror with scaleX = -salmonScale to face left.
   const displayW = bodyWidth + TAIL_WIDTH;
-  const salmonScale = displayW / 250;
-  const displayH = Math.round(250 * salmonScale);
+  const salmonScale = displayW / 908;
+  const displayH = Math.round(326 * salmonScale);
   const img = scene.add
     .image(0, 0, "salmon")
     .setScale(salmonScale);
+  img.scaleX = -salmonScale;
 
   const baseY = spawn.laneY + (random() * 2 - 1) * TUNING.laneSpread;
-  // Shift the label down so it sits on the fish body rather than at the centre of the image.
-  label.setPosition(0, displayH * 0.15);
+  // Label sits on the fish body (slight downward shift from centre).
+  label.setPosition(0, displayH * 0.05);
   const container = scene.add.container(spawn.startX, baseY, [img, label]);
   return {
     choice,

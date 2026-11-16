@@ -3,7 +3,7 @@ import type { LexiconEntry } from "@klallam/lexicon";
 import Phaser from "phaser";
 import eagleUrl from "./eagle.png";
 import orcaUrl from "./orca.png";
-import salmonSvg from "./salmon.svg?raw";
+import salmonUrl from "./salmon.png";
 import backgroundUrl from "./background.png";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
@@ -43,17 +43,17 @@ const LANE_MIN_X = 90;
 const EAGLE_MARGIN_X = 120;
 
 function drawBackground(scene: Phaser.Scene): void {
-  // Background image stretched to fill the full canvas.
-  scene.add.image(WIDTH / 2, HEIGHT / 2, "background").setDisplaySize(WIDTH, HEIGHT).setDepth(0);
+  // PNG is 1212x1618 portrait; scale to fill the 960-wide canvas and anchor to top
+  // so sky occupies the upper portion and the waterline sits near the bottom third.
+  const scale = WIDTH / 1212;
+  scene.add.image(WIDTH / 2, 0, "background")
+    .setOrigin(0.5, 0)
+    .setScale(scale)
+    .setDepth(0);
 }
 
 function drawSea(_scene: Phaser.Scene): void {
-  // Sea is part of the background image; nothing extra needed.
-}
-
-/** Convert an SVG string to a blob URL Phaser can load. */
-function svgUrl(svg: string): string {
-  return URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+  // Water is part of the background image.
 }
 
 class RoundScene extends Phaser.Scene {
@@ -91,11 +91,9 @@ class RoundScene extends Phaser.Scene {
   preload(): void {
     // Background PNG.
     this.load.image("background", backgroundUrl);
-    // Rasterize each SVG at its intended display size (2x for retina sharpness).
-    // New SVGs are all square (512x512 or 128x128 viewBox).
     this.load.image("eagle", eagleUrl);
     this.load.image("orca", orcaUrl);
-    this.load.svg("salmon", svgUrl(salmonSvg), { width: 500, height: 500 });
+    this.load.image("salmon", salmonUrl);
   }
 
   create(): void {
