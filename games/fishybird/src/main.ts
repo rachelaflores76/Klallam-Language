@@ -8,6 +8,7 @@ import backgroundUrl from "./background.png";
 import { playCatchChime, playWord } from "./audio";
 import { addPlayer, choosePlayer, currentPlayer, listPlayers } from "./players";
 import { roundsFor, saveRound } from "./rounds";
+import { setSoundOn, soundOn } from "./sound";
 import { summarize } from "./progress";
 import { sendUnsentRounds, startSending } from "./sheet";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
@@ -128,6 +129,11 @@ class RoundScene extends Phaser.Scene {
     this.ui.onReplay(() => this.replayWord());
     this.ui.onChangeLevel(() => this.abandonRound());
     this.ui.onPlayAgain(() => this.beginRound(this.levelIndex));
+    this.ui.showSound(soundOn());
+    this.ui.onToggleSound(() => {
+      setSoundOn(!soundOn());
+      this.ui.showSound(soundOn());
+    });
     this.ui.onShowProgress(() => {
       const player = currentPlayer();
       if (player === null) return;

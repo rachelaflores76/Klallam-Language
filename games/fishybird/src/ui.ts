@@ -53,6 +53,9 @@ export interface GameUi {
   hideChooser(): void;
   onChangeLevel(handler: () => void): void;
   onReplay(handler: () => void): void;
+  /** Shows the sound setting on both sound buttons. */
+  showSound(on: boolean): void;
+  onToggleSound(handler: () => void): void;
   onPlayAgain(handler: () => void): void;
   showWord(klallam: string): void;
   clearWord(): void;
@@ -83,7 +86,8 @@ export function createUi(root: ShadowRoot | HTMLElement): GameUi {
   const score = make("p", "score");
   score.setAttribute("aria-live", "polite");
   const controls = make("div", "controls");
-  controls.append(playerTag, replayButton, score);
+  const soundButton = button("control", "Sound: On");
+  controls.append(playerTag, replayButton, soundButton, score);
 
   // The first panel asks who is playing; the second chooses a level.
   const playerList = make("div", "level-buttons");
@@ -110,7 +114,8 @@ export function createUi(root: ShadowRoot | HTMLElement): GameUi {
   const playingAs = make("p", "playing-as");
   const switchPlayerButton = button("control", "Switch player");
   const whoRow = make("div", "who-row");
-  whoRow.append(playingAs, switchPlayerButton);
+  const startSoundButton = button("control", "Sound: On");
+  whoRow.append(playingAs, switchPlayerButton, startSoundButton);
   const levelButtons = make("div", "level-buttons");
   const levelPanel = make("div", "panel");
   const progressButton = button("control", "My Progress");
@@ -242,6 +247,20 @@ export function createUi(root: ShadowRoot | HTMLElement): GameUi {
       for (const control of [changeLevelButton, summaryChangeLevelButton]) {
         control.addEventListener("click", () => {
           control.blur();
+          handler();
+        });
+      }
+    },
+    showSound(on) {
+      for (const sound of [soundButton, startSoundButton]) {
+        sound.textContent = on ? "Sound: On" : "Sound: Off";
+        sound.setAttribute("aria-pressed", String(on));
+      }
+    },
+    onToggleSound(handler) {
+      for (const sound of [soundButton, startSoundButton]) {
+        sound.addEventListener("click", () => {
+          sound.blur();
           handler();
         });
       }
