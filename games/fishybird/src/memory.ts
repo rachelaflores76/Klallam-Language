@@ -1,11 +1,17 @@
 import { storageFor } from "@klallam/game-kit";
 import { TUNING } from "./config";
+import { currentPlayer, SHARED_WORDS_KEY, wordsKeyFor } from "./players";
 
-// Joins to "fishybird.words.v1", the name this game has always stored under. Changing
-// it would strand every player's progress, which cannot be recovered.
+// Each player's word memory is saved under their own name. "fishybird.words.v1", the
+// name this game stored under before players existed, is left in place untouched; the
+// first player added received a copy of it, and it is used only if nobody is picked.
 const progress = storageFor("fishybird");
-const KEY = "words.v1";
 const SCHEMA = 1;
+
+function key(): string {
+  const player = currentPlayer();
+  return player === null ? SHARED_WORDS_KEY : wordsKeyFor(player.id);
+}
 
 export interface WordRecord {
   box: number;
@@ -45,7 +51,7 @@ function readRecord(value: unknown): WordRecord | null {
 }
 
 function read(): Store {
-  const parsed = progress.read(KEY);
+  const parsed = progress.read(key());
   if (typeof parsed !== "object" || parsed === null) return emptyStore();
   const stored = parsed as Partial<Store>;
   if (stored.version !== SCHEMA) return emptyStore();
@@ -61,7 +67,7 @@ function read(): Store {
 }
 
 function write(store: Store): void {
-  progress.write(KEY, store);
+  progress.write(key(), store);
 }
 
 export function startRound(): number {
