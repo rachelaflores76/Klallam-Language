@@ -260,7 +260,7 @@ export function createUi(root: ShadowRoot | HTMLElement): GameUi {
       banner.textContent = "";
     },
     showScore(levelName, caught, outOf) {
-      score.textContent = `${levelName} - caught ${caught} of ${outOf}`;
+      score.textContent = `${levelName} - ${caught} of ${outOf} on the first try`;
     },
     onPlayAgain(handler) {
       playAgainButton.addEventListener("click", () => {
@@ -269,7 +269,7 @@ export function createUi(root: ShadowRoot | HTMLElement): GameUi {
       });
     },
     showSummary(caught, outOf, missed, levelNote) {
-      summaryScore.textContent = `You caught ${caught} of ${outOf}`;
+      summaryScore.textContent = `${caught} of ${outOf} on the first try`;
       summaryLevel.textContent = levelNote;
       summaryLead.textContent =
         missed.length === 0
@@ -342,7 +342,7 @@ function progressContent(summary: ProgressSummary): HTMLElement[] {
   const recent = make("ul", "recent");
   for (const round of summary.recent) {
     recent.append(
-      make("li", undefined, `${round.when} - ${round.level} - caught ${round.caught} of ${round.outOf}`)
+      make("li", undefined, `${round.when} - ${round.level} - ${round.caught} of ${round.outOf}`)
     );
   }
 
