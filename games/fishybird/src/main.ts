@@ -8,6 +8,7 @@ import backgroundUrl from "./background.png";
 import { playCatchChime, playWord } from "./audio";
 import { addPlayer, choosePlayer, currentPlayer, listPlayers } from "./players";
 import { saveRound } from "./rounds";
+import { sendUnsentRounds, startSending } from "./sheet";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
 import { recordAnswer, startRound } from "./memory";
 import {
@@ -558,6 +559,7 @@ class RoundScene extends Phaser.Scene {
         outOf: this.round.length,
         missed: this.missed.map((word) => word.english),
       });
+      void sendUnsentRounds();
     }
 
     this.onFinished(this.caught, this.round.length);
@@ -581,6 +583,7 @@ registerGame({
     context.root.append(sheet);
 
     const ui = createUi(context.root);
+    startSending();
     const scene = new RoundScene(ui, context.words(), (caught, outOf) => {
       context.finish({ score: caught, outOf });
     });
