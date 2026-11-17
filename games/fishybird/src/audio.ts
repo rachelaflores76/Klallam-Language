@@ -1,8 +1,14 @@
 import whoopUrl from "./whoop.mp3";
+import { soundOn } from "./sound";
 
 const player = new Audio();
 
-export function playWord(url: string): void {
+/**
+ * Plays a word's recording. With sound switched off, only a recording the player asked
+ * for (the "Hear it again" button) plays; nothing plays on its own.
+ */
+export function playWord(url: string, requested = false): void {
+  if (!requested && !soundOn()) return;
   player.pause();
   player.src = url;
   void player.play().catch((error: unknown) => {
@@ -22,7 +28,7 @@ const catchSound = new Audio(whoopUrl);
 
 /** Plays the catch sound and resolves when it finishes (or immediately on error). */
 export function playCatchChime(): Promise<void> {
-  if (!CATCH_SOUND_ON) {
+  if (!CATCH_SOUND_ON || !soundOn()) {
     return new Promise((resolve) => setTimeout(resolve, SILENT_PAUSE_MS));
   }
   catchSound.currentTime = 0;

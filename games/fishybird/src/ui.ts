@@ -306,7 +306,7 @@ export function createUi(root: ShadowRoot | HTMLElement): GameUi {
           const play = button("control", "Hear it");
           play.addEventListener("click", () => {
             play.blur();
-            playWord(word.audioUrl);
+            playWord(word.audioUrl, true);
           });
 
           item.append(klallam, english, play);

@@ -584,7 +584,7 @@ class RoundScene extends Phaser.Scene {
   private replayWord(): void {
     const word = this.currentWord;
     if (word === undefined || !TUNING.allowAudioReplay) return;
-    playWord(word.audioUrl);
+    playWord(word.audioUrl, true);
   }
 }
 
