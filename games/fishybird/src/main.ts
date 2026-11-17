@@ -6,6 +6,7 @@ import orcaUrl from "./orca.png";
 import salmonUrl from "./salmon.png";
 import backgroundUrl from "./background.png";
 import { playCatchChime, playWord } from "./audio";
+import { addPlayer, choosePlayer, currentPlayer, listPlayers } from "./players";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
 import { recordAnswer, startRound } from "./memory";
 import {
@@ -124,6 +125,11 @@ class RoundScene extends Phaser.Scene {
     this.ui.onReplay(() => this.replayWord());
     this.ui.onChangeLevel(() => this.abandonRound());
     this.ui.onPlayAgain(() => this.beginRound(this.levelIndex));
+    this.ui.onSwitchPlayer(() => {
+      this.renderPlayers();
+      this.ui.showPlayerPicker();
+    });
+    this.showStart();
 
     // The tap is the answer. Whatever the eagle passes on its way there is not.
     this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) =>
@@ -175,7 +181,34 @@ class RoundScene extends Phaser.Scene {
     this.stopPlay();
     this.ui.clearWord();
     this.ui.hideSummary();
-    this.ui.showChooser();
+    this.showStart();
+  }
+
+  /** Asks who is playing if nobody has been picked on this device, else offers levels. */
+  private showStart(): void {
+    const player = currentPlayer();
+    if (player === null) {
+      this.renderPlayers();
+      this.ui.showPlayerPicker();
+      return;
+    }
+    this.ui.showLevelPicker(player.name);
+  }
+
+  private renderPlayers(): void {
+    this.ui.renderPlayers(
+      listPlayers(),
+      (id) => {
+        choosePlayer(id);
+        this.showStart();
+      },
+      (name) => {
+        const added = addPlayer(name);
+        if (!added.ok) return added.reason;
+        this.showStart();
+        return null;
+      }
+    );
   }
 
   private tapAt(x: number, y: number): void {

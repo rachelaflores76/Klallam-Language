@@ -181,3 +181,64 @@
 .missed-english {
   flex: 1;
 }
+
+/* Who's playing, and the level chooser that follows it. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.add-name {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.name-input {
+  font: inherit;
+  font-size: 1.1rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #9fd8e8;
+  border-radius: 0.4rem;
+  background: #f2fbff;
+  color: #06202c;
+  min-width: 12rem;
+}
+
+.name-error {
+  margin: 0;
+  min-height: 1.2em;
+  color: #ffd27a;
+}
+
+.who-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.playing-as,
+.player-tag {
+  margin: 0;
+  color: #cfe9f2;
+}
+
+.playing-as {
+  font-size: 1.2rem;
+}
+
+.player-tag {
+  font-weight: 600;
+}
