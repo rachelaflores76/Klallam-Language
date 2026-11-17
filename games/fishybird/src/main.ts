@@ -43,10 +43,13 @@ const LANE_MIN_X = 90;
 const EAGLE_MARGIN_X = 120;
 
 function drawBackground(scene: Phaser.Scene): void {
-  // PNG is 1212x1618 portrait; scale to fill the 960-wide canvas and anchor to top
-  // so sky occupies the upper portion and the waterline sits near the bottom third.
+  // PNG is 1212x1618 portrait, scaled to fill the 960-wide canvas. Its waterline is
+  // at row 940 of the picture, so the image is lifted until that row sits on SEA_Y.
+  // Anchoring it to the top instead shows only sky, because the water starts below
+  // the bottom of the canvas.
   const scale = WIDTH / 1212;
-  scene.add.image(WIDTH / 2, 0, "background")
+  const IMAGE_WATERLINE = 940;
+  scene.add.image(WIDTH / 2, SEA_Y - IMAGE_WATERLINE * scale, "background")
     .setOrigin(0.5, 0)
     .setScale(scale)
     .setDepth(0);
