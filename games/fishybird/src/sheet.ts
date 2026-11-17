@@ -5,7 +5,8 @@ import { markSent, unsentRounds } from "./rounds";
  * Empty means nothing is sent: rounds stay on the device, and the game plays as before.
  * This is the only network request FishyBird makes; see the exception in CLAUDE.md.
  */
-export const SHEET_URL = "";
+export const SHEET_URL =
+  "https://script.google.com/macros/s/AKfycbz4HCoMNrmrEBVk_EVptHzfDBgqjvvdEykzd9RgYB89CA1ihWC-DABIa3eg1DF2dsHZXw/exec";
 
 let sending = false;
 let listening = false;
