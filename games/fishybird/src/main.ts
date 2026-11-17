@@ -477,6 +477,8 @@ class RoundScene extends Phaser.Scene {
     // Only a first try scores. A catch after a wrong grab still ends the word, but
     // earns nothing.
     if (!this.wrongThisWord) this.caught += 1;
+    // A word that took more than one try is listed with the missed ones for practice.
+    else if (this.currentWord !== undefined) this.missed.push(this.currentWord);
     this.ui.showScore(this.level.name, this.caught, this.round.length);
     // A word only counts as known if nothing was caught wrongly on the way to it.
     if (this.currentWord !== undefined) {

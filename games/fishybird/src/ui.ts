@@ -274,7 +274,7 @@ export function createUi(root: ShadowRoot | HTMLElement): GameUi {
       summaryLead.textContent =
         missed.length === 0
           ? "Every word. Nothing to go back over."
-          : "These ones got away. Listen to them again:";
+          : "Practice these again. Each one got away or took more than one try:";
 
       missedList.replaceChildren(
         ...missed.map((word) => {
