@@ -21,6 +21,8 @@ export interface RoundResult {
   /** The English meaning of each word that got away. */
   missed: string[];
   sent: boolean;
+  /** True once only first tries scored (Nov 2026). Earlier rounds counted second tries. */
+  firstTryOnly: boolean;
 }
 
 interface Store {
@@ -51,6 +53,7 @@ function readRound(value: unknown): RoundResult | null {
     outOf: r.outOf,
     missed,
     sent: r.sent === true,
+    firstTryOnly: r.firstTryOnly === true,
   };
 }
 
@@ -71,9 +74,12 @@ function write(rounds: RoundResult[]): void {
   store.write(KEY, { version: SCHEMA, rounds: rounds.slice(-MAX_ROUNDS) });
 }
 
-export function saveRound(result: Omit<RoundResult, "id" | "at" | "sent">): RoundResult {
+export function saveRound(
+  result: Omit<RoundResult, "id" | "at" | "sent" | "firstTryOnly">
+): RoundResult {
   const round: RoundResult = {
     ...result,
+    firstTryOnly: true,
     id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
     at: new Date().toISOString(),
     sent: false,

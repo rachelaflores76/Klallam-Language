@@ -346,10 +346,24 @@ function progressContent(summary: ProgressSummary): HTMLElement[] {
     );
   }
 
+  const note =
+    summary.scoringChangedAt === null
+      ? []
+      : [
+          make(
+            "p",
+            "scoring-note",
+            "The dashed line marks when scoring changed. Rounds to its left counted a fish " +
+              "caught on a second try; rounds to its right count first tries only, so a " +
+              "small dip there is expected."
+          ),
+        ];
+
   return [
     stats,
     chartTitle,
-    chart(summary.chart),
+    chart(summary.chart, summary.scoringChangedAt),
+    ...note,
     make("h3", "progress-heading", "By level"),
     table,
     make("h3", "progress-heading", "Recent rounds"),
@@ -369,7 +383,7 @@ function svg<K extends keyof SVGElementTagNameMap>(
 }
 
 /** A line of percent caught per round, oldest on the left. */
-function chart(values: readonly number[]): HTMLElement {
+function chart(values: readonly number[], changedAt: number | null): HTMLElement {
   const width = 600;
   const height = 200;
   const left = 44;
@@ -396,6 +410,12 @@ function chart(values: readonly number[]): HTMLElement {
   const last = svg("text", { x: width - right, y: height - 8, class: "chart-label", "text-anchor": "end" });
   last.textContent = "Latest";
   root.append(first, last);
+
+  if (changedAt !== null && values.length > 1) {
+    // Halfway between the last old-scoring round and the first new one.
+    const at = (x(changedAt - 1) + x(changedAt)) / 2;
+    root.append(svg("line", { x1: at, x2: at, y1: top, y2: top + plotH, class: "chart-change" }));
+  }
 
   if (values.length > 1) {
     root.append(

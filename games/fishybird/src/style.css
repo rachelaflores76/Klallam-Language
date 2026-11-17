@@ -346,3 +346,15 @@
   overflow-y: auto;
   justify-content: flex-start;
 }
+
+.chart-change {
+  stroke: #ffd27a;
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+}
+
+.scoring-note {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ffd27a;
+}

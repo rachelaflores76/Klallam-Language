@@ -19,6 +19,11 @@ export interface ProgressSummary {
   roundsPlayed: number;
   /** Percent caught in each round, oldest first, for the chart. At most CHART_ROUNDS. */
   chart: number[];
+  /**
+   * Where in the chart the first round scored by first tries only sits, when older
+   * rounds (which counted second tries) are also on it. Null when there is no change.
+   */
+  scoringChangedAt: number | null;
   levels: LevelSummary[];
   recent: RecentRound[];
 }
@@ -55,10 +60,17 @@ export function summarize(playerName: string, rounds: readonly RoundResult[]): P
       entry.latest = score;
     }
   }
+  const charted = rounds.slice(-CHART_ROUNDS);
+  const firstNew = charted.findIndex((round) => round.firstTryOnly);
+  const scoringChangedAt =
+    firstNew > 0 && charted.slice(0, firstNew).every((round) => !round.firstTryOnly)
+      ? firstNew
+      : null;
   return {
     playerName,
     roundsPlayed: rounds.length,
-    chart: rounds.slice(-CHART_ROUNDS).map(percent),
+    chart: charted.map(percent),
+    scoringChangedAt,
     levels: [...byLevel.values()].sort((a, b) => a.level.localeCompare(b.level)),
     recent: rounds
       .slice(-RECENT_ROUNDS)
