@@ -110,9 +110,9 @@ class RoundScene extends Phaser.Scene {
     this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
       .setScale(0.375)
       .setDepth(5);
-    // PNG is 800x680; scale to ~160px wide display (matches old eagle size).
+    // PNG is 699x596, trimmed to the bird itself; scale to ~126px wide display.
     this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
-      .setScale(0.2)
+      .setScale(0.18)
       .setDepth(10);
 
     this.ui.renderLevels(
