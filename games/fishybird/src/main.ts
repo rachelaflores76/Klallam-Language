@@ -7,7 +7,8 @@ import salmonUrl from "./salmon.png";
 import backgroundUrl from "./background.png";
 import { playCatchChime, playWord } from "./audio";
 import { addPlayer, choosePlayer, currentPlayer, listPlayers } from "./players";
-import { saveRound } from "./rounds";
+import { roundsFor, saveRound } from "./rounds";
+import { summarize } from "./progress";
 import { sendUnsentRounds, startSending } from "./sheet";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
 import { recordAnswer, startRound } from "./memory";
@@ -127,6 +128,11 @@ class RoundScene extends Phaser.Scene {
     this.ui.onReplay(() => this.replayWord());
     this.ui.onChangeLevel(() => this.abandonRound());
     this.ui.onPlayAgain(() => this.beginRound(this.levelIndex));
+    this.ui.onShowProgress(() => {
+      const player = currentPlayer();
+      if (player === null) return;
+      this.ui.showProgress(summarize(player.name, roundsFor(player.id)));
+    });
     this.ui.onSwitchPlayer(() => {
       this.renderPlayers();
       this.ui.showPlayerPicker();

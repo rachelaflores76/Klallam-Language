@@ -188,9 +188,10 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  max-height: 100%;
-  overflow-y: auto;
   padding: 1rem;
+  /* Centred when it fits; when it is taller than the game, it scrolls from the top
+     instead of being cut off. */
+  margin: auto 0;
 }
 
 .panel[hidden] {
@@ -241,4 +242,107 @@
 
 .player-tag {
   font-weight: 600;
+}
+
+/* My Progress. Shows only the chosen player; never anyone else's scores. */
+.progress-panel {
+  width: 100%;
+  max-width: 40rem;
+  justify-content: flex-start;
+  color: #f2fbff;
+}
+
+.progress-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.stats {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 7rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(159, 216, 232, 0.12);
+  border-radius: 0.4rem;
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.stat-label {
+  color: #cfe9f2;
+  font-size: 0.9rem;
+}
+
+.progress-heading {
+  margin: 0.5rem 0 0;
+  font-size: 1.05rem;
+  color: #cfe9f2;
+}
+
+.chart-box {
+  background: rgba(159, 216, 232, 0.08);
+  border-radius: 0.4rem;
+  padding: 0.5rem;
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chart-grid {
+  stroke: rgba(207, 233, 242, 0.25);
+  stroke-width: 1;
+}
+
+.chart-label {
+  fill: #cfe9f2;
+  font-size: 13px;
+}
+
+.chart-line {
+  fill: none;
+  stroke: #9fd8e8;
+  stroke-width: 3;
+}
+
+.chart-dot {
+  fill: #ffd27a;
+}
+
+.progress-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.progress-table th,
+.progress-table td {
+  text-align: left;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid rgba(207, 233, 242, 0.2);
+}
+
+.recent {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: #cfe9f2;
+}
+
+.start-overlay {
+  overflow-y: auto;
+  justify-content: flex-start;
 }
