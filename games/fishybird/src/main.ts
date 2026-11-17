@@ -148,7 +148,7 @@ class RoundScene extends Phaser.Scene {
   private perchEagle(): void {
     this.tweens.killTweensOf(this.eagle);
     this.eagle.setPosition(WIDTH / 2, EAGLE_PERCH_Y);
-    this.eagle.scaleX = 1;
+    this.eagle.setFlipX(false);
     this.flying = false;
   }
 
@@ -246,7 +246,8 @@ class RoundScene extends Phaser.Scene {
   /** The art faces left, so flying right means mirroring it. */
   private faceTowards(x: number): void {
     if (x === this.eagle.x) return;
-    this.eagle.scaleX = x < this.eagle.x ? 1 : -1;
+    // Flip rather than set scaleX: scaleX = 1 would undo the shrink and stretch the bird.
+    this.eagle.setFlipX(x > this.eagle.x);
   }
 
   private get currentWord(): RoundWord | undefined {
