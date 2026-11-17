@@ -13,6 +13,19 @@ These are not v1 limitations. They apply for the life of the project.
 - Persist player progress in `localStorage` only.
 - Do not introduce a dependency that requires a server to function.
 
+### The one exception: FishyBird round results (decided by the maintainer, Nov 2026)
+The maintainer changed the rules so she can track each player's improvement.
+- FishyBird, and only FishyBird, may send a finished round's result to the maintainer's
+  own Google Sheet, through a Google Apps Script web app she deploys from her account.
+- What is sent: the player name typed on the device, date and time, level, caught out of
+  total, the English meaning of words missed, and a round id. Nothing else.
+- Every round is saved on the device first. Sending is best effort: with no internet, or
+  no sheet address set, the game plays exactly as before and sends later.
+- Still not allowed, for every game: logins, passwords, accounts, leaderboards, showing one
+  player another player's scores, any other server or service, and sending anything from
+  the other games.
+- Do not widen this exception without the maintainer asking for it.
+
 ## Shared Lexicon Rules
 - All Klallam content lives in the shared lexicon package, never inside a single game.
 - Games consume the lexicon; they never define, duplicate, or override word data.
