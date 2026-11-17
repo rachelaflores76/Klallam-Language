@@ -7,6 +7,7 @@ import salmonUrl from "./salmon.png";
 import backgroundUrl from "./background.png";
 import { playCatchChime, playWord } from "./audio";
 import { addPlayer, choosePlayer, currentPlayer, listPlayers } from "./players";
+import { saveRound } from "./rounds";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
 import { recordAnswer, startRound } from "./memory";
 import {
@@ -546,6 +547,18 @@ class RoundScene extends Phaser.Scene {
       })),
       this.level.name
     );
+
+    const player = currentPlayer();
+    if (player !== null) {
+      saveRound({
+        playerId: player.id,
+        playerName: player.name,
+        level: this.level.name,
+        caught: this.caught,
+        outOf: this.round.length,
+        missed: this.missed.map((word) => word.english),
+      });
+    }
 
     this.onFinished(this.caught, this.round.length);
   }
