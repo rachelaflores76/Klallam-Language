@@ -358,3 +358,13 @@
   font-size: 0.9rem;
   color: #ffd27a;
 }
+
+/* Credit for the artist who designed FishyBird's graphics. */
+.art-credit {
+  margin: 0;
+  padding: 0.35rem 0.75rem 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #8fb0bd;
+  background: #06202c;
+}

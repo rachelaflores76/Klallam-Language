@@ -156,7 +156,9 @@ export function createUi(root: ShadowRoot | HTMLElement): GameUi {
   summary.append(summaryScore, summaryLevel, summaryLead, missedList, summaryActions);
 
   app.append(changeLevelButton, banner, gameParent, controls, overlay, summary);
-  root.append(app);
+  // Outside the app box, so no screen or overlay ever covers it.
+  const credit = make("p", "art-credit", "FishyBird artwork by Morgan Veregge");
+  root.append(app, credit);
 
   replayButton.hidden = !TUNING.allowAudioReplay;
   changeLevelButton.hidden = true;
