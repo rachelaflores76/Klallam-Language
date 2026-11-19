@@ -613,3 +613,79 @@ header {
   color: rgba(255, 255, 255, 0.88);
   font-weight: 800;
 }
+
+/* The page below the banner: a soft shore, tinted to match the sky. */
+:root {
+  --page: #eaf5ff;
+  --page-low: #f1faf3;
+  --heading: #12406a;
+  --heading-pill: #ffd447;
+}
+[data-sky="sunset"] {
+  --page: #fff1e8;
+  --page-low: #f7edff;
+  --heading: #5a2a6e;
+  --heading-pill: #ffb37a;
+}
+[data-sky="night"] {
+  --page: #e8ecfa;
+  --page-low: #eef2ff;
+  --heading: #1c2a5c;
+  --heading-pill: #9fb4ff;
+}
+
+body {
+  background: linear-gradient(180deg, var(--page) 0%, var(--page-low) 100%);
+}
+
+.shore {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 34px;
+}
+.shore path {
+  fill: var(--page);
+}
+
+/* Bigger, more playful section headings. */
+.sec-title {
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  color: var(--heading);
+  margin: 6px 0 20px;
+}
+.sec-title::after {
+  height: 10px;
+  background: none;
+  /* A little wave line instead of a plain rule. */
+  background-image: radial-gradient(circle at 10px -4px, transparent 9px, var(--heading-pill) 10px, var(--heading-pill) 12px, transparent 13px);
+  background-size: 20px 10px;
+  background-repeat: repeat-x;
+  opacity: 0.85;
+}
+
+/* The game panel and pronunciation cards sit on the shore with more presence. */
+.game-area {
+  border: 0;
+  border-radius: 24px;
+  box-shadow: 0 8px 0 rgba(18, 60, 110, 0.1), 0 16px 40px rgba(18, 60, 110, 0.18);
+}
+.game-hdr {
+  background: linear-gradient(90deg, rgba(63, 155, 232, 0.12), rgba(52, 179, 107, 0.12));
+}
+.pc {
+  border: 0;
+  border-radius: 16px;
+  border-left: 6px solid var(--card-edge, #3b8ff0);
+  box-shadow: 0 4px 0 rgba(18, 60, 110, 0.08), 0 8px 20px rgba(18, 60, 110, 0.1);
+  transition: transform 0.2s;
+}
+.pc:hover {
+  transform: translateY(-3px);
+}
+.pc:nth-child(5n + 2) { --card-edge: #34b36b; }
+.pc:nth-child(5n + 3) { --card-edge: #19b3a3; }
+.pc:nth-child(5n + 4) { --card-edge: #ff9a3c; }
+.pc:nth-child(5n + 5) { --card-edge: #a45ee0; }
