@@ -330,3 +330,29 @@
     animation: none;
   }
 }
+
+.best {
+  margin: 4px 0 0;
+  font-weight: 800;
+  color: #3b2a8c;
+}
+
+.best.new {
+  color: #ffffff;
+  background: linear-gradient(90deg, #ff5c8a, #ffb020);
+  padding: 8px 16px;
+  border-radius: 999px;
+  animation: pop 0.7s ease;
+}
+
+.points {
+  margin: 0;
+  font-weight: 800;
+  color: #18a37f;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .best.new {
+    animation: none;
+  }
+}

@@ -36,6 +36,9 @@ function clock(ms: number): string {
   return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
 }
 
+const POINTS_PER_PAIR = 10;
+const BEST_KEY = "best.v1";
+
 /** Matches the card turn in style.css. */
 const FLIP_TIME = 450;
 
@@ -211,6 +214,7 @@ registerGame({
           card.disabled = true;
           matched += 1;
           matchedText.textContent = `Pairs: ${matched} / ${pairCount}`;
+          context.awardPoints(POINTS_PER_PAIR);
           // Celebrate once the second card has finished turning, so the bounce never
           // catches it mid-flip.
           wait(() => {
@@ -229,6 +233,7 @@ registerGame({
             }
           }, FLIP_TIME);
           if (matched === pairCount) {
+            context.finish({ score: pairCount, outOf: pairCount });
             finished(size, pairCount, moves, Date.now() - (startedAt ?? Date.now()));
           }
           return;
@@ -255,7 +260,33 @@ registerGame({
       body.replaceChildren(top, board);
     }
 
+    /** Fewest moves so far for each size on this device. */
+    function bests(): Record<string, number> {
+      const stored = context.storage.read(BEST_KEY);
+      if (typeof stored !== "object" || stored === null) return {};
+      const out: Record<string, number> = {};
+      for (const [name, value] of Object.entries(stored as Record<string, unknown>)) {
+        if (typeof value === "number" && Number.isFinite(value) && value > 0) out[name] = value;
+      }
+      return out;
+    }
+
     function finished(size: Size, pairCount: number, moves: number, ms: number): void {
+      // Keyed by size and pairs, so a smaller board never competes with a full one.
+      const key = `${size.name}-${pairCount}`;
+      const saved = bests();
+      const previous = saved[key];
+      const newBest = previous === undefined || moves < previous;
+      if (newBest) {
+        saved[key] = moves;
+        context.storage.write(BEST_KEY, saved);
+      }
+      const bestLine = newBest
+        ? previous === undefined
+          ? `First ${size.name} game! Your best is ${moves} moves. Can you beat it?`
+          : `New best! ${moves} moves beats your old best of ${previous}.`
+        : `Your best for ${size.name} is ${previous} moves. Try again to beat it!`;
+
       const again = button("size", "Play again");
       again.addEventListener("click", () => play(size, pairCount));
       const sizes = button("small", "Change size");
@@ -275,13 +306,15 @@ registerGame({
         element("div", "big", "\u{1F389}"),
         element("h2", "title", "All matched!"),
         results,
+        element("p", newBest ? "best new" : "best", bestLine),
+        element("p", "points", `+${pairCount * POINTS_PER_PAIR} points`),
         again,
         sizes
       );
       wait(() => {
         body.replaceChildren(done);
         const box = done.getBoundingClientRect();
-        confetti(done, box.width / 2, 40, 60, 220);
+        confetti(done, box.width / 2, 40, newBest ? 110 : 60, newBest ? 300 : 220);
       }, 700);
     }
 
