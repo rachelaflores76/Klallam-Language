@@ -7,6 +7,38 @@ interface Size {
   pairs: number;
 }
 
+const CONFETTI_COLOURS = ["#7b5cff", "#ff5c8a", "#ffb020", "#18c29c", "#2f9bff", "#ff7a3d"];
+
+function reducedMotion(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+/** A small burst of confetti from a point inside a positioned box. */
+function confetti(box: HTMLElement, x: number, y: number, pieces: number, spread: number): void {
+  if (reducedMotion()) return;
+  for (let i = 0; i < pieces; i += 1) {
+    const piece = element("span", "confetti");
+    const angle = Math.random() * Math.PI * 2;
+    const distance = spread * (0.5 + Math.random() * 0.7);
+    piece.style.left = `${x}px`;
+    piece.style.top = `${y}px`;
+    piece.style.background = CONFETTI_COLOURS[i % CONFETTI_COLOURS.length] ?? "#7b5cff";
+    piece.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+    piece.style.setProperty("--dy", `${Math.sin(angle) * distance - spread * 0.3}px`);
+    piece.style.setProperty("--r", `${Math.round(Math.random() * 720 - 360)}deg`);
+    piece.addEventListener("animationend", () => piece.remove());
+    box.append(piece);
+  }
+}
+
+function clock(ms: number): string {
+  const seconds = Math.max(0, Math.round(ms / 1000));
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+}
+
+/** Matches the card turn in style.css. */
+const FLIP_TIME = 450;
+
 /** How long a wrong pair stays face up before turning back over. */
 const WRONG_PAIR_PAUSE = 1100;
 
@@ -117,6 +149,7 @@ registerGame({
       let matched = 0;
       let first: HTMLButtonElement | null = null;
       let busy = false;
+      let startedAt: number | null = null;
 
       const movesText = element("span", "stat", "Moves: 0");
       const matchedText = element("span", "stat", `Pairs: 0 / ${pairCount}`);
@@ -124,6 +157,8 @@ registerGame({
       status.append(movesText, matchedText);
 
       const grid = element("div", `grid pairs-${pairCount}`);
+      const board = element("div", "board");
+      board.append(grid);
       const cards = shuffle(
         words.flatMap((entry) => [
           { entry, side: "klallam" as const },
@@ -156,6 +191,7 @@ registerGame({
 
       function flip(card: HTMLButtonElement): void {
         if (busy || card.classList.contains("up")) return;
+        startedAt ??= Date.now();
         turnUp(card);
         const entry = byId.get(card.dataset["word"] ?? "");
         if (card.classList.contains("klallam") && entry !== undefined && soundOn()) {
@@ -171,13 +207,30 @@ registerGame({
         movesText.textContent = `Moves: ${moves}`;
 
         if (a.dataset["word"] === card.dataset["word"]) {
-          a.classList.add("matched");
-          card.classList.add("matched");
           a.disabled = true;
           card.disabled = true;
           matched += 1;
           matchedText.textContent = `Pairs: ${matched} / ${pairCount}`;
-          if (matched === pairCount) finished(size, pairCount, moves);
+          // Celebrate once the second card has finished turning, so the bounce never
+          // catches it mid-flip.
+          wait(() => {
+            a.classList.add("matched");
+            card.classList.add("matched");
+            const boardBox = board.getBoundingClientRect();
+            for (const pair of [a, card]) {
+              const spot = pair.getBoundingClientRect();
+              confetti(
+                board,
+                spot.left - boardBox.left + spot.width / 2,
+                spot.top - boardBox.top + spot.height / 2,
+                14,
+                70
+              );
+            }
+          }, FLIP_TIME);
+          if (matched === pairCount) {
+            finished(size, pairCount, moves, Date.now() - (startedAt ?? Date.now()));
+          }
           return;
         }
 
@@ -199,22 +252,37 @@ registerGame({
       const buttons = element("div", "status");
       buttons.append(soundButton(), sizesButton);
       top.append(status, buttons);
-      body.replaceChildren(top, grid);
+      body.replaceChildren(top, board);
     }
 
-    function finished(size: Size, pairCount: number, moves: number): void {
+    function finished(size: Size, pairCount: number, moves: number, ms: number): void {
       const again = button("size", "Play again");
       again.addEventListener("click", () => play(size, pairCount));
       const sizes = button("small", "Change size");
       sizes.addEventListener("click", chooseSize);
+      const results = element("div", "results");
+      for (const [value, label] of [
+        [String(pairCount), "pairs"],
+        [String(moves), "moves"],
+        [clock(ms), "time"],
+      ] as const) {
+        const result = element("div", "result");
+        result.append(element("strong", "", value), element("span", "", label));
+        results.append(result);
+      }
       const done = element("div", "done");
       done.append(
+        element("div", "big", "\u{1F389}"),
         element("h2", "title", "All matched!"),
-        element("p", "lead", `${pairCount} pairs in ${moves} moves.`),
+        results,
         again,
         sizes
       );
-      wait(() => body.replaceChildren(done), 700);
+      wait(() => {
+        body.replaceChildren(done);
+        const box = done.getBoundingClientRect();
+        confetti(done, box.width / 2, 40, 60, 220);
+      }, 700);
     }
 
     chooseSize();
