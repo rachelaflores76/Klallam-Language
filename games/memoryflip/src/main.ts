@@ -68,6 +68,24 @@ registerGame({
     }
 
     const body = element("div", "memoryflip");
+    const byId = new Map(usable.map((entry) => [entry.id, entry]));
+
+    // One sound setting per device, kept under this game's own storage.
+    const SOUND_KEY = "sound.v1";
+    const soundOn = (): boolean => context.storage.read(SOUND_KEY) !== false;
+    function soundButton(): HTMLButtonElement {
+      const toggle = button("small sound", "");
+      const show = () => {
+        toggle.textContent = soundOn() ? "\u{1F50A} Sound: On" : "\u{1F507} Sound: Off";
+        toggle.setAttribute("aria-pressed", String(soundOn()));
+      };
+      show();
+      toggle.addEventListener("click", () => {
+        context.storage.write(SOUND_KEY, !soundOn());
+        show();
+      });
+      return toggle;
+    }
     const timers = new Set<number>();
     const wait = (run: () => void, ms: number): void => {
       const id = window.setTimeout(() => {
@@ -88,7 +106,8 @@ registerGame({
       body.replaceChildren(
         element("h2", "title", "Memory Flip"),
         element("p", "lead", "Flip two cards at a time. Find each Klallam word and its meaning!"),
-        sizes
+        sizes,
+        soundButton()
       );
     }
 
@@ -138,6 +157,10 @@ registerGame({
       function flip(card: HTMLButtonElement): void {
         if (busy || card.classList.contains("up")) return;
         turnUp(card);
+        const entry = byId.get(card.dataset["word"] ?? "");
+        if (card.classList.contains("klallam") && entry !== undefined && soundOn()) {
+          context.playRecording(entry);
+        }
         if (first === null) {
           first = card;
           return;
@@ -173,7 +196,9 @@ registerGame({
       const sizesButton = button("small", "Change size");
       sizesButton.addEventListener("click", chooseSize);
       const top = element("div", "top");
-      top.append(status, sizesButton);
+      const buttons = element("div", "status");
+      buttons.append(soundButton(), sizesButton);
+      top.append(status, buttons);
       body.replaceChildren(top, grid);
     }
 
