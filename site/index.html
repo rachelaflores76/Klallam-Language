@@ -4,6 +4,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Fun With Klallam</title>
+    <script>
+      // Picks the banner's sky from the visitor's own clock: day 6 am to 5 pm, sunset
+      // 5 pm to 8 pm, night 8 pm to 6 am. Runs before the page draws, so the sky never
+      // flashes the wrong colour, and checks again each minute while the page is open.
+      // "?sky=day", "?sky=sunset" or "?sky=night" in the address forces one, for checking.
+      (function () {
+        var forced = new URLSearchParams(location.search).get("sky");
+        function pick() {
+          if (forced === "day" || forced === "sunset" || forced === "night") return forced;
+          var hour = new Date().getHours();
+          if (hour >= 6 && hour < 17) return "day";
+          if (hour >= 17 && hour < 20) return "sunset";
+          return "night";
+        }
+        function apply() {
+          document.documentElement.setAttribute("data-sky", pick());
+        }
+        apply();
+        setInterval(apply, 60000);
+      })();
+    </script>
   </head>
   <body>
     <header>

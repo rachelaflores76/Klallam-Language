@@ -493,3 +493,57 @@ header {
   stroke-width: 2.5;
   stroke-linecap: round;
 }
+
+/* Sunset: 5 pm to 8 pm. */
+[data-sky="sunset"] {
+  --sky-top: #5a3d8a;
+  --sky-bottom: #ff9a62;
+  --sun: #ffcf5c;
+  --cloud: #ffc2a8;
+  --ridge-far: #8a5a8f;
+  --snow: #ffd9c7;
+  --ridge-mid: #5b3f74;
+  --trees-far: #3e2b56;
+  --trees-near: #26193a;
+  --water-top: #3d4f9a;
+  --water-bottom: #1f2a5c;
+  --wave: rgba(255, 190, 150, 0.6);
+  --header-bg: #3a2457;
+  --subtitle-bg: rgba(50, 25, 70, 0.42);
+  --title-shadow: 0 3px 0 rgba(60, 20, 60, 0.5), 0 6px 24px rgba(60, 20, 60, 0.5);
+}
+
+[data-sky="sunset"] .sun {
+  transform: translateY(70px);
+}
+
+/* Night: 8 pm to 6 am. */
+[data-sky="night"] {
+  --sky-top: #070d24;
+  --sky-bottom: #233a6e;
+  --cloud: #3a4a75;
+  --ridge-far: #2b3a63;
+  --snow: #b9c6e6;
+  --ridge-mid: #1d2a4c;
+  --trees-far: #131d38;
+  --trees-near: #0b1226;
+  --water-top: #1b2c57;
+  --water-bottom: #0a1430;
+  --wave: rgba(220, 230, 255, 0.45);
+  --header-bg: #0b1430;
+  --subtitle-bg: rgba(5, 10, 30, 0.5);
+  --title-shadow: 0 3px 0 rgba(0, 0, 0, 0.5), 0 6px 24px rgba(0, 0, 0, 0.6);
+}
+
+[data-sky="night"] .sun {
+  display: none;
+}
+
+[data-sky="night"] .moon,
+[data-sky="night"] .stars {
+  display: inline;
+}
+
+[data-sky="night"] .cloud {
+  opacity: 0.55;
+}
