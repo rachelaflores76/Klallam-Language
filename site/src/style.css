@@ -689,3 +689,51 @@ body {
 .pc:nth-child(5n + 3) { --card-edge: #19b3a3; }
 .pc:nth-child(5n + 4) { --card-edge: #ff9a3c; }
 .pc:nth-child(5n + 5) { --card-edge: #a45ee0; }
+
+/* Gentle motion: drifting clouds, moving water, twinkling stars. */
+.cloud {
+  animation: drift 26s ease-in-out infinite alternate;
+}
+.cloud.c2 {
+  animation-duration: 34s;
+  animation-delay: -12s;
+}
+.cloud.c3 {
+  animation-duration: 30s;
+  animation-delay: -20s;
+}
+@keyframes drift {
+  from { transform: translateX(-40px); }
+  to { transform: translateX(40px); }
+}
+/* The wave lines repeat every 60 units, so sliding by 60 loops without a seam. */
+.waves path {
+  animation: lap 4s linear infinite;
+}
+.waves path + path {
+  animation-duration: 6s;
+  animation-direction: reverse;
+}
+@keyframes lap {
+  from { transform: translateX(0); }
+  to { transform: translateX(-60px); }
+}
+.stars circle {
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+/* Anyone whose device asks for less motion gets a still scene. */
+@media (prefers-reduced-motion: reduce) {
+  .cloud,
+  .waves path,
+  .stars circle,
+  .scard,
+  .pc {
+    animation: none;
+    transition: none;
+  }
+}
