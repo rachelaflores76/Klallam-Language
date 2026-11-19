@@ -38,7 +38,7 @@ const ORCA_TILT = 28;
 // apart, because nothing jumps straight up out of the water.
 const ORCA_ENTRY_X = WIDTH / 2 + 140;
 const ORCA_EXIT_X = WIDTH / 2 - 140;
-// The eagle is about 215px tall, so this leaves a gap above its head.
+// The eagle is about 218px tall, so this leaves a gap above its head.
 const EAGLE_PERCH_Y = 125;
 // Centred so the shallowest fish still clears the waterline and the deepest the seabed.
 const SALMON_LANE_Y = 450;
@@ -46,7 +46,7 @@ const SALMON_START_X = WIDTH + 160;
 // A fish already tapped waits here rather than leaving before the eagle can reach it.
 const LANE_MIN_X = 90;
 // How close to an edge the eagle may perch, so it always has room to turn.
-// More than half the eagle's 252px width, so its wings stay on screen.
+// More than half the eagle's 214px width, so its wings stay on screen.
 const EAGLE_MARGIN_X = 145;
 
 function drawBackground(scene: Phaser.Scene): void {
@@ -117,9 +117,9 @@ class RoundScene extends Phaser.Scene {
     this.orca = this.add.image(WIDTH / 2, ORCA_HIDDEN_Y, "orca")
       .setScale(0.375)
       .setDepth(5);
-    // PNG is 699x596, trimmed to the bird itself; scale to ~252px wide display.
+    // PNG is 428x436 (Rachel's eagle, Nov 2026); scale to ~215px tall, ~214px wide.
     this.eagle = this.add.image(WIDTH / 2, EAGLE_PERCH_Y, "eagle")
-      .setScale(0.36)
+      .setScale(0.5)
       .setDepth(10);
 
     this.ui.renderLevels(
