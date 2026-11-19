@@ -368,3 +368,45 @@
   color: #8fb0bd;
   background: #06202c;
 }
+
+/* On narrow screens the bottom bar becomes two rows: name and score on top, the two
+   buttons side by side underneath, so nothing wraps into a thin column. */
+@media (max-width: 560px) {
+  .controls {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+    column-gap: 0.5rem;
+  }
+
+  .controls .player-tag {
+    order: 1;
+  }
+
+  .controls .player-tag:not(:empty)::after {
+    content: " \00B7";
+  }
+
+  .controls .score {
+    order: 2;
+    margin: 0;
+  }
+
+  .controls .control {
+    order: 3;
+    flex: 1 1 calc(50% - 0.25rem);
+    white-space: nowrap;
+  }
+
+  .controls,
+  .art-credit {
+    font-size: 0.85rem;
+  }
+
+  .art-credit {
+    font-size: 0.7rem;
+  }
+
+  .controls .control[hidden] {
+    display: none;
+  }
+}
