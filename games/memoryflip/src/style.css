@@ -1,0 +1,62 @@
+/* Memory Flip. Self-contained: nothing here depends on the page the game is placed on.
+   Bright and playful; no cultural artwork (see the maintainer's preference). */
+
+.memoryflip {
+  text-align: center;
+  padding: 8px 4px 16px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-size: 1.6rem;
+  color: #3b2a8c;
+}
+
+.lead {
+  margin: 0 0 16px;
+  color: #4a5570;
+  font-weight: 700;
+}
+
+.sizes {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.size {
+  font: inherit;
+  font-weight: 800;
+  font-size: 1.05rem;
+  padding: 14px 22px;
+  border: 0;
+  border-radius: 14px;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18);
+  transition: transform 0.15s;
+}
+
+.size:hover,
+.size:focus-visible {
+  transform: translateY(-2px);
+}
+
+.size:nth-child(1) {
+  background: #22b573;
+}
+
+.size:nth-child(2) {
+  background: #ff8a1f;
+}
+
+.size:nth-child(3) {
+  background: #e83f6f;
+}
+
+.empty {
+  text-align: center;
+  color: #4a5570;
+  font-weight: 700;
+}

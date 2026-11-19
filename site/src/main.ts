@@ -85,6 +85,15 @@ const GAMES: GameTab[] = [
     load: () => import("@klallam/matching"),
   },
   {
+    id: "memoryflip",
+    label: "Memory Flip",
+    icon: "\u{1F0CF}",
+    // Plays each Klallam card's recording, so like FishyBird it is given only words that
+    // can be spoken, from every chapter (the maintainer's choice, Nov 2026).
+    wordsToHand: () => spokenWordIds(),
+    load: () => import("@klallam/memoryflip"),
+  },
+  {
     id: "wordlist",
     label: "Words",
     icon: "\u{1F4D6}",

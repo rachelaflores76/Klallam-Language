@@ -15,6 +15,7 @@
     "@klallam/game-kit": "*",
     "@klallam/lexicon": "*",
     "@klallam/matching": "*",
+    "@klallam/memoryflip": "*",
     "@klallam/quiz": "*",
     "@klallam/wordlist": "*"
   },
