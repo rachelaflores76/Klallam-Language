@@ -298,6 +298,8 @@ header {
 .game-tabs {
   display: flex;
   gap: 4px;
+  /* Wraps to a second line on narrow screens, so every game stays reachable. */
+  flex-wrap: wrap;
 }
 .gtab {
   padding: 7px 13px;

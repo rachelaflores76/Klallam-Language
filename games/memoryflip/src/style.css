@@ -100,7 +100,8 @@
   gap: 12px;
   max-width: 760px;
   margin: 0 auto;
-  grid-template-columns: repeat(4, 1fr);
+  /* minmax(0, ...) lets columns shrink below their text, so the board never overflows. */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .card {
@@ -307,8 +308,12 @@
 
 @media (max-width: 520px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
+  }
+
+  .card {
+    min-height: 0;
   }
 
   .front {
