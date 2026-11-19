@@ -60,3 +60,122 @@
   color: #4a5570;
   font-weight: 700;
 }
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  max-width: 760px;
+  margin: 0 auto 14px;
+  flex-wrap: wrap;
+}
+
+.status {
+  display: flex;
+  gap: 10px;
+}
+
+.stat {
+  background: #f1ecff;
+  color: #3b2a8c;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.small {
+  font: inherit;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 2px solid #d5ddef;
+  background: #ffffff;
+  color: #3b2a8c;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  gap: 12px;
+  max-width: 760px;
+  margin: 0 auto;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.card {
+  font: inherit;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  aspect-ratio: 4 / 3;
+  min-height: 84px;
+}
+
+.inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.back,
+.front {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.back {
+  background: #7b5cff;
+}
+
+.front {
+  visibility: hidden;
+  background: #ffffff;
+  border: 3px solid #d5ddef;
+  color: #1a2035;
+  font-weight: 800;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+/* Klallam stacks combining marks that other fonts misplace, so it never falls back. */
+.klallam .front {
+  font-family: "Charis", serif;
+  font-size: 1.3rem;
+  color: #1252aa;
+  border-color: #9cc0ff;
+}
+
+.card.up .front {
+  visibility: visible;
+}
+
+.card.up .back {
+  visibility: hidden;
+}
+
+.card.matched .front {
+  border-color: #22b573;
+  background: #e8fff3;
+}
+
+.card.wrong .front {
+  border-color: #e83f6f;
+  background: #fff0f4;
+}
+
+.done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
